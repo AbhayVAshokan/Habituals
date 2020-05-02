@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "202027396104",
+    "firebase_url": "https://habituals-2baad.firebaseio.com",
+    "project_id": "habituals-2baad",
+    "storage_bucket": "habituals-2baad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:202027396104:android:54c6b163ddcf6b3c4ef5bd",
+        "android_client_info": {
+          "package_name": "com.thrivingg.habituals"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "202027396104-6bjkq2ahnbg5fjevckbp54vj074ue190.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.thrivingg.habituals",
+            "certificate_hash": "de5ccfe6ce37ca35afcd5d805992970d8eaf3e8c"
+          }
+        },
+        {
+          "client_id": "202027396104-hfjc97srr6g6srct1qemjf1jun4gfa64.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBhcqSgBHqIk8zbaQ99tU3iwk8TQZVsedo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "202027396104-hfjc97srr6g6srct1qemjf1jun4gfa64.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

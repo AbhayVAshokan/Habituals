@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import './screens/splash_screen.dart';
 import './screens/login_screen.dart';
@@ -7,7 +6,7 @@ import './screens/create_account_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
+  // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   runApp(HabitualApp());
 }
 
@@ -29,9 +28,9 @@ class HabitualApp extends StatelessWidget {
         ),
         unselectedWidgetColor: Colors.black,
       ),
-      initialRoute: '/splash',
+      initialRoute: '/',
       routes: {
-        '/splash': (context) => SplashScreen(),
+        '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
       },

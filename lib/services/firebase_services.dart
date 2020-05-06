@@ -21,7 +21,8 @@ class FirebaseServices {
       FirebaseUser user = result.user;
       return user;
     } catch (e) {
-      if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED'))
+      if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED') ||
+          e.toString().contains('auth/network-request-failed'))
         Fluttertoast.showToast(
           msg: "Network error",
           toastLength: Toast.LENGTH_SHORT,
@@ -31,7 +32,8 @@ class FirebaseServices {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-      else if (e.toString().contains('ERROR_EMAIL_ALREADY_IN_USE'))
+      else if (e.toString().contains('ERROR_EMAIL_ALREADY_IN_USE') ||
+          e.toString().contains('auth/email-already-in-use'))
         Fluttertoast.showToast(
           msg: "Email already registered",
           toastLength: Toast.LENGTH_SHORT,
@@ -58,7 +60,8 @@ class FirebaseServices {
       FirebaseUser user = result.user;
       return user;
     } catch (e) {
-      if (e.toString().contains('ERROR_USER_NOT_FOUND'))
+      if (e.toString().contains('ERROR_USER_NOT_FOUND') ||
+          e.toString().contains('auth/user-not-found'))
         Fluttertoast.showToast(
           msg: "User not registered",
           toastLength: Toast.LENGTH_SHORT,
@@ -68,7 +71,8 @@ class FirebaseServices {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-      else if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED'))
+      else if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED') ||
+          e.toString().contains('auth/network-request-failed'))
         Fluttertoast.showToast(
           msg: "Network error",
           toastLength: Toast.LENGTH_SHORT,
@@ -78,7 +82,8 @@ class FirebaseServices {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-      else if (e.toString().contains('ERROR_WRONG_PASSWORD'))
+      else if (e.toString().contains('ERROR_WRONG_PASSWORD') ||
+          e.toString().contains('auth/wrong-password'))
         Fluttertoast.showToast(
           msg: "Wrong password",
           toastLength: Toast.LENGTH_SHORT,

@@ -25,7 +25,11 @@ class CustomTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     return Container(
+      width: isLandscape ? 600 : mediaQuery.size.width,
       margin: const EdgeInsets.symmetric(
         horizontal: 1.0,
         vertical: 5,
@@ -41,7 +45,7 @@ class CustomTextField extends StatelessWidget {
             ),
             color: Colors.black26,
             blurRadius: 5.0,
-          )
+          ),
         ],
         color: Colors.white,
       ),

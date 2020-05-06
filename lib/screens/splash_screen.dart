@@ -4,6 +4,7 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
 
     return SafeArea(
       child: Scaffold(
@@ -13,9 +14,9 @@ class SplashScreen extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
-                flex: 1,
+                flex: 2,
                 child: Align(
-                  alignment: Alignment.bottomCenter,
+                  alignment: Alignment.center,
                   child: Image.asset(
                     'assets/images/logo_big.jpg',
                     width: mediaQuery.size.width * 0.4,
@@ -24,7 +25,7 @@ class SplashScreen extends StatelessWidget {
               ),
               Expanded(
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Text(
                       'YOUR CORPORATE',
@@ -52,14 +53,15 @@ class SplashScreen extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
-                        onPressed: () => Navigator.pushNamed(
-                            context, '/createAccount'),
+                        onPressed: () =>
+                            Navigator.pushNamed(context, '/createAccount'),
                         child: Container(
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(
                             vertical: 7.0,
                           ),
-                          width: mediaQuery.size.width * 0.75,
+                          width:
+                              isLandscape ? 400 : mediaQuery.size.width * 0.75,
                           child: Text(
                             'Sign in',
                             style: TextStyle(

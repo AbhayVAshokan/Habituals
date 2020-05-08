@@ -13,13 +13,6 @@ class PersonalGrowthQueries extends StatefulWidget {
 }
 
 class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
-  List<String> questions = [
-    'At work, I have the possibility to do what I can do best every day.',
-    'My supervisor talks regularly about my progress and encourages my development.',
-    'I am fully aware of my strengths and weaknesses.',
-    'The purpose of my company makes me feel my job is important.',
-    'I can identify with the company\'s values.',
-  ];
   final PageController pageController = PageController();
 
   rebuildScreen({
@@ -27,7 +20,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
     @required int index,
   }) {
     setState(() {
-      personalGrowthQueries[index] = optionNumber;
+      personalGrowthQueries[index] = optionNumber.toDouble();
     });
     if (index < 4)
       pageController.animateToPage(
@@ -35,17 +28,21 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (!personalGrowthQueries.contains(0))
-      Navigator.pushNamed(context, '/dobPicker');
+    if (index == 4) Navigator.pushNamed(context, '/dobPicker');
   }
 
   Widget questionPage({
-    @required String question,
     @required int index,
+    @required String question,
+    @required MediaQueryData mediaQuery,
   }) {
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     return Center(
       child: SizedBox(
-        width: min(350.0, MediaQuery.of(context).size.width * 0.9),
+        width: isLandscape
+            ? min(600.0, MediaQuery.of(context).size.width * 0.9)
+            : min(350.0, MediaQuery.of(context).size.width * 0.9),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +84,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
                 question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: isLandscape ? 25 : 18,
                 ),
               ),
             ),
@@ -149,19 +146,23 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
   }
 
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
         body: PageView.builder(
           itemBuilder: (context, index) => questionPage(
-            question: questions[index],
+            question: personalGrowthQuestions[index],
             index: index,
+            mediaQuery: mediaQuery,
           ),
-          itemCount: questions.length,
+          itemCount: personalGrowthQuestions.length,
           controller: pageController,
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar:
+            myBottomNavbar(context: context, nextScreen: '/pickStartDate'),
       ),
     );
   }

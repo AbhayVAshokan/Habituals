@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 AppBar myAppBar({
   @required BuildContext context,
   bool closeButton = false,
+  bool menuButton = false,
 }) {
   return AppBar(
     elevation: 0.0,
@@ -13,8 +14,19 @@ AppBar myAppBar({
       child: Image.asset('assets/images/logo_small.jpg'),
     ),
     actions: [
+      menuButton
+          ? IconButton(
+              padding: const EdgeInsets.all(20.0),
+              icon: Icon(
+                Icons.menu,
+                color: Colors.black,
+              ),
+              onPressed: () {},
+            )
+          : SizedBox.shrink(),
       closeButton
           ? IconButton(
+              padding: const EdgeInsets.all(20.0),
               icon: Icon(
                 Icons.close,
                 color: Colors.black,

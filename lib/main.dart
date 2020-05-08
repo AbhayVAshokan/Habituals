@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import './screens/dob_picker.dart';
+import './screens/home_screen.dart';
 import './screens/login_screen.dart';
+import './screens/audit_screen.dart';
 import './screens/body_queries.dart';
 import './screens/mind_queries.dart';
 import './screens/general_query.dart';
 import './screens/splash_screen.dart';
+import './screens/pick_start_date.dart';
+import './resources/screen_transition.dart';
 import './screens/instruction_screen.dart';
 import './screens/achievements_queries.dart';
 import './screens/relationship_queries.dart';
@@ -40,16 +43,44 @@ class HabitualApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
+        '/audit': (context) => AuditScreen(),
         '/login': (context) => LoginScreen(),
-        '/dobPicker': (context) => DobPicker(),
-        '/bodyQueries': (context) => BodyQueries(),
-        '/mindQueries': (context) => MindQueries(),
-        '/generalQuery': (context) => GeneralQuery(),
         '/instruction': (context) => InstructionScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
-        '/achievementsQueries': (context) => AchievementsQueries(),
-        '/relationshipQueries': (context) => RelationshipQueries(),
-        '/personalGrowthQueries': (context) => PersonalGrowthQueries(),
+      },
+      onGenerateRoute: (settings) {
+        Route page;
+        switch (settings.name) {
+          case "/generalQuery":
+            page = ScreenSlideTransition(screen: GeneralQuery());
+            break;
+          case "/bodyQueries":
+            page = ScreenSlideTransition(screen: BodyQueries());
+            break;
+          case "/mindQueries":
+            page = ScreenSlideTransition(screen: MindQueries());
+            break;
+
+          case "/relationshipQueries":
+            page = ScreenSlideTransition(screen: RelationshipQueries());
+            break;
+
+          case "/personalGrowthQueries":
+            page = ScreenSlideTransition(screen: PersonalGrowthQueries());
+            break;
+
+          case "/achievementsQueries":
+            page = ScreenSlideTransition(screen: AchievementsQueries());
+            break;
+          case "/pickStartDate":
+            page = ScreenSlideTransition(screen: PickStartDate());
+            break;
+          case "/home":
+            page = ScreenSlideTransition(screen: HomeScreen());
+            break;
+        }
+
+        return page;
       },
     );
   }

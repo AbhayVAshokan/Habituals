@@ -13,13 +13,6 @@ class AchievementsQueries extends StatefulWidget {
 }
 
 class _AchievementsQueriesState extends State<AchievementsQueries> {
-  List<String> questions = [
-    'As a team, we regularly celebrate small and big successes.',
-    'Know what is exppected from me at work.',
-    'My job challenges me and fits my competencies.',
-    'A trustful working environment empowers me to push projects on my own.',
-    'In the last week, I have received recognition for doing good work by my supervisor or colleagues.',
-  ];
   final PageController pageController = PageController();
 
   rebuildScreen({
@@ -27,7 +20,7 @@ class _AchievementsQueriesState extends State<AchievementsQueries> {
     @required int index,
   }) {
     setState(() {
-      achievementsQueries[index] = optionNumber;
+      achievementsQueries[index] = optionNumber.toDouble();
     });
     if (index < 4)
       pageController.animateToPage(
@@ -35,17 +28,21 @@ class _AchievementsQueriesState extends State<AchievementsQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (!achievementsQueries.contains(0))
-      Navigator.pushNamed(context, '/personalGrowthQueries');
+    if (index == 4) Navigator.pushNamed(context, '/personalGrowthQueries');
   }
 
   Widget questionPage({
-    @required String question,
     @required int index,
+    @required String question,
+    @required MediaQueryData mediaQuery,
   }) {
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     return Center(
       child: SizedBox(
-        width: min(350.0, MediaQuery.of(context).size.width * 0.9),
+        width: isLandscape
+            ? min(600.0, MediaQuery.of(context).size.width * 0.9)
+            : min(350.0, MediaQuery.of(context).size.width * 0.9),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +84,7 @@ class _AchievementsQueriesState extends State<AchievementsQueries> {
                 question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: isLandscape ? 25 : 18,
                 ),
               ),
             ),
@@ -149,19 +146,25 @@ class _AchievementsQueriesState extends State<AchievementsQueries> {
   }
 
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
         body: PageView.builder(
           itemBuilder: (context, index) => questionPage(
-            question: questions[index],
+            question: achievementQuestions[index],
             index: index,
+            mediaQuery: mediaQuery,
           ),
-          itemCount: questions.length,
+          itemCount: achievementQuestions.length,
           controller: pageController,
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          nextScreen: '/personalGrowthQueries',
+        ),
       ),
     );
   }

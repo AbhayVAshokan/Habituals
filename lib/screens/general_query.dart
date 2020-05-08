@@ -15,19 +15,24 @@ class GeneralQuery extends StatefulWidget {
 class _GeneralQueryState extends State<GeneralQuery> {
   rebuildScreen({@required int optionNumber}) {
     setState(() {
-      generalQuery = optionNumber;
+      generalQuery = optionNumber.toDouble();
     });
     Navigator.pushNamed(context, '/bodyQueries');
   }
 
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
         body: Center(
           child: SizedBox(
-            width: min(350.0, MediaQuery.of(context).size.width * 0.9),
+            width: isLandscape
+                ? min(600.0, MediaQuery.of(context).size.width * 0.9)
+                : min(350.0, MediaQuery.of(context).size.width * 0.9),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -58,7 +63,7 @@ class _GeneralQueryState extends State<GeneralQuery> {
                     'I love my job!',
                     textAlign: TextAlign.center,
                     style: TextStyle(
-                      fontSize: 25,
+                      fontSize: isLandscape ? 30 : 25,
                     ),
                   ),
                 ),
@@ -102,7 +107,10 @@ class _GeneralQueryState extends State<GeneralQuery> {
             ),
           ),
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          nextScreen: '/bodyQueries',
+        ),
       ),
     );
   }

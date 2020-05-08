@@ -45,8 +45,7 @@ class InstructionScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                onPressed: () =>
-                    Navigator.pushNamed(context, '/generalQuery'),
+                onPressed: () => Navigator.pushNamed(context, '/generalQuery'),
                 child: Container(
                   alignment: Alignment.center,
                   padding: const EdgeInsets.symmetric(
@@ -65,7 +64,11 @@ class InstructionScreen extends StatelessWidget {
             ],
           ),
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          nextScreen: '/generalQuery',
+          backButton: false,
+        ),
       ),
     );
   }

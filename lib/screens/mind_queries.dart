@@ -13,13 +13,6 @@ class MindQueries extends StatefulWidget {
 }
 
 class _MindQueriesState extends State<MindQueries> {
-  List<String> questions = [
-    'I regularly reflect my stresslevel at work.',
-    'Most of the time, there are positive vibes at work.',
-    'My supervisor / leader makes sure that workloads are not unreasonable.',
-    'I know how to manage my time so that I can focus and concentrate better.',
-    'I take care of myself and know how to integrate mindful practives at work when I\'m stressed.',
-  ];
   final PageController pageController = PageController();
 
   rebuildScreen({
@@ -27,7 +20,7 @@ class _MindQueriesState extends State<MindQueries> {
     @required int index,
   }) {
     setState(() {
-      mindQueries[index] = optionNumber;
+      mindQueries[index] = optionNumber.toDouble();
     });
     if (index < 4)
       pageController.animateToPage(
@@ -35,17 +28,21 @@ class _MindQueriesState extends State<MindQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (!mindQueries.contains(0))
-      Navigator.pushNamed(context, '/relationshipQueries');
+    if (index == 4) Navigator.pushNamed(context, '/relationshipQueries');
   }
 
   Widget questionPage({
-    @required String question,
     @required int index,
+    @required String question,
+    @required MediaQueryData mediaQuery,
   }) {
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     return Center(
       child: SizedBox(
-        width: min(350.0, MediaQuery.of(context).size.width * 0.9),
+        width: isLandscape
+            ? min(600.0, MediaQuery.of(context).size.width * 0.9)
+            : min(350.0, MediaQuery.of(context).size.width * 0.9),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +84,7 @@ class _MindQueriesState extends State<MindQueries> {
                 question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: isLandscape ? 25 : 18,
                 ),
               ),
             ),
@@ -149,19 +146,23 @@ class _MindQueriesState extends State<MindQueries> {
   }
 
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
         body: PageView.builder(
           itemBuilder: (context, index) => questionPage(
-            question: questions[index],
+            question: mindQuestions[index],
             index: index,
+            mediaQuery: mediaQuery,
           ),
-          itemCount: questions.length,
+          itemCount: mindQuestions.length,
           controller: pageController,
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar: myBottomNavbar(
+            context: context, nextScreen: '/relationshipQueries'),
       ),
     );
   }

@@ -13,13 +13,6 @@ class RelationshipQueries extends StatefulWidget {
 }
 
 class _RelationshipQueriesState extends State<RelationshipQueries> {
-  List<String> questions = [
-    'My supervisor or colleague seems to care about me as a person.',
-    'I can count on my colleagues.',
-    'Constructive feedback is given regularly in teams and by supervisor.',
-    'Meetings are held effectively (e.g. clear agenda, appropriate timing).',
-    'It\'s okay to do mistakes and talk openly about it.',
-  ];
   final PageController pageController = PageController();
 
   rebuildScreen({
@@ -27,7 +20,7 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
     @required int index,
   }) {
     setState(() {
-      relationshipQueries[index] = optionNumber;
+      relationshipQueries[index] = optionNumber.toDouble();
     });
     if (index < 4)
       pageController.animateToPage(
@@ -35,17 +28,21 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    else if (!relationshipQueries.contains(0))
-      Navigator.pushNamed(context, '/achievementsQueries');
+    if (index == 4) Navigator.pushNamed(context, '/achievementsQueries');
   }
 
   Widget questionPage({
-    @required String question,
     @required int index,
+    @required String question,
+    @required MediaQueryData mediaQuery,
   }) {
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+
     return Center(
       child: SizedBox(
-        width: min(350.0, MediaQuery.of(context).size.width * 0.9),
+        width: isLandscape
+            ? min(600.0, MediaQuery.of(context).size.width * 0.9)
+            : min(350.0, MediaQuery.of(context).size.width * 0.9),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -87,7 +84,7 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
                 question,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: isLandscape ? 25 : 18,
                 ),
               ),
             ),
@@ -149,19 +146,25 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
   }
 
   Widget build(BuildContext context) {
+    final MediaQueryData mediaQuery = MediaQuery.of(context);
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
         body: PageView.builder(
           itemBuilder: (context, index) => questionPage(
-            question: questions[index],
+            question: relationshipQuestions[index],
             index: index,
+            mediaQuery: mediaQuery,
           ),
-          itemCount: questions.length,
+          itemCount: relationshipQuestions.length,
           controller: pageController,
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          nextScreen: '/achievementsQueries',
+        ),
       ),
     );
   }

@@ -45,9 +45,16 @@ class _PickStartDateState extends State<PickStartDate> {
                           ),
                         ),
                         showTitleActions: true,
-                        minTime: DateTime(2019, 01, 01),
-                        maxTime: DateTime.now(),
-                        onChanged: (date) {}, onConfirm: (date) {
+                        minTime: DateTime.now().subtract(
+                          const Duration(
+                            days: 365,
+                          ),
+                        ),
+                        maxTime: DateTime.now().add(
+                          const Duration(
+                            days: 365,
+                          ),
+                        ), onConfirm: (date) {
                       setState(() {
                         startingDate = date;
                       });
@@ -73,7 +80,8 @@ class _PickStartDateState extends State<PickStartDate> {
             ),
           ),
         ),
-        bottomNavigationBar: myBottomNavbar(context: context, nextScreen: '/home'),
+        bottomNavigationBar:
+            myBottomNavbar(context: context, nextScreen: '/preHome'),
       ),
     );
   }

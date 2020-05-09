@@ -28,7 +28,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (index == 4) Navigator.pushNamed(context, '/dobPicker');
+    if (index == 4) Navigator.pushNamed(context, '/displaySelection');
   }
 
   Widget questionPage({
@@ -162,7 +162,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
           controller: pageController,
         ),
         bottomNavigationBar:
-            myBottomNavbar(context: context, nextScreen: '/pickStartDate'),
+            myBottomNavbar(context: context, nextScreen: '/displaySelection'),
       ),
     );
   }

@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:habituals/resources/realtime_data.dart';
 
 AppBar myAppBar({
   @required BuildContext context,
   bool closeButton = false,
   bool menuButton = false,
+  Function rebuildScreen,
 }) {
   return AppBar(
     elevation: 0.0,
@@ -21,7 +23,15 @@ AppBar myAppBar({
                 Icons.menu,
                 color: Colors.black,
               ),
-              onPressed: () {},
+              onPressed: () {
+                menuBarHeight = menuBarHeight > 0
+                    ? 0
+                    : MediaQuery.of(context).orientation ==
+                            Orientation.landscape
+                        ? 345
+                        : 255;
+                rebuildScreen();
+              },
             )
           : SizedBox.shrink(),
       closeButton

@@ -27,7 +27,7 @@ class CategoryCard extends StatelessWidget {
       child: Stack(
         children: [
           Container(
-            width: min(mediaQuery.size.width * 0.9, 600),
+            width: min(mediaQuery.size.width * 0.9, 800),
             height: cardHeight - 10,
             color: Color(0xFFC6D7C4),
             margin: const EdgeInsets.only(

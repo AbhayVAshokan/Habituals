@@ -46,3 +46,5 @@ List<String> personalGrowthQuestions = [
   'The purpose of my company makes me feel my job is important.',
   'I can identify with the company\'s values.',
 ];
+
+double menuBarHeight;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:habituals/screens/display_selection_screen.dart';
 
 import './screens/home_screen.dart';
 import './screens/login_screen.dart';
@@ -9,8 +10,9 @@ import './screens/mind_queries.dart';
 import './screens/general_query.dart';
 import './screens/splash_screen.dart';
 import './screens/pick_start_date.dart';
-import './resources/screen_transition.dart';
+import './screens/prehome_screen.dart';
 import './screens/instruction_screen.dart';
+import './resources/screen_transition.dart';
 import './screens/achievements_queries.dart';
 import './screens/relationship_queries.dart';
 import './screens/create_account_screen.dart';
@@ -19,7 +21,9 @@ import './screens/personal_growth_queries.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(HabitualApp());
+  runApp(
+    HabitualApp(),
+  );
 }
 
 class HabitualApp extends StatelessWidget {
@@ -60,23 +64,26 @@ class HabitualApp extends StatelessWidget {
           case "/mindQueries":
             page = ScreenSlideTransition(screen: MindQueries());
             break;
-
           case "/relationshipQueries":
             page = ScreenSlideTransition(screen: RelationshipQueries());
             break;
-
           case "/personalGrowthQueries":
             page = ScreenSlideTransition(screen: PersonalGrowthQueries());
             break;
-
           case "/achievementsQueries":
             page = ScreenSlideTransition(screen: AchievementsQueries());
             break;
           case "/pickStartDate":
             page = ScreenSlideTransition(screen: PickStartDate());
             break;
+          case "/preHome":
+            page = ScreenSlideTransition(screen: PreHomeScreen());
+            break;
           case "/home":
             page = ScreenSlideTransition(screen: HomeScreen());
+            break;
+          case "/displaySelection":
+            page = ScreenSlideTransition(screen: DisplaySelectionScreen());
             break;
         }
 

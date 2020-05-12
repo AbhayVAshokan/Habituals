@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
+import '../services/api_calls.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -18,6 +19,9 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
   initState() {
     super.initState();
     menuBarHeight = 0.0;
+    getNudges(
+      emailAddress: currentUser.emailAddress,
+    );
   }
 
   @override

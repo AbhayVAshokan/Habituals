@@ -4,7 +4,14 @@ import 'package:habituals/models/nudge.dart';
 
 class NudgeCard extends StatelessWidget {
   final Nudge nudge;
-  NudgeCard({@required this.nudge});
+  final String imageUrl;
+  final String buttonText;
+
+  NudgeCard({
+    @required this.nudge,
+    this.imageUrl,
+    this.buttonText,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,20 +19,54 @@ class NudgeCard extends StatelessWidget {
     final bool isLargeScreen = mediaQuery.size.width >= 900;
 
     return Container(
-      height: isLargeScreen ? 80 : 50,
+      height: isLargeScreen ? 80 : 40,
       width: isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
+      margin: const EdgeInsets.symmetric(vertical: 2.5),
       decoration: BoxDecoration(border: Border.all()),
-      // child: Row(
-
-      //   children: [
-      //     Text(''),
-      //     RaisedButton(
-      //       onPressed: () {},
-      //       child: Text(nudge.nudge == 'not completed' ? 'to be done' : nudge.nudge == 'completed'),
-      //     ),
-      //   ],
-      // ),
-      child: Text('hello wordl'),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: Text(
+                buttonText == null ? nudge.nudge : 'Create your own nudge',
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  fontStyle: buttonText == null ? null : FontStyle.italic,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: RaisedButton(
+              color: const Color(0xFFC6D7C4),
+              onPressed: () {
+                if (buttonText == null)
+                  Navigator.pushNamed(
+                    context,
+                    '/nudgeExpanded',
+                    arguments: nudge,
+                  );
+                else
+                  Navigator.pushNamed(context, '/createNudge');
+              },
+              child: Text(
+                buttonText == null
+                    ? nudge.status.compareTo('not completed') == 0
+                        ? 'to be done'
+                        : 'kabali da'
+                    : buttonText,
+                style: const TextStyle(
+                  fontSize: 12.0,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

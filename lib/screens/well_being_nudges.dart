@@ -2,13 +2,12 @@ import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:habituals/widgets/nudges/category_card.dart';
 
 import '../widgets/my_appbar.dart';
-import '../services/api_calls.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
+import '../widgets/nudges/category_card.dart';
 
 class WellBeingNudges extends StatefulWidget {
   @override
@@ -51,9 +50,6 @@ class _WellBeingNudgesState extends State<WellBeingNudges> {
   initState() {
     super.initState();
     menuBarHeight = 0.0;
-    getNudges(
-      emailAddress: currentUser.emailAddress,
-    );
   }
 
   @override
@@ -63,6 +59,7 @@ class _WellBeingNudgesState extends State<WellBeingNudges> {
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: myAppBar(
           context: context,
           menuButton: true,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habituals/screens/404_screen.dart';
 import 'package:habituals/screens/loading_screen.dart';
+import 'package:habituals/screens/nudge_expanded.dart';
 
 import './screens/login_screen.dart';
 import './screens/audit_screen.dart';
@@ -54,6 +55,7 @@ class HabitualApp extends StatelessWidget {
         '/audit': (context) => AuditScreen(),
         '/loading': (context) => LoadingScreen(),
         '/nudges': (context) => WellBeingNudges(),
+        '/nudgeExpanded': (context) => NudgeExpanded(),
         '/instruction': (context) => InstructionScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
       },

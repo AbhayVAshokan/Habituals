@@ -117,6 +117,7 @@ getNudges({@required String emailAddress}) {
   achievementNudges = dummyAchievementNudges;
   personalGrowthNudges = dummyPersonalGrowthNudges;
 
+
   // Sorting Nudges according to their dates.
   bodyNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);
   mindNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);

@@ -89,7 +89,7 @@ class _AuditScreenState extends State<AuditScreen> {
                                               ),
                                             ),
                                           ),
-                                          backgroundColor: Color(0xFF4C7160),
+                                          backgroundColor:const Color(0xFF4C7160),
                                         ),
                                       ),
                                       SizedBox(
@@ -111,7 +111,7 @@ class _AuditScreenState extends State<AuditScreen> {
                                           alignment: Alignment.center,
                                           decoration: BoxDecoration(
                                             border: Border.all(
-                                              color: Color(0xFF8DAC9E),
+                                              color: const Color(0xFF8DAC9E),
                                               width: 1.5,
                                             ),
                                           ),
@@ -161,7 +161,7 @@ class _AuditScreenState extends State<AuditScreen> {
                         Stack(
                           children: [
                             Container(
-                              color: Color(0xFFC6D7C4),
+                              color:const  Color(0xFFC6D7C4),
                               width: min(mediaQuery.size.width * 0.9, 800),
                               height: 70.0,
                               alignment: Alignment.center,

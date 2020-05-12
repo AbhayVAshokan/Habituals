@@ -9,7 +9,7 @@ class MenuDropDown extends StatelessWidget {
     },
     {
       'text': 'Well-Being Nudges',
-      'screen': '/home',
+      'screen': '/nudges',
     },
     {
       'text': 'Well-Being Journey',

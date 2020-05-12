@@ -16,13 +16,12 @@ class CustomCheckBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-
+    bool isLargeScreen = mediaQuery.size.width >= 900;
     return GestureDetector(
       onTap: rebuildScreen,
       child: SizedBox(
-        height: isLandscape ? 100.0 : 80.0,
-        width: isLandscape ? 100.0 : 60.0,
+        height: isLargeScreen ? 100.0 : 80.0,
+        width: isLargeScreen ? 100.0 : 60.0,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -56,13 +55,13 @@ class CustomCheckBox extends StatelessWidget {
             ),
             subtitle != null
                 ? Container(
-                    height: isLandscape ? 50.0 : 30.0,
+                    height: isLargeScreen ? 50.0 : 30.0,
                     alignment: Alignment.center,
                     child: Text(
                       subtitle,
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                        fontSize: isLandscape ? 15.0 : 12.0,
+                        fontSize: isLargeScreen ? 15.0 : 12.0,
                       ),
                     ),
                   )

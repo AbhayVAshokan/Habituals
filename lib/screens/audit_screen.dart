@@ -28,7 +28,7 @@ class _AuditScreenState extends State<AuditScreen> {
     final Map<String, dynamic> categoryData =
         ModalRoute.of(context).settings.arguments;
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    final bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    final bool isLargeScreen = mediaQuery.size.width >= 900;
 
     return SafeArea(
       child: Scaffold(
@@ -38,7 +38,7 @@ class _AuditScreenState extends State<AuditScreen> {
           menuButton: true,
           rebuildScreen: () {
             setState(() {
-              _imageFilter = menuBarHeight > 0 && !isLandscape
+              _imageFilter = menuBarHeight > 0 && !isLargeScreen
                   ? ImageFilter.blur(
                       sigmaX: 2.0,
                       sigmaY: 2.0,
@@ -68,10 +68,7 @@ class _AuditScreenState extends State<AuditScreen> {
                                 margin: const EdgeInsets.symmetric(
                                   vertical: 5.0,
                                 ),
-                                height: min(
-                                    (parentConstraints.maxHeight - 60) /
-                                        categoryData['data'].length,
-                                    75),
+                                height: isLargeScreen ? 100 : 75,
                                 child: LayoutBuilder(
                                   builder: (context, constraints) => Row(
                                     children: [
@@ -100,7 +97,8 @@ class _AuditScreenState extends State<AuditScreen> {
                                         child: Text(
                                           categoryData['questions'][index],
                                           style: TextStyle(
-                                            fontSize: isLandscape ? 18.0 : 15.0,
+                                            fontSize:
+                                                isLargeScreen ? 18.0 : 15.0,
                                           ),
                                         ),
                                       ),
@@ -140,9 +138,10 @@ class _AuditScreenState extends State<AuditScreen> {
                   BackdropFilter(
                     filter: _imageFilter,
                     child: Container(
-                        width: 100,
-                        height: mediaQuery.size.height,
-                        color: Colors.black.withOpacity(0)),
+                      width: 100,
+                      height: mediaQuery.size.height,
+                      color: const Color(0x000000000),
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -218,7 +217,9 @@ class _AuditScreenState extends State<AuditScreen> {
                           height: _containerHeight,
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(
-                              vertical: 15.0, horizontal: 20.0),
+                            vertical: 15.0,
+                            horizontal: 20.0,
+                          ),
                           child: Text(
                             categoryData['instructions'],
                             textAlign: TextAlign.center,

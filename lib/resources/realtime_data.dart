@@ -1,3 +1,6 @@
+import '../models/user.dart';
+import '../models/nudge.dart';
+
 double generalQuery = 2.5;
 List<double> bodyQueries = [2.5, 2.5, 2.5, 2.5, 2.5];
 List<double> mindQueries = [2.5, 2.5, 2.5, 2.5, 2.5];
@@ -48,3 +51,11 @@ List<String> personalGrowthQuestions = [
 ];
 
 double menuBarHeight;
+
+List<Nudge> bodyNudges = [];
+List<Nudge> mindNudges = [];
+List<Nudge> relationshipNudges = [];
+List<Nudge> achievementNudges = [];
+List<Nudge> personalGrowthNudges = [];
+User currentUser;
+String authToken;

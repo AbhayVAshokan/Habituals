@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
 import '../widgets/my_appbar.dart';
-import '../services/firebase_services.dart';
+import '../services/api_calls.dart';
 import '../widgets/login_signup_screens/custom_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,12 +15,11 @@ class _LoginScreenState extends State<LoginScreen> {
   String _emailAddress;
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _emailAddressFocus = FocusNode();
-  final FirebaseServices _auth = FirebaseServices();
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    bool isLargeScreen = mediaQuery.size.width >= 900;
 
     return SafeArea(
       child: Scaffold(
@@ -92,12 +90,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         return;
                       else {
                         LoginScreen._loginScreenFormKey.currentState.save();
-                        FirebaseUser user =
-                            await _auth.signInWithEmailAndPassword(
-                                email: _emailAddress, password: _password);
-                        if (user != null)
+                        var status = await signInWithEmailAndPassword(
+                            email: _emailAddress, password: _password);
+                        if (status != null) {
                           Navigator.pushReplacementNamed(
                               context, '/instruction');
+                        }
                       }
                     },
                     child: Container(
@@ -105,7 +103,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       padding: const EdgeInsets.symmetric(
                         vertical: 7.0,
                       ),
-                      width: isLandscape ? 400 : mediaQuery.size.width * 0.75,
+                      width: isLargeScreen ? 400 : mediaQuery.size.width * 0.75,
                       child: Text(
                         'Log in',
                         style: TextStyle(

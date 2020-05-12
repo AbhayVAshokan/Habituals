@@ -17,6 +17,7 @@ class _PickStartDateState extends State<PickStartDate> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
+    bool isLargeScreen = mediaQuery.size.width >= 900;
 
     return SafeArea(
       child: Scaffold(
@@ -28,11 +29,11 @@ class _PickStartDateState extends State<PickStartDate> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
+                Text(
                   'Please pick your start date for your 66 days Well-Being-Journey',
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 20.0,
+                  style: TextStyle(
+                    fontSize: isLargeScreen ? 30 : 20.0,
                   ),
                 ),
                 const SizedBox(height: 20.0),
@@ -40,8 +41,15 @@ class _PickStartDateState extends State<PickStartDate> {
                   onPressed: () {
                     DatePicker.showDatePicker(context,
                         theme: DatePickerTheme(
-                          doneStyle: const TextStyle(
+                          doneStyle: TextStyle(
                             color: Colors.lightGreen,
+                            fontSize: isLargeScreen ? 22.0 : 18.0,
+                          ),
+                          itemStyle:
+                              TextStyle(fontSize: isLargeScreen ? 22.0 : 18.0),
+                          cancelStyle: TextStyle(
+                            fontSize: isLargeScreen ? 22.0 : 18.0,
+                            color: Colors.red
                           ),
                         ),
                         showTitleActions: true,
@@ -81,7 +89,7 @@ class _PickStartDateState extends State<PickStartDate> {
           ),
         ),
         bottomNavigationBar:
-            myBottomNavbar(context: context, nextScreen: '/preHome'),
+            myBottomNavbar(context: context, nextScreen: '/welcome'),
       ),
     );
   }

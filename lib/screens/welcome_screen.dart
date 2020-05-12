@@ -8,12 +8,12 @@ import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
 
-class PreHomeScreen extends StatefulWidget {
+class WelcomeScreen extends StatefulWidget {
   @override
-  _PreHomeScreenState createState() => _PreHomeScreenState();
+  _WelcomeScreenState createState() => _WelcomeScreenState();
 }
 
-class _PreHomeScreenState extends State<PreHomeScreen> {
+class _WelcomeScreenState extends State<WelcomeScreen> {
   @override
   initState() {
     super.initState();
@@ -23,7 +23,7 @@ class _PreHomeScreenState extends State<PreHomeScreen> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    bool isLargeScreen = mediaQuery.size.width >= 900;
 
     return SafeArea(
       child: Scaffold(
@@ -44,9 +44,9 @@ class _PreHomeScreenState extends State<PreHomeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const Text(
+                  Text(
                     'WELCOME!',
-                    style: const TextStyle(fontSize: 50.0),
+                    style: TextStyle(fontSize: isLargeScreen ? 70 : 50.0),
                   ),
                   const Text(
                     'This is the first day of your Well-Being Journey.',
@@ -68,11 +68,11 @@ class _PreHomeScreenState extends State<PreHomeScreen> {
                     ),
                     child: Column(
                       children: [
-                        const Text(
+                        Text(
                           'Motivation is what gets you started. Habit is what keeps you going',
                           textAlign: TextAlign.center,
-                          style: const TextStyle(
-                            fontSize: 18.0,
+                          style: TextStyle(
+                            fontSize: isLargeScreen ? 22 : 18.0,
                             fontStyle: FontStyle.italic,
                           ),
                         ),
@@ -84,7 +84,7 @@ class _PreHomeScreenState extends State<PreHomeScreen> {
               ),
             ),
             BackdropFilter(
-              filter: menuBarHeight > 0 && !isLandscape
+              filter: menuBarHeight > 0 && !isLargeScreen
                   ? ImageFilter.blur(
                       sigmaX: 2.0,
                       sigmaY: 2.0,
@@ -93,7 +93,7 @@ class _PreHomeScreenState extends State<PreHomeScreen> {
               child: Container(
                 height: mediaQuery.size.height,
                 width: mediaQuery.size.width,
-                color: Colors.black.withOpacity(0),
+                color: const Color(0x00000000),
               ),
             ),
             Positioned(

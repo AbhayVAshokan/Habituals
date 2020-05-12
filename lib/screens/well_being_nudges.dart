@@ -1,79 +1,68 @@
-import 'dart:math';
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:habituals/widgets/menu_dropdown.dart';
+import 'package:habituals/widgets/nudges/category_card.dart';
 
 import '../widgets/my_appbar.dart';
+import '../services/api_calls.dart';
+import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
-import '../widgets/home_screen/category_card.dart';
 
-class HomeScreen extends StatefulWidget {
+class WellBeingNudges extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _WellBeingNudgesState createState() => _WellBeingNudgesState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _WellBeingNudgesState extends State<WellBeingNudges> {
   double _containerHeight = 0;
   ImageFilter _imageFilter = ImageFilter.blur();
+
+  List<Map<String, dynamic>> categories = [
+    {
+      'category': 'body',
+      'imageUrl': 'assets/images/nudges_screen/body.png',
+      'nudges': bodyNudges,
+    },
+    {
+      'category': 'mind',
+      'imageUrl': 'assets/images/nudges_screen/mind.png',
+      'nudges': mindNudges,
+    },
+    {
+      'category': 'relationships',
+      'imageUrl': 'assets/images/nudges_screen/relationships.png',
+      'nudges': relationshipNudges,
+    },
+    {
+      'category': 'achievements',
+      'imageUrl': 'assets/images/nudges_screen/achievements.png',
+      'nudges': achievementNudges,
+    },
+    {
+      'category': 'personal development',
+      'imageUrl': 'assets/images/nudges_screen/personal_development.png',
+      'nudges': personalGrowthNudges,
+    },
+  ];
 
   @override
   initState() {
     super.initState();
     menuBarHeight = 0.0;
+    getNudges(
+      emailAddress: currentUser.emailAddress,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final List<Map<String, dynamic>> categoryData = [
-      {
-        'category': 'BODY',
-        'data': bodyQueries,
-        'imageUrl': 'assets/images/home_screen/body.png',
-        'questions': bodyQuestions,
-        'instructions':
-            'The Well-Being Dimension \"Body\" is about physical fitness. When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
-      },
-      {
-        'category': 'MIND',
-        'data': mindQueries,
-        'imageUrl': 'assets/images/home_screen/mind.png',
-        'questions': mindQuestions,
-        'instructions':
-            'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
-      },
-      {
-        'category': 'RELATIONSHIPS',
-        'data': relationshipQueries,
-        'imageUrl': 'assets/images/home_screen/relationships.png',
-        'questions': relationshipQuestions,
-        'instructions':
-            'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
-      },
-      {
-        'category': 'ACHIEVEMENTS',
-        'data': achievementsQueries,
-        'imageUrl': 'assets/images/home_screen/achievements.png',
-        'questions': achievementQuestions,
-        'instructions':
-            'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
-      },
-      {
-        'category': 'PERSONAL DEVELOPMENT',
-        'data': personalGrowthQueries,
-        'imageUrl': 'assets/images/home_screen/personal_development.png',
-        'questions': personalGrowthQuestions,
-        'instructions':
-            'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
-      },
-    ];
 
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
         appBar: myAppBar(
           context: context,
           menuButton: true,
@@ -93,11 +82,12 @@ class _HomeScreenState extends State<HomeScreen> {
             Center(
               child: Stack(
                 children: [
+                  /////////////////////////////////////////////////////////////////
                   Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 90.0),
+                      const SizedBox(height: 55.0),
                       Expanded(
                         child: LayoutBuilder(
                           builder: (context, constraints) => Padding(
@@ -106,13 +96,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               width: min(mediaQuery.size.width * 0.9, 800),
                               child: ListView.builder(
                                 itemBuilder: (context, index) => CategoryCard(
-                                  cardHeight: min(
-                                      (constraints.maxHeight - 60) /
-                                          categoryData.length,
-                                      100),
-                                  categoryData: categoryData[index],
+                                  category: categories[index],
                                 ),
-                                itemCount: categoryData.length,
+                                itemCount: categories.length,
                               ),
                             ),
                           ),
@@ -120,35 +106,30 @@ class _HomeScreenState extends State<HomeScreen> {
                       ),
                     ],
                   ),
+                  /////////////////////////////////////////////////////////////////
                   BackdropFilter(
                     filter: _imageFilter,
                     child: Container(
-                        width: 100,
-                        height: mediaQuery.size.height,
-                        color: Colors.black.withOpacity(0)),
+                      width: 100,
+                      height: mediaQuery.size.height,
+                      color: const Color(0x0000000),
+                    ),
                   ),
                   GestureDetector(
                     onTap: () {
                       setState(() {
-                        _imageFilter = _containerHeight == 130.0
+                        _imageFilter = _containerHeight == 160.0
                             ? ImageFilter.blur()
                             : ImageFilter.blur(
                                 sigmaX: 2.0,
                                 sigmaY: 2.0,
                               );
                         _containerHeight =
-                            _containerHeight == 130.0 ? 0.0 : 130;
+                            _containerHeight == 160.0 ? 0.0 : 160;
                       });
                     },
                     child: Column(
                       children: [
-                        Container(
-                          height: 20.0,
-                          width: min(mediaQuery.size.width * 0.9, 800),
-                          color: Colors.amber,
-                          margin: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: Text('notification bar (to be developed)'),
-                        ),
                         Stack(
                           children: [
                             Container(
@@ -159,7 +140,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 vertical: 15.0,
                               ),
                               child: Text(
-                                'Well-Being Audit',
+                                'Well-Being Nudges',
                                 style: const TextStyle(
                                   fontSize: 25.0,
                                 ),
@@ -195,7 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             horizontal: 20.0,
                           ),
                           child: const Text(
-                            'The Well-Being Audit gives you an overview of your Well-Being Status Quo: Where are you good at (all scores > 2.5) and where is room for improvement (all scores < 2.5)?',
+                            'Well-Being Nudges give you impulses for a better Well-Being You. Daily challenges will help you to work on your behavior and mindset. Based on your scores, we recommend a set of nudges. Feel free to create your own!',
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 15.0,

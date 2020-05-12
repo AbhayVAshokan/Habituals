@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:habituals/screens/display_selection_screen.dart';
+import 'package:habituals/screens/404_screen.dart';
+import 'package:habituals/screens/loading_screen.dart';
 
-import './screens/home_screen.dart';
 import './screens/login_screen.dart';
 import './screens/audit_screen.dart';
 import './screens/body_queries.dart';
 import './screens/mind_queries.dart';
 import './screens/general_query.dart';
 import './screens/splash_screen.dart';
+import './screens/welcome_screen.dart';
 import './screens/pick_start_date.dart';
-import './screens/prehome_screen.dart';
+import './screens/well_being_audit.dart';
+import './screens/well_being_nudges.dart';
 import './screens/instruction_screen.dart';
 import './resources/screen_transition.dart';
 import './screens/achievements_queries.dart';
 import './screens/relationship_queries.dart';
 import './screens/create_account_screen.dart';
 import './screens/personal_growth_queries.dart';
+import './screens/display_selection_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -47,11 +50,16 @@ class HabitualApp extends StatelessWidget {
       initialRoute: '/',
       routes: {
         '/': (context) => SplashScreen(),
-        '/audit': (context) => AuditScreen(),
         '/login': (context) => LoginScreen(),
+        '/audit': (context) => AuditScreen(),
+        '/loading': (context) => LoadingScreen(),
+        '/nudges': (context) => WellBeingNudges(),
         '/instruction': (context) => InstructionScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
       },
+      onUnknownRoute: (settings) => PageRouteBuilder(
+        pageBuilder: (context, animation, secondaryAnimation) => Screen404(),
+      ),
       onGenerateRoute: (settings) {
         Route page;
         switch (settings.name) {
@@ -76,11 +84,11 @@ class HabitualApp extends StatelessWidget {
           case "/pickStartDate":
             page = ScreenSlideTransition(screen: PickStartDate());
             break;
-          case "/preHome":
-            page = ScreenSlideTransition(screen: PreHomeScreen());
+          case "/welcome":
+            page = ScreenSlideTransition(screen: WelcomeScreen());
             break;
           case "/home":
-            page = ScreenSlideTransition(screen: HomeScreen());
+            page = ScreenSlideTransition(screen: WellBeingAudit());
             break;
           case "/displaySelection":
             page = ScreenSlideTransition(screen: DisplaySelectionScreen());

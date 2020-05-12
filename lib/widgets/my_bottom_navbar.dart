@@ -10,6 +10,8 @@ Widget myBottomNavbar({
   bool forwardButton = true,
   bool backButton = true,
 }) {
+  bool isLargeScreen = MediaQuery.of(context).size.width >= 900;
+
   return Container(
     height: 60.0,
     child: Row(
@@ -21,7 +23,7 @@ Widget myBottomNavbar({
                 onPressed: () => Navigator.pop(context),
                 icon: Icon(
                   Icons.arrow_back_ios,
-                  size: 28.0,
+                  size: isLargeScreen ? 40.0 : 28.0,
                 ),
               )
             : SizedBox.shrink(),
@@ -31,7 +33,7 @@ Widget myBottomNavbar({
                 onPressed: () => nextPage(context, nextScreen),
                 icon: Icon(
                   Icons.arrow_forward_ios,
-                  size: 28.0,
+                  size: isLargeScreen ? 40.0 : 28.0,
                 ),
               )
             : SizedBox.shrink(),

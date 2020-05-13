@@ -1,6 +1,9 @@
+// Custom App Bar
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:habituals/resources/realtime_data.dart';
+
+import '../resources/realtime_data.dart';
 
 AppBar myAppBar({
   @required BuildContext context,

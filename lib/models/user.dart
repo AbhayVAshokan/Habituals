@@ -1,3 +1,5 @@
+// Class to store the details of a user.
+
 import 'package:flutter/foundation.dart';
 
 class User {
@@ -18,6 +20,7 @@ class User {
 
   });
 
+  // Function to convert json file obtained as response to API call into User class object
   factory User.jsonToObject(jsonFile) {
     return User(
       age: jsonFile['age'],

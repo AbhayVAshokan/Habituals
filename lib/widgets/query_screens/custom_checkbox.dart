@@ -1,3 +1,5 @@
+// Custom checkbox for the query screens.
+
 import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatelessWidget {

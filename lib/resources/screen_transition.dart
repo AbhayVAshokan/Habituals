@@ -1,5 +1,8 @@
+// Classes representing different screen transitions (other than default screen transition).
+
 import 'package:flutter/material.dart';
 
+// Screen slides in from right to left: 300 milliseconds
 class ScreenSlideTransition extends PageRouteBuilder {
   final screen;
   final direction;
@@ -23,11 +26,12 @@ class ScreenSlideTransition extends PageRouteBuilder {
             pageBuilder: (context, animation, secondAnimation) => screen);
 }
 
+// Screen fades in: 1000 milliseconds
 class ScreenFadeTransition extends PageRouteBuilder {
   final screen;
   ScreenFadeTransition({@required this.screen})
       : super(
-            transitionDuration: Duration(seconds: 2),
+            transitionDuration: Duration(seconds: 1),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return FadeTransition(

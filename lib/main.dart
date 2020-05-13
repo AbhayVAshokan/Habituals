@@ -1,20 +1,25 @@
+// File specifying all the different screens, transition and theme data.
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:habituals/screens/404_screen.dart';
-import 'package:habituals/screens/loading_screen.dart';
-import 'package:habituals/screens/nudge_expanded.dart';
 
+import './screens/404_screen.dart';
+import './screens/your_memos.dart';
 import './screens/login_screen.dart';
 import './screens/audit_screen.dart';
 import './screens/body_queries.dart';
 import './screens/mind_queries.dart';
 import './screens/general_query.dart';
 import './screens/splash_screen.dart';
+import './screens/loading_screen.dart';
+import './screens/nudge_expanded.dart';
 import './screens/welcome_screen.dart';
 import './screens/pick_start_date.dart';
+import './screens/well_being_wall.dart';
 import './screens/well_being_audit.dart';
 import './screens/well_being_nudges.dart';
 import './screens/instruction_screen.dart';
+import './screens/well_being_journey.dart';
 import './resources/screen_transition.dart';
 import './screens/achievements_queries.dart';
 import './screens/relationship_queries.dart';
@@ -25,9 +30,7 @@ import './screens/display_selection_screen.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-  runApp(
-    HabitualApp(),
-  );
+  runApp(HabitualApp());
 }
 
 class HabitualApp extends StatelessWidget {
@@ -52,12 +55,15 @@ class HabitualApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
-        '/audit': (context) => AuditScreen(),
         '/loading': (context) => LoadingScreen(),
         '/nudges': (context) => WellBeingNudges(),
         '/nudgeExpanded': (context) => NudgeExpanded(),
         '/instruction': (context) => InstructionScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
+        '/audit': (context) => AuditScreen(),
+        '/memos': (context) => YourMemos(),
+        '/journey': (context) => WellBeingJourney(),
+        '/wall': (context) => WellBeingWall(),
       },
       onUnknownRoute: (settings) => PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => Screen404(),
@@ -90,13 +96,12 @@ class HabitualApp extends StatelessWidget {
             page = ScreenSlideTransition(screen: WelcomeScreen());
             break;
           case "/home":
-            page = ScreenSlideTransition(screen: WellBeingAudit());
+            page = ScreenFadeTransition(screen: WellBeingAudit());
             break;
           case "/displaySelection":
             page = ScreenSlideTransition(screen: DisplaySelectionScreen());
             break;
         }
-
         return page;
       },
     );

@@ -1,3 +1,5 @@
+// Custom bottom navigation bar
+
 import 'package:flutter/material.dart';
 
 nextPage(BuildContext context, String nextScreen) {

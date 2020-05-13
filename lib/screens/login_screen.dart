@@ -1,3 +1,5 @@
+// Sign in with email and password.
+
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';

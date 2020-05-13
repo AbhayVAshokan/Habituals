@@ -1,3 +1,5 @@
+// Dummy data to simulate the workflow of the app till the backend is ready.
+
 import '../models/user.dart';
 import '../models/nudge.dart';
 

@@ -1,3 +1,5 @@
+// Placeholder screen (loading screen) while the API is fetching the content.
+
 import 'package:flutter/material.dart';
 
 class LoadingScreen extends StatelessWidget {

@@ -1,3 +1,5 @@
+// Pick the start date for the journey of 66 days to track well being.
+
 import 'dart:math';
 
 import 'package:intl/intl.dart';

@@ -1,5 +1,8 @@
+// Dropdown menu bar
+
 import 'package:flutter/material.dart';
-import 'package:habituals/resources/realtime_data.dart';
+
+import '../resources/realtime_data.dart';
 
 class MenuDropDown extends StatelessWidget {
   final List menuItems = [
@@ -13,15 +16,15 @@ class MenuDropDown extends StatelessWidget {
     },
     {
       'text': 'Well-Being Journey',
-      'screen': '/home',
+      'screen': '/journey',
     },
     {
       'text': 'Your Memos',
-      'screen': '/home',
+      'screen': '/memos',
     },
     {
       'text': 'Support',
-      'screen': '/home',
+      'screen': '/support',
     },
     {
       'text': 'Logout',
@@ -32,12 +35,12 @@ class MenuDropDown extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    bool isLargeScreen = mediaQuery.size.width >= 900;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 400),
       curve: Curves.decelerate,
-      width: isLandscape ? 200 : 130,
+      width: isLargeScreen ? 200 : 130,
       height: menuBarHeight,
       color: const Color(0xFF8DAC9D),
       child: Padding(
@@ -48,8 +51,8 @@ class MenuDropDown extends StatelessWidget {
             onTap: () =>
                 Navigator.pushNamed(context, menuItems[index]['screen']),
             child: Container(
-              height: isLandscape ? 50 : 35.0,
-              width: isLandscape ? 200 : 175,
+              height: isLargeScreen ? 50 : 35.0,
+              width: isLargeScreen ? 200 : 175,
               decoration: BoxDecoration(
                 color: const Color(0xFFC6D7C3),
                 border: Border(
@@ -66,7 +69,7 @@ class MenuDropDown extends StatelessWidget {
                 menuItems[index]['text'],
                 textAlign: TextAlign.right,
                 style: TextStyle(
-                  fontSize: isLandscape ? 15.00 : 12.0,
+                  fontSize: isLargeScreen ? 15.00 : 12.0,
                 ),
               ),
             ),

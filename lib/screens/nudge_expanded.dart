@@ -1,14 +1,17 @@
-import 'dart:math';
+// Nudge details (Nudge booster and the option for mark for completion / skip)
+
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:habituals/models/nudge.dart';
-import 'package:habituals/resources/realtime_data.dart';
-
-import 'package:habituals/widgets/my_appbar.dart';
-import 'package:habituals/widgets/menu_dropdown.dart';
-import 'package:habituals/widgets/my_bottom_navbar.dart';
 import 'package:intl/intl.dart';
+
+import '../models/nudge.dart';
+import '../widgets/my_appbar.dart';
+import '../widgets/menu_dropdown.dart';
+import '../resources/realtime_data.dart';
+import '../widgets/my_bottom_navbar.dart';
+import '../widgets/nudges/skip_nudge.dart';
 
 class NudgeExpanded extends StatefulWidget {
   @override
@@ -18,6 +21,7 @@ class NudgeExpanded extends StatefulWidget {
 class _NudgeExpandedState extends State<NudgeExpanded> {
   ImageFilter _imageFilter = ImageFilter.blur();
   String imageUrl;
+  double _skipOpacity = 0.0;
   List<Map<String, dynamic>> checkBoxes = [
     {
       'day': 'M',
@@ -72,7 +76,7 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
           rebuildScreen: () {
             setState(
               () {
-                _imageFilter = menuBarHeight > 0 && !isLargeScreen
+                _imageFilter = ((menuBarHeight > 0) && !isLargeScreen)
                     ? ImageFilter.blur(
                         sigmaX: 2.0,
                         sigmaY: 2.0,
@@ -83,11 +87,11 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
           },
         ),
         body: Center(
-          child: SizedBox(
-            width: isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
-            child: Stack(
-              children: [
-                Column(
+          child: Stack(
+            children: [
+              SizedBox(
+                width: isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
+                child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Container(
@@ -153,63 +157,74 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
                       ),
                     ),
                     Expanded(
-                      flex: 3,
-                      child: Column(
+                      child: Stack(
                         children: [
-                          Expanded(
-                            flex: 2,
-                            child: Container(
-                              width: isLargeScreen
-                                  ? 800
-                                  : mediaQuery.size.width * 0.9,
-                              height: double.infinity,
-                              alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.all(20.0),
-                              color: const Color(0xFF8DAC9D),
-                              child: Text(
-                                nudge.nudge,
-                                style: const TextStyle(
-                                  fontSize: 15.0,
-                                ),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(height: 5),
-                          Expanded(
-                            flex: 5,
-                            child: Container(
-                              width: isLargeScreen
-                                  ? 800
-                                  : mediaQuery.size.width * 0.9,
-                              height: double.infinity,
-                              alignment: Alignment.topLeft,
-                              padding: const EdgeInsets.all(20.0),
-                              color: const Color(0xFF8DAC9D),
-                              child: RichText(
-                                text: TextSpan(
-                                  text: 'NUDGE BOOSTER',
-                                  children: [
-                                    TextSpan(
-                                      text: '\n\n' + nudge.nudgeBooster,
-                                      style: const TextStyle(
-                                        fontSize: 15.0,
-                                      ),
+                          Column(
+                            children: [
+                              Expanded(
+                                flex: 2,
+                                child: Container(
+                                  width: isLargeScreen
+                                      ? 800
+                                      : mediaQuery.size.width * 0.9,
+                                  height: double.infinity,
+                                  alignment: Alignment.topLeft,
+                                  padding: const EdgeInsets.all(20.0),
+                                  color: const Color(0xFF8DAC9D),
+                                  child: Text(
+                                    nudge.nudge,
+                                    style: const TextStyle(
+                                      fontSize: 15.0,
                                     ),
-                                  ],
-                                  style: const TextStyle(
-                                      fontSize: 18.0,
-                                      color: Colors.black,
-                                      fontFamily: 'Raleway'),
+                                  ),
                                 ),
                               ),
+                              const SizedBox(height: 5),
+                              Expanded(
+                                flex: 5,
+                                child: Container(
+                                  width: isLargeScreen
+                                      ? 800
+                                      : mediaQuery.size.width * 0.9,
+                                  height: double.infinity,
+                                  alignment: Alignment.topLeft,
+                                  padding: const EdgeInsets.all(20.0),
+                                  color: const Color(0xFF8DAC9D),
+                                  child: RichText(
+                                    text: TextSpan(
+                                      text: 'NUDGE BOOSTER',
+                                      children: [
+                                        TextSpan(
+                                          text: '\n\n' + nudge.nudgeBooster,
+                                          style: const TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                        ),
+                                      ],
+                                      style: const TextStyle(
+                                          fontSize: 18.0,
+                                          color: Colors.black,
+                                          fontFamily: 'Raleway'),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 10.0),
+                            ],
+                          ),
+                          BackdropFilter(
+                            filter: _imageFilter,
+                            child: Container(
+                              width: mediaQuery.size.width,
+                              height: mediaQuery.size.height,
+                              color: const Color(0x00000000),
                             ),
                           ),
-                          const SizedBox(height: 10.0),
                         ],
                       ),
                     ),
-                    Expanded(
-                      flex: 1,
+                    SizedBox(
+                      height: 110.0,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -264,7 +279,12 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
                                 bottom: 0.0,
                                 right: 0.0,
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    setState(() {
+                                      _skipOpacity =
+                                          _skipOpacity == 0.0 ? 1.0 : 0.0;
+                                    });
+                                  },
                                   child: Column(
                                     children: [
                                       const Text(
@@ -288,19 +308,24 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
                                 ),
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
                     ),
                   ],
                 ),
-                Positioned(
-                  top: 0.0,
-                  right: 0.0,
-                  child: MenuDropDown(),
-                ),
-              ],
-            ),
+              ),
+              Positioned(
+                bottom: 30.0,
+                right: 7.0,
+                child: SkipNudge(_skipOpacity),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: MenuDropDown(),
+              ),
+            ],
           ),
         ),
         bottomNavigationBar: myBottomNavbar(

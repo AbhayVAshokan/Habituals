@@ -1,7 +1,9 @@
+// User registration/create account screen.
+
 import 'package:flutter/material.dart';
-import 'package:habituals/services/api_calls.dart';
 
 import '../widgets/my_appbar.dart';
+import '../services/api_calls.dart';
 import '../widgets/login_signup_screens/custom_textfield.dart';
 
 class CreateAccountScreen extends StatefulWidget {

@@ -1,3 +1,5 @@
+// Individual card for representing individual categories in the nudge screen.
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';

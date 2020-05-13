@@ -1,9 +1,11 @@
+// Instructing the user to answer the set of questions following the page.
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:habituals/widgets/my_bottom_navbar.dart';
 
 import '../widgets/my_appbar.dart';
+import '../widgets/my_bottom_navbar.dart';
 
 class InstructionScreen extends StatefulWidget {
   @override
@@ -23,7 +25,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
           _textOpacity = 1;
         });
         Timer(
-          const Duration(seconds: 2),
+          const Duration(seconds: 3),
           () {
             setState(() {
               _buttonOpacity = 1;

@@ -1,3 +1,5 @@
+// Well Being Audit Screen.
+
 import 'dart:ui';
 import 'dart:math';
 
@@ -7,7 +9,7 @@ import '../widgets/my_appbar.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
-import '../widgets/home_screen/category_card.dart';
+import '../widgets/well_being_audit/category_card.dart';
 
 class WellBeingAudit extends StatefulWidget {
   @override

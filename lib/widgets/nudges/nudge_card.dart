@@ -1,3 +1,5 @@
+// Individual cards representing each individual nudges in each category.
+
 import 'package:flutter/material.dart';
 
 import 'package:habituals/models/nudge.dart';

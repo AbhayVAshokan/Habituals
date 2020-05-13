@@ -1,13 +1,13 @@
+// Welcoming the user to todays nudges.
+
 import 'dart:math';
-import 'dart:ui';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
-import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
-import '../widgets/my_bottom_navbar.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -15,12 +15,62 @@ class WelcomeScreen extends StatefulWidget {
 }
 
 class _WelcomeScreenState extends State<WelcomeScreen> {
+  double _welcomeOpacity = 0.0;
+  double _firstLineOpacity = 0.0;
+  double _secondLineOpacity = 0.0;
+  double _containerOpacity = 0.0;
+
   @override
   initState() {
     super.initState();
     menuBarHeight = 0.0;
+
     getNudges(
       emailAddress: currentUser.emailAddress,
+    );
+
+    Timer(
+      const Duration(milliseconds: 1000),
+      () {
+        setState(() {
+          _welcomeOpacity = 1;
+        });
+      },
+    );
+
+    Timer(
+      const Duration(milliseconds: 2000),
+      () {
+        setState(() {
+          _firstLineOpacity = 1;
+        });
+      },
+    );
+
+    Timer(
+      const Duration(milliseconds: 3000),
+      () {
+        setState(() {
+          _secondLineOpacity = 1;
+        });
+      },
+    );
+
+    Timer(
+      const Duration(milliseconds: 4000),
+      () {
+        setState(() {
+          _containerOpacity = 1;
+        });
+      },
+    );
+
+    Timer(
+      const Duration(
+        seconds: 5,
+        milliseconds: 500,
+      ),
+      () => Navigator.pushReplacementNamed(context, '/home'),
     );
   }
 
@@ -34,82 +84,73 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         backgroundColor: Colors.white,
         appBar: myAppBar(
           context: context,
-          menuButton: true,
-          rebuildScreen: () {
-            setState(() {});
-          },
         ),
-        body: Stack(
-          children: [
-            Container(
-              width: mediaQuery.size.width,
-              alignment: Alignment.center,
-              padding: const EdgeInsets.symmetric(horizontal: 30.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'WELCOME!',
-                    style: TextStyle(fontSize: isLargeScreen ? 70 : 50.0),
+        body: Container(
+          width: mediaQuery.size.width,
+          alignment: Alignment.center,
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedOpacity(
+                duration: const Duration(
+                  milliseconds: 500,
+                ),
+                opacity: _welcomeOpacity,
+                curve: Curves.easeIn,
+                child: Text(
+                  'WELCOME!',
+                  style: TextStyle(fontSize: isLargeScreen ? 70 : 50.0),
+                ),
+              ),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: _firstLineOpacity,
+                curve: Curves.easeIn,
+                child: const Text(
+                  'This is the first day of your Well-Being Journey.',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(fontSize: 25.0),
+                ),
+              ),
+              const SizedBox(height: 30.0),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: _secondLineOpacity,
+                curve: Curves.easeIn,
+                child: const Text(
+                  'Happy Thrivingg!',
+                  style: const TextStyle(fontSize: 25.0),
+                ),
+              ),
+              const SizedBox(height: 50.0),
+              AnimatedOpacity(
+                duration: const Duration(milliseconds: 500),
+                opacity: _containerOpacity,
+                child: Container(
+                  color: Color(0xFFC6D7C3),
+                  width: min(mediaQuery.size.width * 0.9, 600),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10.0,
+                    vertical: 15.0,
                   ),
-                  const Text(
-                    'This is the first day of your Well-Being Journey.',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 25.0),
-                  ),
-                  const SizedBox(height: 30.0),
-                  const Text(
-                    'Happy Thrivingg!',
-                    style: const TextStyle(fontSize: 25.0),
-                  ),
-                  const SizedBox(height: 50.0),
-                  Container(
-                    color: Color(0xFFC6D7C3),
-                    width: min(mediaQuery.size.width * 0.9, 600),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0,
-                      vertical: 15.0,
-                    ),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Motivation is what gets you started. Habit is what keeps you going',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontSize: isLargeScreen ? 22 : 18.0,
-                            fontStyle: FontStyle.italic,
-                          ),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Motivation is what gets you started. Habit is what keeps you going',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: isLargeScreen ? 22 : 18.0,
+                          fontStyle: FontStyle.italic,
                         ),
-                        const Text('Jim Ryun'),
-                      ],
-                    ),
+                      ),
+                      const Text('Jim Ryun'),
+                    ],
                   ),
-                ],
+                ),
               ),
-            ),
-            BackdropFilter(
-              filter: menuBarHeight > 0 && !isLargeScreen
-                  ? ImageFilter.blur(
-                      sigmaX: 2.0,
-                      sigmaY: 2.0,
-                    )
-                  : ImageFilter.blur(),
-              child: Container(
-                height: mediaQuery.size.height,
-                width: mediaQuery.size.width,
-                color: const Color(0x00000000),
-              ),
-            ),
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: MenuDropDown(),
-            ),
-          ],
-        ),
-        bottomNavigationBar: myBottomNavbar(
-          context: context,
-          nextScreen: '/home',
+            ],
+          ),
         ),
       ),
     );

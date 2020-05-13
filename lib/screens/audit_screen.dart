@@ -1,14 +1,19 @@
-import 'dart:math';
+// Well being audit details screen for a particular category.
+
 import 'dart:ui';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:habituals/resources/realtime_data.dart';
-import 'package:habituals/widgets/menu_dropdown.dart';
 
 import '../widgets/my_appbar.dart';
+import '../widgets/menu_dropdown.dart';
+import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
 
 class AuditScreen extends StatefulWidget {
+  final Map<String, dynamic> categoryData;
+  AuditScreen({this.categoryData});
+
   @override
   _AuditScreenState createState() => _AuditScreenState();
 }
@@ -25,8 +30,6 @@ class _AuditScreenState extends State<AuditScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, dynamic> categoryData =
-        ModalRoute.of(context).settings.arguments;
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLargeScreen = mediaQuery.size.width >= 900;
 
@@ -89,13 +92,15 @@ class _AuditScreenState extends State<AuditScreen> {
                                               ),
                                             ),
                                           ),
-                                          backgroundColor:const Color(0xFF4C7160),
+                                          backgroundColor:
+                                              const Color(0xFF4C7160),
                                         ),
                                       ),
                                       SizedBox(
                                         width: constraints.maxWidth - 120.0,
                                         child: Text(
-                                          categoryData['questions'][index],
+                                          widget.categoryData['questions']
+                                              [index],
                                           style: TextStyle(
                                             fontSize:
                                                 isLargeScreen ? 18.0 : 15.0,
@@ -116,7 +121,7 @@ class _AuditScreenState extends State<AuditScreen> {
                                             ),
                                           ),
                                           child: Text(
-                                            categoryData['data'][index]
+                                            widget.categoryData['data'][index]
                                                 .toString(),
                                             style: const TextStyle(
                                               fontSize: 18.0,
@@ -128,7 +133,7 @@ class _AuditScreenState extends State<AuditScreen> {
                                   ),
                                 ),
                               ),
-                              itemCount: categoryData['data'].length,
+                              itemCount: widget.categoryData['data'].length,
                             ),
                           ),
                         ),
@@ -161,34 +166,37 @@ class _AuditScreenState extends State<AuditScreen> {
                         Stack(
                           children: [
                             Container(
-                              color:const  Color(0xFFC6D7C4),
+                              color: const Color(0xFFC6D7C4),
                               width: min(mediaQuery.size.width * 0.9, 800),
                               height: 70.0,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(
                                 vertical: 10.0,
                               ),
-                              child: Row(
-                                children: [
-                                  const SizedBox(width: 5),
-                                  Image.asset(
-                                    categoryData['imageUrl'],
-                                    height: 50.0,
-                                  ),
-                                  Expanded(
-                                    child: Center(
-                                      child: FittedBox(
-                                        child: Text(
-                                          '${categoryData['category'].toUpperCase() + ' AUDIT'}',
-                                          style: const TextStyle(
-                                            fontSize: 25.0,
+                              child: Hero(
+                                tag: widget.categoryData['imageUrl'],
+                                child: Row(
+                                  children: [
+                                    const SizedBox(width: 5),
+                                    Image.asset(
+                                      widget.categoryData['imageUrl'],
+                                      height: 50.0,
+                                    ),
+                                    Expanded(
+                                      child: Center(
+                                        child: FittedBox(
+                                          child: Text(
+                                            '${widget.categoryData['category'].toUpperCase() + ' AUDIT'}',
+                                            style: const TextStyle(
+                                              fontSize: 25.0,
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                  SizedBox(width: 50.0),
-                                ],
+                                    SizedBox(width: 50.0),
+                                  ],
+                                ),
                               ),
                             ),
                             Positioned(
@@ -221,7 +229,7 @@ class _AuditScreenState extends State<AuditScreen> {
                             horizontal: 20.0,
                           ),
                           child: Text(
-                            categoryData['instructions'],
+                            widget.categoryData['instructions'],
                             textAlign: TextAlign.center,
                             style: const TextStyle(
                               fontSize: 15.0,

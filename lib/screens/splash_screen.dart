@@ -1,3 +1,5 @@
+// Splash Screen: data of the user is fetched.
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';

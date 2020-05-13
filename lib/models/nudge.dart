@@ -1,3 +1,5 @@
+// Class to store the parameters of an individual nudge
+
 import 'package:flutter/foundation.dart';
 
 class Nudge {
@@ -15,6 +17,7 @@ class Nudge {
     this.nudgeBooster,
   });
 
+  // Function to convert json file obtained as response to API call into Nudge class object
   factory Nudge.jsonToObject(jsonFile) {
     return Nudge(
       date: jsonFile['date'],

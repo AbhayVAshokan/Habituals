@@ -1,3 +1,5 @@
+// Screen to display 25 responses chosen by the user in order to make necessary changes.
+
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -32,6 +34,7 @@ class DisplaySelectionScreenState extends State<DisplaySelectionScreen> {
                 width: mediaQuery.size.width * 0.9,
                 child: Column(
                   children: [
+                    // Response to the body related questions
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10,
@@ -141,6 +144,8 @@ class DisplaySelectionScreenState extends State<DisplaySelectionScreen> {
                     ),
                     Divider(),
                     const SizedBox(height: 20.0),
+
+                    // Response to the mind related questions
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10,
@@ -252,6 +257,8 @@ class DisplaySelectionScreenState extends State<DisplaySelectionScreen> {
                     ),
                     Divider(),
                     const SizedBox(height: 20.0),
+
+                    // Response to the relationship related questionsu
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10,
@@ -363,6 +370,8 @@ class DisplaySelectionScreenState extends State<DisplaySelectionScreen> {
                     ),
                     Divider(),
                     const SizedBox(height: 20.0),
+
+                    // Response to the achievement related questions
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10,
@@ -474,6 +483,8 @@ class DisplaySelectionScreenState extends State<DisplaySelectionScreen> {
                     ),
                     Divider(),
                     const SizedBox(height: 20.0),
+
+                    // Response to the body personal development questions
                     Padding(
                       padding: EdgeInsets.symmetric(
                         vertical: 10,

@@ -1,10 +1,12 @@
+// Set of API calls.
+
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../resources/dummy_data.dart';
 import '../resources/realtime_data.dart';
 
-// Register
+// Register a new user into the database.
 Future registerUser({
   @required String password,
   @required DateTime createdAt,
@@ -27,6 +29,8 @@ Future registerUser({
     ////////////////////////////// Add code here
   } catch (e) {
     ////////////////////////////// Update errors
+
+    // Network failure
     if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED') ||
         e.toString().contains('auth/network-request-failed'))
       Fluttertoast.showToast(
@@ -38,6 +42,8 @@ Future registerUser({
         textColor: Colors.white,
         fontSize: 16.0,
       );
+
+    // Email already registered
     else if (e.toString().contains('ERROR_EMAIL_ALREADY_IN_USE') ||
         e.toString().contains('auth/email-already-in-use'))
       Fluttertoast.showToast(
@@ -56,6 +62,7 @@ Future registerUser({
   }
 }
 
+// Login
 Future signInWithEmailAndPassword(
     {@required String email, @required String password}) async {
   try {
@@ -69,6 +76,8 @@ Future signInWithEmailAndPassword(
 
   } catch (e) {
     ////////////////////////////// Update errors
+
+    // User not registered
     if (e.toString().contains('ERROR_USER_NOT_FOUND') ||
         e.toString().contains('auth/user-not-found'))
       Fluttertoast.showToast(
@@ -80,6 +89,8 @@ Future signInWithEmailAndPassword(
         textColor: Colors.white,
         fontSize: 16.0,
       );
+
+    // Network failure
     else if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED') ||
         e.toString().contains('auth/network-request-failed'))
       Fluttertoast.showToast(
@@ -91,6 +102,8 @@ Future signInWithEmailAndPassword(
         textColor: Colors.white,
         fontSize: 16.0,
       );
+
+    // Wrong password entered.
     else if (e.toString().contains('ERROR_WRONG_PASSWORD') ||
         e.toString().contains('auth/wrong-password'))
       Fluttertoast.showToast(
@@ -109,14 +122,13 @@ Future signInWithEmailAndPassword(
   }
 }
 
-// API: Get Nudges for the given user
+// Get Nudges for the given user
 getNudges({@required String emailAddress}) {
   bodyNudges = dummyBodyNudges;
   mindNudges = dummyMindNudges;
   relationshipNudges = dummyRelationshipNudges;
   achievementNudges = dummyAchievementNudges;
   personalGrowthNudges = dummyPersonalGrowthNudges;
-
 
   // Sorting Nudges according to their dates.
   bodyNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);

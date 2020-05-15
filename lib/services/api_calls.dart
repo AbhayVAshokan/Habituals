@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:habituals/models/nudge_chart_7days.dart';
 
 import '../resources/dummy_data.dart';
 import '../resources/realtime_data.dart';
@@ -129,6 +130,13 @@ getNudges({@required String emailAddress}) {
   relationshipNudges = dummyRelationshipNudges;
   achievementNudges = dummyAchievementNudges;
   personalGrowthNudges = dummyPersonalGrowthNudges;
+  allNudges = [
+    ...bodyNudges,
+    ...mindNudges,
+    ...relationshipNudges,
+    ...achievementNudges,
+    ...personalGrowthNudges,
+  ];
 
   // Sorting Nudges according to their dates.
   bodyNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);
@@ -136,4 +144,42 @@ getNudges({@required String emailAddress}) {
   achievementNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);
   relationshipNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);
   personalGrowthNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);
+  allNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);
+
+  allNudgesToday = allNudges
+      .where((nudge) => nudge.date.difference(DateTime.now()).inDays == 0)
+      .toList();
+  allNudges7Days = allNudges
+      .where(
+        (nudge) => (nudge.date.isAfter(
+              DateTime.now().subtract(
+                const Duration(days: 7),
+              ),
+            ) &&
+            nudge.date.isBefore(
+              DateTime.now(),
+            )),
+      )
+      .toList();
+  allNudges66Days = allNudges66Days;
+  lineChart7Days = dummyLineChart7Days;
+
+  barChart7DaysCompleted = dummyBarChart7Days
+      .where((NudgeBarChart bar) => bar.status == 'completed')
+      .toList();
+  barChart7DaysNotCompleted = dummyBarChart7Days
+      .where((NudgeBarChart bar) => bar.status == 'not completed')
+      .toList();
+  barChart7DaysSkipped = dummyBarChart7Days
+      .where((NudgeBarChart bar) => bar.status == 'sipped')
+      .toList();
+
+  lineGraph66DaysCompleted =
+      dummyLineChart66Days.where((line) => line.status == 'completed').toList();
+  lineGraph66DaysNotCompleted = dummyLineChart66Days
+      .where((line) => line.status == 'not completed')
+      .toList();
+  lineGraph66DaysSkipped =
+      dummyLineChart66Days.where((line) => line.status == 'skipped').toList();
+  lineWellBeing66Days = dummyNudgeWellBeingGraph;
 }

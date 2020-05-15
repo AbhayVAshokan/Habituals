@@ -3,8 +3,13 @@
 import 'package:flutter/material.dart';
 
 class SkipNudge extends StatelessWidget {
-  final double _containerOpacity;
-  SkipNudge(this._containerOpacity);
+  final double containerOpacity;
+  final Function rebuildScreen;
+
+  SkipNudge({
+    @required this.containerOpacity,
+    @required this.rebuildScreen,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +18,7 @@ class SkipNudge extends StatelessWidget {
         milliseconds: 500,
       ),
       curve: Curves.easeIn,
-      opacity: _containerOpacity,
+      opacity: containerOpacity,
       child: Container(
         width: 250.0,
         height: 100.0,
@@ -28,7 +33,8 @@ class SkipNudge extends StatelessWidget {
               height: 20.0,
               child: TextField(
                 cursorColor: Colors.lightGreen,
-                enabled: _containerOpacity == 0 ? false : true,
+                enabled: containerOpacity == 0 ? false : true,
+                onSubmitted: (value) => rebuildScreen(),
               ),
             ),
           ],

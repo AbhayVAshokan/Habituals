@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
+import '../widgets/exit_dialog.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -29,7 +30,7 @@ class _WellBeingAuditState extends State<WellBeingAudit> {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    bool isLargeScreen = mediaQuery.size.width >= 900;
     final List<Map<String, dynamic>> categoryData = [
       {
         'category': 'BODY',
@@ -74,153 +75,193 @@ class _WellBeingAuditState extends State<WellBeingAudit> {
     ];
 
     return SafeArea(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        appBar: myAppBar(
+      child: WillPopScope(
+        onWillPop: () => exitDialog(
           context: context,
-          menuButton: true,
-          rebuildScreen: () {
-            setState(() {
-              _imageFilter = menuBarHeight > 0 && !isLandscape
-                  ? ImageFilter.blur(
-                      sigmaX: 2.0,
-                      sigmaY: 2.0,
-                    )
-                  : ImageFilter.blur();
-            });
-          },
         ),
-        body: Stack(
-          children: [
-            Center(
-              child: Stack(
-                children: [
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const SizedBox(height: 90.0),
-                      Expanded(
-                        child: LayoutBuilder(
-                          builder: (context, constraints) => Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Container(
-                              width: min(mediaQuery.size.width * 0.9, 800),
-                              child: ListView.builder(
-                                itemBuilder: (context, index) => CategoryCard(
-                                  cardHeight: min(
-                                      (constraints.maxHeight - 60) /
-                                          categoryData.length,
-                                      120),
-                                  categoryData: categoryData[index],
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          appBar: myAppBar(
+            context: context,
+            menuButton: true,
+            rebuildScreen: () {
+              setState(() {
+                _imageFilter = menuBarHeight > 0 && !isLargeScreen
+                    ? ImageFilter.blur(
+                        sigmaX: 2.0,
+                        sigmaY: 2.0,
+                      )
+                    : ImageFilter.blur();
+              });
+            },
+          ),
+          body: Stack(
+            children: [
+              Center(
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    SizedBox(
+                      width: isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 90.0),
+                          Expanded(
+                            child: LayoutBuilder(
+                              builder: (context, constraints) => Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 10.0),
+                                child: ListView.builder(
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (context, index) => CategoryCard(
+                                    cardHeight: isLargeScreen
+                                        ? 120
+                                        : (constraints.maxHeight - 60) /
+                                            categoryData.length,
+                                    categoryData: categoryData[index],
+                                  ),
+                                  itemCount: categoryData.length,
                                 ),
-                                itemCount: categoryData.length,
                               ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
-                  BackdropFilter(
-                    filter: _imageFilter,
-                    child: Container(
-                      width: 100,
-                      height: mediaQuery.size.height,
-                      color: const Color(0x00000000),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        _imageFilter = _containerHeight == 130.0
-                            ? ImageFilter.blur()
-                            : ImageFilter.blur(
-                                sigmaX: 2.0,
-                                sigmaY: 2.0,
-                              );
-                        _containerHeight =
-                            _containerHeight == 130.0 ? 0.0 : 130;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Container(
-                          height: 20.0,
-                          width: min(mediaQuery.size.width * 0.9, 800),
-                          color: Colors.amber,
-                          margin: const EdgeInsets.symmetric(vertical: 5.0),
-                          child: Text('notification bar (to be developed)'),
-                        ),
-                        Stack(
+                    BackdropFilter(
+                      filter: _imageFilter,
+                      child: Container(
+                        width: 100,
+                        height: mediaQuery.size.height,
+                        color: const Color(0x00000000),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        setState(() {
+                          _imageFilter = _containerHeight == 130.0
+                              ? ImageFilter.blur()
+                              : ImageFilter.blur(
+                                  sigmaX: 2.0,
+                                  sigmaY: 2.0,
+                                );
+                          _containerHeight =
+                              _containerHeight == 130.0 ? 0.0 : 130;
+                        });
+                      },
+                      child: SizedBox(
+                        width:
+                            isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
+                        child: Column(
                           children: [
                             Container(
+                              height: 20.0,
+                              margin: const EdgeInsets.symmetric(vertical: 5.0),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    height: 15.0,
+                                    width: 15.0,
+                                    alignment: Alignment.center,
+                                    margin: const EdgeInsets.only(right: 5.0),
+                                    child: const Text('1'),
+                                    decoration: BoxDecoration(
+                                      color: Colors.red,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                  const Text(
+                                    'Hey there! Check out your Well-Being Scores.',
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Stack(
+                              children: [
+                                Hero(
+                                  tag: 'heading',
+                                  flightShuttleBuilder: (flightContext,
+                                          animation,
+                                          flightDirection,
+                                          fromHeroContext,
+                                          toHeroContext) =>
+                                      DefaultTextStyle(
+                                    style: DefaultTextStyle.of(toHeroContext)
+                                        .style,
+                                    child: toHeroContext.widget,
+                                  ),
+                                  child: Container(
+                                    color: Colors.yellow[300],
+                                    alignment: Alignment.center,
+                                    padding: const EdgeInsets.symmetric(
+                                      vertical: 15.0,
+                                    ),
+                                    child: FittedBox(
+                                      child: Text(
+                                        'Well-Being Audit',
+                                        style: const TextStyle(
+                                          fontSize: 25.0,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: -10.0,
+                                  right: -10.0,
+                                  child: IconButton(
+                                    icon: Transform.rotate(
+                                      angle: -pi / 2,
+                                      child: Icon(
+                                        Icons.arrow_back_ios,
+                                        color: Colors.blueGrey,
+                                        size: 20.0,
+                                      ),
+                                    ),
+                                    onPressed: null,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 5.0),
+                            AnimatedContainer(
+                              duration: const Duration(milliseconds: 400),
+                              curve: Curves.decelerate,
                               color: Colors.yellow[300],
-                              width: min(mediaQuery.size.width * 0.9, 800),
+                              height: _containerHeight,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(
                                 vertical: 15.0,
+                                horizontal: 20.0,
                               ),
-                              child: Text(
-                                'Well-Being Audit',
+                              child: const Text(
+                                'The Well-Being Audit gives you an overview of your Well-Being Status Quo: Where are you good at (all scores > 2.5) and where is room for improvement (all scores < 2.5)?',
+                                textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontSize: 25.0,
+                                  fontSize: 15.0,
                                 ),
-                              ),
-                            ),
-                            Positioned(
-                              bottom: -10.0,
-                              right: -10.0,
-                              child: IconButton(
-                                icon: Transform.rotate(
-                                  angle: -pi / 2,
-                                  child: Icon(
-                                    Icons.arrow_back_ios,
-                                    color: Colors.blueGrey,
-                                    size: 20.0,
-                                  ),
-                                ),
-                                onPressed: null,
                               ),
                             ),
                           ],
                         ),
-                        const SizedBox(height: 5.0),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.decelerate,
-                          color: Colors.yellow[300],
-                          height: _containerHeight,
-                          width: min(mediaQuery.size.width * 0.9, 800),
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 15.0,
-                            horizontal: 20.0,
-                          ),
-                          child: const Text(
-                            'The Well-Being Audit gives you an overview of your Well-Being Status Quo: Where are you good at (all scores > 2.5) and where is room for improvement (all scores < 2.5)?',
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 15.0,
-                            ),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: MenuDropDown(),
-            ),
-          ],
-        ),
-        bottomNavigationBar: myBottomNavbar(
-          context: context,
-          forwardButton: false,
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: MenuDropDown(),
+              ),
+            ],
+          ),
+          bottomNavigationBar: myBottomNavbar(
+            context: context,
+            forwardButton: false,
+          ),
         ),
       ),
     );

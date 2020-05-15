@@ -146,7 +146,7 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
                               child: Text(
                                 nudge.status.compareTo('not completed') == 0
                                     ? 'to be done'
-                                    : 'kabali da',
+                                    : 'to be done',
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                 ),
@@ -316,9 +316,16 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
                 ),
               ),
               Positioned(
-                bottom: 30.0,
+                bottom: 35.0,
                 right: 7.0,
-                child: SkipNudge(_skipOpacity),
+                child: SkipNudge(
+                  containerOpacity: _skipOpacity,
+                  rebuildScreen: () {
+                    setState(() {
+                      _skipOpacity = 0.0;
+                    });
+                  },
+                ),
               ),
               Positioned(
                 top: 0.0,

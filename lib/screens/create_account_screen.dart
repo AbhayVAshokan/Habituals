@@ -214,48 +214,51 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         ),
                       ),
                       SizedBox(height: mediaQuery.size.height * 0.075),
-                      RaisedButton(
-                        elevation: 5.0,
-                        color: Color(0xFFC6D7C3),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        onPressed: () async {
-                          if (!CreateAccountScreen
-                              ._createAccountFormKey.currentState
-                              .validate())
-                            return;
-                          else {
-                            CreateAccountScreen
-                                ._createAccountFormKey.currentState
-                                .save();
-                            var status = await registerUser(
-                              age: _age,
-                              gender: _gender,
-                              password: _password,
-                              position: _position,
-                              mailingList: _checkBox,
-                              createdAt: DateTime.now(),
-                              emailAddress: _emailAddress,
-                            );
-                            if (status != null)
-                              Navigator.pushReplacementNamed(
-                                  context, '/instruction');
-                          }
-                        },
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 7.0,
+                      Hero(
+                        tag: 'signinButton',
+                        child: RaisedButton(
+                          elevation: 5.0,
+                          color: Color(0xFFC6D7C3),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0),
                           ),
-                          width: isLargeScreen
-                              ? 400
-                              : mediaQuery.size.width * 0.75,
-                          child: Text(
-                            'Create Account',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20.0,
+                          onPressed: () async {
+                            if (!CreateAccountScreen
+                                ._createAccountFormKey.currentState
+                                .validate())
+                              return;
+                            else {
+                              CreateAccountScreen
+                                  ._createAccountFormKey.currentState
+                                  .save();
+                              var status = await registerUser(
+                                age: _age,
+                                gender: _gender,
+                                password: _password,
+                                position: _position,
+                                mailingList: _checkBox,
+                                createdAt: DateTime.now(),
+                                emailAddress: _emailAddress,
+                              );
+                              if (status != null)
+                                Navigator.pushReplacementNamed(
+                                    context, '/instruction');
+                            }
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 7.0,
+                            ),
+                            width: isLargeScreen
+                                ? 400
+                                : mediaQuery.size.width * 0.75,
+                            child: Text(
+                              'Create Account',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0,
+                              ),
                             ),
                           ),
                         ),
@@ -299,26 +302,38 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             ),
                           ),
                           FittedBox(
-                            child: Row(
-                              children: [
-                                const Text(
-                                  'Already have an account? ',
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                GestureDetector(
-                                  onTap: () =>
-                                      Navigator.pushNamed(context, '/login'),
-                                  child: const Text(
-                                    'Log in',
+                            child: Hero(
+                              tag: 'already_have_an_account',
+                              flightShuttleBuilder: (flightContext,
+                                      animation,
+                                      flightDirection,
+                                      fromHeroContext,
+                                      toHeroContext) =>
+                                  DefaultTextStyle(
+                                style: DefaultTextStyle.of(toHeroContext).style,
+                                child: toHeroContext.widget,
+                              ),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    'Already have an account? ',
                                     style: const TextStyle(
-                                      color: Colors.blue,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                ),
-                              ],
+                                  GestureDetector(
+                                    onTap: () =>
+                                        Navigator.pushNamed(context, '/login'),
+                                    child: const Text(
+                                      'Log in',
+                                      style: const TextStyle(
+                                        color: Colors.blue,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ],

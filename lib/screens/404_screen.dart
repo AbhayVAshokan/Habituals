@@ -49,7 +49,12 @@ class Screen404 extends StatelessWidget {
                         ),
                         RaisedButton(
                           color: const Color(0xFF4C7160),
-                          onPressed: () => Navigator.pop(context),
+                          onPressed: () {
+                            if (Navigator.canPop(context))
+                              Navigator.pop(context);
+                            else
+                              Navigator.pushNamed(context, '/home');
+                          },
                           child: const Text(
                             'Go Back Instead',
                             style: const TextStyle(

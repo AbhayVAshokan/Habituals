@@ -29,7 +29,9 @@ class CategoryCard extends StatelessWidget {
       onTap: () => Navigator.push(
         context,
         PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 1000),
+          transitionDuration: const Duration(
+            milliseconds: 750,
+          ),
           pageBuilder: (context, animation, secondaryAnimation) =>
               FadeTransition(
             opacity: animation.drive(
@@ -146,14 +148,13 @@ class CategoryCard extends StatelessWidget {
   }
 }
 
-
 // Class to draw a triangle.
 class DrawTriangleShape extends CustomPainter {
   Paint painter;
 
   DrawTriangleShape() {
     painter = Paint()
-      ..color = Color(0xFF8DAC9D)
+      ..color = const Color(0xFF8DAC9D)
       ..style = PaintingStyle.fill;
   }
 

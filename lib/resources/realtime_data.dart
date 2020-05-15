@@ -1,5 +1,8 @@
 // Stores the data which is required by different parts of the app at different times during a single execution.
 
+import 'package:habituals/models/nudge_chart_66days.dart';
+import 'package:habituals/models/nudge_chart_7days.dart';
+
 import '../models/user.dart';
 import '../models/nudge.dart';
 
@@ -57,6 +60,10 @@ List<String> personalGrowthQuestions = [
 double menuBarHeight;
 
 // List of nudges received from the API.
+List<Nudge> allNudges = [];
+List<Nudge> allNudgesToday = [];
+List<Nudge> allNudges7Days = [];
+List<Nudge> allNudges66Days = [];
 List<Nudge> bodyNudges = [];
 List<Nudge> mindNudges = [];
 List<Nudge> relationshipNudges = [];
@@ -66,3 +73,15 @@ List<Nudge> personalGrowthNudges = [];
 // Details of the currently login-ed user.
 User currentUser;
 String authToken;
+
+// Details required to build the Well-Being Journey 7 Days graph.
+List<NudgeBarChart> barChart7DaysCompleted = [];
+List<NudgeBarChart> barChart7DaysNotCompleted = [];
+List<NudgeBarChart> barChart7DaysSkipped = [];
+List<NudgeLineChart> lineChart7Days = [];
+
+// Details required to build the Well-Being Journet 66 Days graph.
+List<NudgeLineGraph> lineGraph66DaysCompleted = [];
+List<NudgeLineGraph> lineGraph66DaysNotCompleted = [];
+List<NudgeLineGraph> lineGraph66DaysSkipped = [];
+List<NudgeWellBeingGraph> lineWellBeing66Days = [];

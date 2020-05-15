@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import './screens/404_screen.dart';
-import './screens/your_memos.dart';
 import './screens/login_screen.dart';
 import './screens/audit_screen.dart';
 import './screens/body_queries.dart';
@@ -55,15 +54,15 @@ class HabitualApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
+        '/audit': (context) => AuditScreen(),
+        '/wall': (context) => WellBeingWall(),
+        '/home': (context) => WellBeingAudit(),
         '/loading': (context) => LoadingScreen(),
         '/nudges': (context) => WellBeingNudges(),
+        '/journey': (context) => WellBeingJourney(),
         '/nudgeExpanded': (context) => NudgeExpanded(),
         '/instruction': (context) => InstructionScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
-        '/audit': (context) => AuditScreen(),
-        '/memos': (context) => YourMemos(),
-        '/journey': (context) => WellBeingJourney(),
-        '/wall': (context) => WellBeingWall(),
       },
       onUnknownRoute: (settings) => PageRouteBuilder(
         pageBuilder: (context, animation, secondaryAnimation) => Screen404(),
@@ -94,9 +93,6 @@ class HabitualApp extends StatelessWidget {
             break;
           case "/welcome":
             page = ScreenSlideTransition(screen: WelcomeScreen());
-            break;
-          case "/home":
-            page = ScreenFadeTransition(screen: WellBeingAudit());
             break;
           case "/displaySelection":
             page = ScreenSlideTransition(screen: DisplaySelectionScreen());

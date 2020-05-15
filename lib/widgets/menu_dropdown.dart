@@ -48,8 +48,8 @@ class MenuDropDown extends StatelessWidget {
         child: ListView.builder(
           itemCount: menuItems.length,
           itemBuilder: (context, index) => GestureDetector(
-            onTap: () =>
-                Navigator.pushNamed(context, menuItems[index]['screen']),
+            onTap: () => Navigator.pushReplacementNamed(
+                context, menuItems[index]['screen']),
             child: Container(
               height: isLargeScreen ? 50 : 35.0,
               width: isLargeScreen ? 200 : 175,

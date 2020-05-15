@@ -80,37 +80,42 @@ class _LoginScreenState extends State<LoginScreen> {
                         else
                           return null;
                       }),
-                  RaisedButton(
-                    elevation: 5.0,
-                    color: Color(0xFFC6D7C3),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    onPressed: () async {
-                      if (!LoginScreen._loginScreenFormKey.currentState
-                          .validate())
-                        return;
-                      else {
-                        LoginScreen._loginScreenFormKey.currentState.save();
-                        var status = await signInWithEmailAndPassword(
-                            email: _emailAddress, password: _password);
-                        if (status != null) {
-                          Navigator.pushReplacementNamed(
-                              context, '/instruction');
-                        }
-                      }
-                    },
-                    child: Container(
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 7.0,
+                  Hero(
+                    tag: 'signinButton',
+                    child: RaisedButton(
+                      elevation: 5.0,
+                      color: Color(0xFFC6D7C3),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      width: isLargeScreen ? 400 : mediaQuery.size.width * 0.75,
-                      child: Text(
-                        'Log in',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20.0,
+                      onPressed: () async {
+                        if (!LoginScreen._loginScreenFormKey.currentState
+                            .validate())
+                          return;
+                        else {
+                          LoginScreen._loginScreenFormKey.currentState.save();
+                          var status = await signInWithEmailAndPassword(
+                              email: _emailAddress, password: _password);
+                          if (status != null) {
+                            Navigator.pushReplacementNamed(
+                                context, '/instruction');
+                          }
+                        }
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 7.0,
+                        ),
+                        width: isLargeScreen
+                            ? 400
+                            : mediaQuery.size.width * 0.75,
+                        child: Text(
+                          'Log in',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20.0,
+                          ),
                         ),
                       ),
                     ),

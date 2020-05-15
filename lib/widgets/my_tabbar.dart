@@ -2,10 +2,41 @@
 
 import 'package:flutter/material.dart';
 
-Widget myTabBar() {
+Widget myTabBar({@required String screen}) {
+  List<Tab> tabs = [
+    const Tab(
+      child: const Text(
+        'Today',
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
+    ),
+    const Tab(
+      child: const Text(
+        '7 Days',
+        style: const TextStyle(
+          color: Colors.black,
+        ),
+      ),
+    ),
+  ];
+
+  if (screen == 'journey')
+    tabs.add(
+      const Tab(
+        child: const Text(
+          '66 Days',
+          style: const TextStyle(
+            color: Colors.black,
+          ),
+        ),
+      ),
+    );
+
   return Container(
     alignment: Alignment.centerLeft,
-    width: 175.0,
+    width: screen == 'audit' ? 175.0 : 300,
     child: TabBar(
       labelStyle: const TextStyle(
         fontWeight: FontWeight.bold,
@@ -14,24 +45,7 @@ Widget myTabBar() {
       unselectedLabelStyle: const TextStyle(
         fontWeight: FontWeight.normal,
       ),
-      tabs: [
-        Tab(
-          child: Text(
-            'Today',
-            style: const TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ),
-        Tab(
-          child: Text(
-            '7 Days',
-            style: const TextStyle(
-              color: Colors.black,
-            ),
-          ),
-        ),
-      ],
+      tabs: tabs,
     ),
   );
 }

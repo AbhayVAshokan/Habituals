@@ -3,6 +3,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:habituals/screens/create_account_screen.dart';
+import 'package:habituals/screens/login_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -80,53 +82,87 @@ class _SplashScreenState extends State<SplashScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 20.0),
-                        child: RaisedButton(
-                          elevation: 5.0,
-                          color: Color(0xFFC6D7C3),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                          ),
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/createAccount'),
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 7.0,
+                        child: Hero(
+                          tag: 'signinButton',
+                          child: RaisedButton(
+                            elevation: 5.0,
+                            color: Color(0xFFC6D7C3),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10.0),
                             ),
-                            width: isLargeScreen
-                                ? 400
-                                : mediaQuery.size.width * 0.75,
-                            child: Text(
-                              'Sign in',
-                              style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0,
+                            onPressed: () => Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                pageBuilder:
+                                    (context, animation, secondaryAnimation) =>
+                                        FadeTransition(
+                                  opacity: Tween(
+                                    begin: 0.0,
+                                    end: 1.0,
+                                  ).animate(animation),
+                                  child: CreateAccountScreen(),
+                                ),
+                                transitionDuration:
+                                    const Duration(milliseconds: 500),
+                              ),
+                            ),
+                            child: Container(
+                              alignment: Alignment.center,
+                              padding: const EdgeInsets.symmetric(
+                                vertical: 7.0,
+                              ),
+                              width: isLargeScreen
+                                  ? 400
+                                  : mediaQuery.size.width * 0.75,
+                              child: Text(
+                                'Sign in',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 20.0,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
                       FittedBox(
-                        child: Row(
-                          children: [
-                            const Text(
-                              'Already have an account? ',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () =>
-                                  Navigator.pushNamed(context, '/login'),
-                              child: const Text(
-                                'Log in',
+                        child: Hero(
+                          tag: 'already_have_an_account',
+                          child: Row(
+                            children: [
+                              const Text(
+                                'Already have an account? ',
                                 style: const TextStyle(
-                                  color: Colors.blue,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ],
+                              GestureDetector(
+                                onTap: () => Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    pageBuilder: (context, animation,
+                                            secondaryAnimation) =>
+                                        FadeTransition(
+                                      opacity: Tween(
+                                        begin: 0.0,
+                                        end: 1.0,
+                                      ).animate(animation),
+                                      child: LoginScreen(),
+                                    ),
+                                    transitionDuration:
+                                        const Duration(milliseconds: 500),
+                                  ),
+                                ),
+                                child: const Text(
+                                  'Log in',
+                                  style: const TextStyle(
+                                    color: Colors.blue,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ],

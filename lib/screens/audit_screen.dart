@@ -67,6 +67,7 @@ class _AuditScreenState extends State<AuditScreen> {
                             ),
                             width: min(mediaQuery.size.width * 0.9, 800),
                             child: ListView.builder(
+                              physics: NeverScrollableScrollPhysics(),
                               itemBuilder: (context, index) => Container(
                                 margin: const EdgeInsets.symmetric(
                                   vertical: 5.0,
@@ -249,7 +250,10 @@ class _AuditScreenState extends State<AuditScreen> {
             ),
           ],
         ),
-        bottomNavigationBar: myBottomNavbar(context: context),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          forwardButton: false,
+        ),
       ),
     );
   }

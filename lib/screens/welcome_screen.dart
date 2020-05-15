@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
 import '../resources/realtime_data.dart';
+import '../screens/well_being_audit.dart';
 
 class WelcomeScreen extends StatefulWidget {
   @override
@@ -70,7 +71,21 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         seconds: 5,
         milliseconds: 500,
       ),
-      () => Navigator.pushReplacementNamed(context, '/home'),
+      () => Navigator.pushAndRemoveUntil(
+        context,
+        PageRouteBuilder(
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              FadeTransition(
+            opacity: Tween(
+              begin: 0.0,
+              end: 1.0,
+            ).animate(animation),
+            child: WellBeingAudit(),
+          ),
+          transitionDuration: const Duration(seconds: 1),
+        ),
+        (route) => false,
+      ),
     );
   }
 

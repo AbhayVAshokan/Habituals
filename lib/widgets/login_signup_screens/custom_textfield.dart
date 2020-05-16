@@ -60,6 +60,9 @@ class CustomTextField extends StatelessWidget {
             fontWeight: FontWeight.w400,
             fontSize: 14.0,
           ),
+          errorMaxLines: 1,
+          errorBorder: InputBorder.none,
+          focusedErrorBorder: InputBorder.none,
           enabledBorder: const OutlineInputBorder(
             borderSide: BorderSide(
               color: Color(0xFF8DAC9E),

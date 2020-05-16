@@ -50,16 +50,11 @@ class _PickStartDateState extends State<PickStartDate> {
                           itemStyle:
                               TextStyle(fontSize: isLargeScreen ? 22.0 : 18.0),
                           cancelStyle: TextStyle(
-                            fontSize: isLargeScreen ? 22.0 : 18.0,
-                            color: Colors.red
-                          ),
+                              fontSize: isLargeScreen ? 22.0 : 18.0,
+                              color: Colors.red),
                         ),
                         showTitleActions: true,
-                        minTime: DateTime.now().subtract(
-                          const Duration(
-                            days: 365,
-                          ),
-                        ),
+                        minTime: DateTime.now(),
                         maxTime: DateTime.now().add(
                           const Duration(
                             days: 365,

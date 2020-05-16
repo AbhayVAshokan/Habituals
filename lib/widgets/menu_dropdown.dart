@@ -1,10 +1,15 @@
 // Dropdown menu bar
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../resources/realtime_data.dart';
 
 class MenuDropDown extends StatelessWidget {
+  final AnimationController animationController;
+  MenuDropDown({@required this.animationController});
+
   final List menuItems = [
     {
       'text': 'Well-Being Audit',
@@ -48,8 +53,13 @@ class MenuDropDown extends StatelessWidget {
         child: ListView.builder(
           itemCount: menuItems.length,
           itemBuilder: (context, index) => GestureDetector(
-            onTap: () => Navigator.pushReplacementNamed(
-                context, menuItems[index]['screen']),
+            onTap: () {
+              animationController.forward();
+              Timer(
+                  const Duration(milliseconds: 500),
+                  () => Navigator.pushReplacementNamed(
+                      context, menuItems[index]['screen']));
+            },
             child: Container(
               height: isLargeScreen ? 50 : 35.0,
               width: isLargeScreen ? 200 : 175,

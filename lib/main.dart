@@ -54,13 +54,7 @@ class HabitualApp extends StatelessWidget {
       routes: {
         '/': (context) => SplashScreen(),
         '/login': (context) => LoginScreen(),
-        '/audit': (context) => AuditScreen(),
-        '/wall': (context) => WellBeingWall(),
-        '/home': (context) => WellBeingAudit(),
         '/loading': (context) => LoadingScreen(),
-        '/nudges': (context) => WellBeingNudges(),
-        '/journey': (context) => WellBeingJourney(),
-        '/nudgeExpanded': (context) => NudgeExpanded(),
         '/instruction': (context) => InstructionScreen(),
         '/createAccount': (context) => CreateAccountScreen(),
       },
@@ -70,6 +64,66 @@ class HabitualApp extends StatelessWidget {
       onGenerateRoute: (settings) {
         Route page;
         switch (settings.name) {
+          case "/home":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: WellBeingAudit(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break;
+          case "/audit":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: AuditScreen(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break;
+          case "/nudges":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: WellBeingNudges(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break;
+          case "/nudgeExpanded":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: NudgeExpanded(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break;
+          case "/journey":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: WellBeingJourney(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break;
+          case "/wall":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: WellBeingWall(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break;
           case "/generalQuery":
             page = ScreenSlideTransition(screen: GeneralQuery());
             break;

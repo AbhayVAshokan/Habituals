@@ -18,7 +18,8 @@ class NudgeExpanded extends StatefulWidget {
   _NudgeExpandedState createState() => _NudgeExpandedState();
 }
 
-class _NudgeExpandedState extends State<NudgeExpanded> {
+class _NudgeExpandedState extends State<NudgeExpanded>
+    with SingleTickerProviderStateMixin {
   ImageFilter _imageFilter = ImageFilter.blur();
   String imageUrl;
   double _skipOpacity = 0.0;
@@ -45,10 +46,27 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
     },
   ];
 
+  AnimationController _scaleController;
+  Animation<double> _scaleAnimation;
+  Animation _colorAnimation;
+
   @override
   initState() {
     super.initState();
     menuBarHeight = 0.0;
+
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _scaleAnimation =
+        Tween<double>(begin: 1.0, end: 2000.0).animate(_scaleController);
+
+    _colorAnimation = ColorTween(
+      begin: Colors.green,
+      end: Colors.white,
+    ).animate(_scaleController);
   }
 
   @override
@@ -330,7 +348,27 @@ class _NudgeExpandedState extends State<NudgeExpanded> {
               Positioned(
                 top: 0.0,
                 right: 0.0,
-                child: MenuDropDown(),
+                child: MenuDropDown(
+                  animationController: _scaleController,
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: AnimatedBuilder(
+                  builder: (context, child) => Transform.scale(
+                    scale: _scaleAnimation.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _colorAnimation.value,
+                        shape: BoxShape.circle,
+                      ),
+                      height: 1.0,
+                      width: 1.0,
+                    ),
+                  ),
+                  animation: _colorAnimation,
+                ),
               ),
             ],
           ),

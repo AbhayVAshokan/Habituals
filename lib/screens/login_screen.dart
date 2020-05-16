@@ -97,8 +97,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           var status = await signInWithEmailAndPassword(
                               email: _emailAddress, password: _password);
                           if (status != null) {
-                            Navigator.pushReplacementNamed(
-                                context, '/instruction');
+                            Navigator.pushNamedAndRemoveUntil(
+                              context,
+                              '/instruction',
+                              (route) => false,
+                            );
                           }
                         }
                       },
@@ -107,9 +110,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding: const EdgeInsets.symmetric(
                           vertical: 7.0,
                         ),
-                        width: isLargeScreen
-                            ? 400
-                            : mediaQuery.size.width * 0.75,
+                        width:
+                            isLargeScreen ? 400 : mediaQuery.size.width * 0.75,
                         child: Text(
                           'Log in',
                           style: TextStyle(

@@ -19,7 +19,8 @@ class WellBeingNudges extends StatefulWidget {
   _WellBeingNudgesState createState() => _WellBeingNudgesState();
 }
 
-class _WellBeingNudgesState extends State<WellBeingNudges> {
+class _WellBeingNudgesState extends State<WellBeingNudges>
+    with SingleTickerProviderStateMixin {
   double _containerHeight = 0;
   ImageFilter _imageFilter = ImageFilter.blur();
 
@@ -51,10 +52,27 @@ class _WellBeingNudgesState extends State<WellBeingNudges> {
     },
   ];
 
+  AnimationController _scaleController;
+  Animation<double> _scaleAnimation;
+  Animation _colorAnimation;
+
   @override
   initState() {
     super.initState();
     menuBarHeight = 0.0;
+
+    _scaleController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _scaleAnimation =
+        Tween<double>(begin: 1.0, end: 2000.0).animate(_scaleController);
+
+    _colorAnimation = ColorTween(
+      begin: Colors.green,
+      end: Colors.white,
+    ).animate(_scaleController);
   }
 
   @override
@@ -92,7 +110,6 @@ class _WellBeingNudgesState extends State<WellBeingNudges> {
                     children: [
                       DefaultTabController(
                         length: 2,
-                        initialIndex: 0,
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -141,31 +158,17 @@ class _WellBeingNudgesState extends State<WellBeingNudges> {
                               child: Center(
                                 child: Stack(
                                   children: [
-                                    Hero(
-                                      tag: 'heading',
-                                      flightShuttleBuilder: (flightContext,
-                                              animation,
-                                              flightDirection,
-                                              fromHeroContext,
-                                              toHeroContext) =>
-                                          DefaultTextStyle(
-                                        style:
-                                            DefaultTextStyle.of(toHeroContext)
-                                                .style,
-                                        child: toHeroContext.widget,
+                                    Container(
+                                      color: Colors.yellow[300],
+                                      alignment: Alignment.center,
+                                      padding: const EdgeInsets.symmetric(
+                                        vertical: 15.0,
                                       ),
-                                      child: Container(
-                                        color: Colors.yellow[300],
-                                        alignment: Alignment.center,
-                                        padding: const EdgeInsets.symmetric(
-                                          vertical: 15.0,
-                                        ),
-                                        child: FittedBox(
-                                          child: Text(
-                                            'Well-Being Nudges',
-                                            style: const TextStyle(
-                                              fontSize: 25.0,
-                                            ),
+                                      child: FittedBox(
+                                        child: Text(
+                                          'Well-Being Nudges',
+                                          style: const TextStyle(
+                                            fontSize: 25.0,
                                           ),
                                         ),
                                       ),
@@ -218,7 +221,27 @@ class _WellBeingNudgesState extends State<WellBeingNudges> {
               Positioned(
                 top: 0.0,
                 right: 0.0,
-                child: MenuDropDown(),
+                child: MenuDropDown(
+                  animationController: _scaleController,
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: AnimatedBuilder(
+                  builder: (context, child) => Transform.scale(
+                    scale: _scaleAnimation.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _colorAnimation.value,
+                        shape: BoxShape.circle,
+                      ),
+                      height: 1.0,
+                      width: 1.0,
+                    ),
+                  ),
+                  animation: _colorAnimation,
+                ),
               ),
             ],
           ),

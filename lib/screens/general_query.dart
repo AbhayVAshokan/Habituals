@@ -34,7 +34,7 @@ class _GeneralQueryState extends State<GeneralQuery> {
           child: SizedBox(
             width: isLargeScreen
                 ? min(850.0, MediaQuery.of(context).size.width * 0.9)
-                : min(350.0, MediaQuery.of(context).size.width * 0.9),
+                : min(350, MediaQuery.of(context).size.width * 0.8),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -64,6 +64,7 @@ class _GeneralQueryState extends State<GeneralQuery> {
                       mainAxisSize: MainAxisSize.max,
                       children: [
                         Container(
+                          width: 275,
                           alignment: Alignment.center,
                           decoration: BoxDecoration(
                             color: Colors.white,

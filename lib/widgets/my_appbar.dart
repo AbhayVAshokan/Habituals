@@ -16,7 +16,10 @@ AppBar myAppBar({
     backgroundColor: Colors.white,
     leading: Padding(
       padding: const EdgeInsets.all(10.0),
-      child: Image.asset('assets/images/logo_small.jpg'),
+      child: Hero(
+        tag: 'logo',
+        child: Image.asset('assets/images/logo_small.jpg'),
+      ),
     ),
     actions: [
       menuButton

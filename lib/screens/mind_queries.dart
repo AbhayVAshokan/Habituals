@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
 
 import '../widgets/my_appbar.dart';
 import '../resources/realtime_data.dart';
@@ -208,14 +209,31 @@ class _MindQueriesState extends State<MindQueries> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
-        body: PageView.builder(
-          itemBuilder: (context, index) => questionPage(
-            question: mindQuestions[index],
-            index: index,
-            mediaQuery: mediaQuery,
-          ),
-          itemCount: mindQuestions.length,
-          controller: pageController,
+        body: Stack(
+          children: [
+            PageView.builder(
+              itemBuilder: (context, index) => questionPage(
+                question: mindQuestions[index],
+                index: index,
+                mediaQuery: mediaQuery,
+              ),
+              itemCount: mindQuestions.length,
+              controller: pageController,
+            ),
+            Positioned(
+              bottom: 10.0,
+              right: 30,
+              child: ScrollingPageIndicator(
+                dotColor: Colors.grey[400],
+                dotSelectedColor: Colors.amber[700],
+                dotSize: 6,
+                dotSelectedSize: 12,
+                dotSpacing: 15,
+                controller: pageController,
+                itemCount: bodyQuestions.length,
+              ),
+            )
+          ],
         ),
         bottomNavigationBar: myBottomNavbar(
             context: context, nextScreen: '/relationshipQueries'),

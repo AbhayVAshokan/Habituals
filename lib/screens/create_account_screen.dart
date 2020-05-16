@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 
+import './login_screen.dart';
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
 import '../widgets/login_signup_screens/custom_textfield.dart';
@@ -13,7 +14,7 @@ class CreateAccountScreen extends StatefulWidget {
 }
 
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
-  bool _checkBox = false;
+  bool _checkBox = true;
 
   int _age;
   String _gender;
@@ -241,8 +242,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 emailAddress: _emailAddress,
                               );
                               if (status != null)
-                                Navigator.pushReplacementNamed(
-                                    context, '/instruction');
+                                Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  '/instruction',
+                                  (route) => false,
+                                );
                             }
                           },
                           child: Container(
@@ -322,8 +326,22 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     ),
                                   ),
                                   GestureDetector(
-                                    onTap: () =>
-                                        Navigator.pushNamed(context, '/login'),
+                                    onTap: () => Navigator.push(
+                                      context,
+                                      PageRouteBuilder(
+                                        pageBuilder: (context, animation,
+                                                secondaryAnimation) =>
+                                            FadeTransition(
+                                          opacity: Tween(
+                                            begin: 0.0,
+                                            end: 1.0,
+                                          ).animate(animation),
+                                          child: LoginScreen(),
+                                        ),
+                                        transitionDuration:
+                                            const Duration(milliseconds: 500),
+                                      ),
+                                    ),
                                     child: const Text(
                                       'Log in',
                                       style: const TextStyle(

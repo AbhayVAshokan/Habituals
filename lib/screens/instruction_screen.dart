@@ -86,8 +86,9 @@ class _InstructionScreenState extends State<InstructionScreen> {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
-                  onPressed: () =>
-                      Navigator.pushNamed(context, '/generalQuery'),
+                  onPressed: () => _buttonOpacity == 0
+                      ? () {}
+                      : Navigator.pushNamed(context, '/generalQuery'),
                   child: Container(
                     alignment: Alignment.center,
                     padding: const EdgeInsets.symmetric(

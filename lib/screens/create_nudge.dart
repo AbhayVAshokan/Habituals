@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
-import '../widgets/menu_dropdown.dart';
+// import '../widgets/menu_dropdown.dart';
 import '../widgets/my_bottom_navbar.dart';
 
 class CreateNudge extends StatelessWidget {
@@ -20,11 +20,11 @@ class CreateNudge extends StatelessWidget {
             Center(
               child: Text('create nudge screen'),
             ),
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: MenuDropDown(),
-            ),
+            // Positioned(
+            //   top: 0.0,
+            //   right: 0.0,
+            //   child: MenuDropDown(),
+            // ),
           ],
         ),
         bottomNavigationBar: myBottomNavbar(

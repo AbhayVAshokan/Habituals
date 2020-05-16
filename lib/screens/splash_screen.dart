@@ -47,9 +47,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   flex: 2,
                   child: Align(
                     alignment: Alignment.center,
-                    child: Image.asset(
-                      'assets/images/logo_big.jpg',
-                      width: mediaQuery.size.width * 0.4,
+                    child: Hero(
+                      tag: 'logo',
+                      child: Image.asset(
+                        'assets/images/logo_big.jpg',
+                        width: mediaQuery.size.width * 0.4,
+                      ),
                     ),
                   ),
                 ),
@@ -103,7 +106,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                   child: CreateAccountScreen(),
                                 ),
                                 transitionDuration:
-                                    const Duration(milliseconds: 500),
+                                    const Duration(milliseconds: 750),
                               ),
                             ),
                             child: Container(
@@ -150,7 +153,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                       child: LoginScreen(),
                                     ),
                                     transitionDuration:
-                                        const Duration(milliseconds: 500),
+                                        const Duration(milliseconds: 750),
                                   ),
                                 ),
                                 child: const Text(

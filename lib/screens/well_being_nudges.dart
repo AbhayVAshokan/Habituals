@@ -1,5 +1,6 @@
 // Well Being Nudges screen.
 
+import 'dart:async';
 import 'dart:ui';
 import 'dart:math';
 
@@ -20,7 +21,7 @@ class WellBeingNudges extends StatefulWidget {
 }
 
 class _WellBeingNudgesState extends State<WellBeingNudges>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin {
   double _containerHeight = 0;
   ImageFilter _imageFilter = ImageFilter.blur();
 
@@ -52,27 +53,61 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
     },
   ];
 
-  AnimationController _scaleController;
-  Animation<double> _scaleAnimation;
-  Animation _colorAnimation;
+  AnimationController _transitionController1;
+  Animation<double> _scaleAnimation1;
+  Animation _colorAnimation1;
+
+  AnimationController _transitionController2;
+  Animation _scaleAnimation2;
+  Animation _colorAnimation2;
+
+  AnimationController _fabController;
+  Animation _fabScaleAnimation;
+  Animation _fabColorAnimation;
 
   @override
   initState() {
     super.initState();
     menuBarHeight = 0.0;
 
-    _scaleController = AnimationController(
+    // Animation for page transition
+    _transitionController1 = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 500),
     );
-
-    _scaleAnimation =
-        Tween<double>(begin: 1.0, end: 2000.0).animate(_scaleController);
-
-    _colorAnimation = ColorTween(
+    _scaleAnimation1 =
+        Tween<double>(begin: 1.0, end: 2000.0).animate(_transitionController1);
+    _colorAnimation1 = ColorTween(
       begin: Colors.green,
       end: Colors.white,
-    ).animate(_scaleController);
+    ).animate(_transitionController1);
+
+    // FAB Page transition
+    _transitionController2 = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _scaleAnimation2 =
+        Tween<double>(begin: 1, end: 2000).animate(_transitionController2);
+    _colorAnimation2 = ColorTween(
+      begin: Colors.green,
+      end: Colors.white,
+    ).animate(_transitionController2);
+
+    // FAB animation
+    _fabController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 400),
+    );
+    _fabScaleAnimation = Tween(
+      begin: 50.0,
+      end: 60.0,
+    ).animate(_fabController);
+    _fabColorAnimation = ColorTween(
+      begin: const Color(0xFFffd31d),
+      end: const Color(0xFFf57b51),
+    ).animate(_fabController);
+    _fabController.repeat(reverse: true);
   }
 
   @override
@@ -222,7 +257,7 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                 top: 0.0,
                 right: 0.0,
                 child: MenuDropDown(
-                  animationController: _scaleController,
+                  animationController: _transitionController1,
                 ),
               ),
               Positioned(
@@ -230,17 +265,35 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                 right: 0.0,
                 child: AnimatedBuilder(
                   builder: (context, child) => Transform.scale(
-                    scale: _scaleAnimation.value,
+                    scale: _scaleAnimation1.value,
                     child: Container(
                       decoration: BoxDecoration(
-                        color: _colorAnimation.value,
+                        color: _colorAnimation1.value,
                         shape: BoxShape.circle,
                       ),
                       height: 1.0,
                       width: 1.0,
                     ),
                   ),
-                  animation: _colorAnimation,
+                  animation: _colorAnimation1,
+                ),
+              ),
+              Positioned(
+                bottom: 0.0,
+                right: 0.0,
+                child: AnimatedBuilder(
+                  builder: (context, child) => Transform.scale(
+                    scale: _scaleAnimation2.value,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: _colorAnimation2.value,
+                        shape: BoxShape.circle,
+                      ),
+                      height: 1.0,
+                      width: 1.0,
+                    ),
+                  ),
+                  animation: _colorAnimation2,
                 ),
               ),
             ],
@@ -249,6 +302,31 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
             context: context,
             forwardButton: false,
           ),
+          floatingActionButton: AnimatedBuilder(
+            builder: (context, child) => SizedBox(
+              width: _fabScaleAnimation.value,
+              height: _fabScaleAnimation.value,
+              child: FloatingActionButton(
+                backgroundColor: _fabColorAnimation.value,
+                onPressed: () {
+                  _transitionController2.forward();
+                  Timer(const Duration(milliseconds: 500), () {
+                    Navigator.pushNamed(context, '/pulseCheck');
+                  });
+                  Timer(
+                    const Duration(milliseconds: 1000),
+                    () => _transitionController2.reverse(),
+                  );
+                },
+                child: Icon(
+                  Icons.notifications,
+                  size: _fabScaleAnimation.value * 0.5,
+                ),
+              ),
+            ),
+            animation: _fabColorAnimation,
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         ),
       ),
     );

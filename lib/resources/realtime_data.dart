@@ -85,3 +85,14 @@ List<NudgeLineGraph> lineGraph66DaysCompleted = [];
 List<NudgeLineGraph> lineGraph66DaysNotCompleted = [];
 List<NudgeLineGraph> lineGraph66DaysSkipped = [];
 List<NudgeWellBeingGraph> lineWellBeing66Days = [];
+
+// Well-Being Pulse Check
+
+List<String> wellBeingPulseCheckQuestions = [
+  'I feel physically fit and energized.',
+  'The stress level is fine - I feel mentally on top of things.',
+  'Team work works.',
+  'I feel valued for my work and know what is expected from me.',
+  'My job challenges me and fits my competencies.',
+];
+List<double> wellBeingPulseQueries = [2.5, 2.5, 2.5, 2.5, 2.5];

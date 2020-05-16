@@ -56,9 +56,10 @@ class MenuDropDown extends StatelessWidget {
             onTap: () {
               animationController.forward();
               Timer(
-                  const Duration(milliseconds: 500),
-                  () => Navigator.pushReplacementNamed(
-                      context, menuItems[index]['screen']));
+                const Duration(milliseconds: 500),
+                () => Navigator.pushReplacementNamed(
+                    context, menuItems[index]['screen']),
+              );
             },
             child: Container(
               height: isLargeScreen ? 50 : 35.0,

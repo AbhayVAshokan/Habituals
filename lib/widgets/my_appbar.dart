@@ -10,6 +10,7 @@ AppBar myAppBar({
   bool closeButton = false,
   bool menuButton = false,
   Function rebuildScreen,
+  bottom,
 }) {
   return AppBar(
     elevation: 0.0,
@@ -74,5 +75,6 @@ AppBar myAppBar({
             )
           : const SizedBox.shrink(),
     ],
+    bottom: bottom,
   );
 }

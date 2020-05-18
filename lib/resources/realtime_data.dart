@@ -1,5 +1,7 @@
 // Stores the data which is required by different parts of the app at different times during a single execution.
 
+import 'package:flutter/material.dart';
+import 'package:habituals/models/memo.dart';
 import 'package:habituals/models/nudge_chart_66days.dart';
 import 'package:habituals/models/nudge_chart_7days.dart';
 
@@ -96,3 +98,23 @@ List<String> wellBeingPulseCheckQuestions = [
   'My job challenges me and fits my competencies.',
 ];
 List<double> wellBeingPulseQueries = [2.5, 2.5, 2.5, 2.5, 2.5];
+
+// Floating action button position
+Offset fabOffset;
+
+// Memos
+List<Memo> memos = [];
+List myMemos = [];
+bool addingListItem = false;
+
+
+
+
+
+
+
+
+
+
+
+Nudge nudge;

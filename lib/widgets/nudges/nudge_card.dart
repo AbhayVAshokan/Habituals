@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 
 import 'package:habituals/models/nudge.dart';
 
+import '../../resources/realtime_data.dart';
+
 class NudgeCard extends StatelessWidget {
-  final Nudge nudge;
+  final Nudge nudge1temp;
   final String imageUrl;
   final String buttonText;
 
   NudgeCard({
-    @required this.nudge,
+    @required this.nudge1temp,
     this.imageUrl,
     this.buttonText,
   });
@@ -32,7 +34,9 @@ class NudgeCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Text(
-                buttonText == null ? nudge.nudge : 'Create your own nudge',
+                buttonText == null
+                    ? nudge1temp.nudge
+                    : 'Create your own nudge1temp',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -46,18 +50,18 @@ class NudgeCard extends StatelessWidget {
             child: RaisedButton(
               color: const Color(0xFFC6D7C4),
               onPressed: () {
-                if (buttonText == null)
+                if (buttonText == null) {
+                  nudge = nudge1temp;
                   Navigator.pushNamed(
                     context,
                     '/nudgeExpanded',
-                    arguments: nudge,
                   );
-                else
+                } else
                   Navigator.pushNamed(context, '/createNudge');
               },
               child: Text(
                 buttonText == null
-                    ? nudge.status.compareTo('not completed') == 0
+                    ? nudge1temp.status.compareTo('not completed') == 0
                         ? 'to be done'
                         : 'to be done'
                     : buttonText,

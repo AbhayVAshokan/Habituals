@@ -1,19 +1,19 @@
 // Well Being Nudges screen.
 
-import 'dart:async';
 import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:habituals/widgets/my_bottom_navbar.dart';
 
 import '../widgets/my_tabbar.dart';
 import '../widgets/my_appbar.dart';
 import '../widgets/exit_dialog.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
+import '../widgets/my_bottom_navbar.dart';
 import '../screens/well_being_nudges_7days.dart';
 import '../screens/well_being_nudges_today.dart';
+import '../widgets/my_floating_action_button.dart';
 
 class WellBeingNudges extends StatefulWidget {
   @override
@@ -61,10 +61,6 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
   Animation _scaleAnimation2;
   Animation _colorAnimation2;
 
-  AnimationController _fabController;
-  Animation _fabScaleAnimation;
-  Animation _fabColorAnimation;
-
   @override
   initState() {
     super.initState();
@@ -90,24 +86,9 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
     _scaleAnimation2 =
         Tween<double>(begin: 1, end: 2000).animate(_transitionController2);
     _colorAnimation2 = ColorTween(
-      begin: Colors.green,
+      begin: Colors.yellow,
       end: Colors.white,
     ).animate(_transitionController2);
-
-    // FAB animation
-    _fabController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    _fabScaleAnimation = Tween(
-      begin: 50.0,
-      end: 60.0,
-    ).animate(_fabController);
-    _fabColorAnimation = ColorTween(
-      begin: const Color(0xFFffd31d),
-      end: const Color(0xFFf57b51),
-    ).animate(_fabController);
-    _fabController.repeat(reverse: true);
   }
 
   @override
@@ -279,8 +260,8 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                 ),
               ),
               Positioned(
-                bottom: 0.0,
-                right: 0.0,
+                top: fabOffset.dy,
+                left: fabOffset.dx,
                 child: AnimatedBuilder(
                   builder: (context, child) => Transform.scale(
                     scale: _scaleAnimation2.value,
@@ -296,39 +277,31 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                   animation: _colorAnimation2,
                 ),
               ),
+              Positioned(
+                top: fabOffset.dy,
+                left: fabOffset.dx,
+                child: MyFloatingActionButton(
+                  rebuildScreen: () {
+                    setState(() {});
+                  },
+                  transitionAnimationController: _transitionController2,
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: myBottomNavbar(
             context: context,
             forwardButton: false,
           ),
-          floatingActionButton: AnimatedBuilder(
-            builder: (context, child) => SizedBox(
-              width: _fabScaleAnimation.value,
-              height: _fabScaleAnimation.value,
-              child: FloatingActionButton(
-                backgroundColor: _fabColorAnimation.value,
-                onPressed: () {
-                  _transitionController2.forward();
-                  Timer(const Duration(milliseconds: 500), () {
-                    Navigator.pushNamed(context, '/pulseCheck');
-                  });
-                  Timer(
-                    const Duration(milliseconds: 1000),
-                    () => _transitionController2.reverse(),
-                  );
-                },
-                child: Icon(
-                  Icons.notifications,
-                  size: _fabScaleAnimation.value * 0.5,
-                ),
-              ),
-            ),
-            animation: _fabColorAnimation,
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _transitionController1.dispose();
+    _transitionController2.dispose();
+    super.dispose();
   }
 }

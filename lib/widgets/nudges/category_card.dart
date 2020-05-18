@@ -56,12 +56,12 @@ class CategoryCard extends StatelessWidget {
           child: ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (context, index) =>
-                NudgeCard(nudge: pendingNudges[index], imageUrl: category['imageUrl'],),
+                NudgeCard(nudge1temp: pendingNudges[index], imageUrl: category['imageUrl'],),
             itemCount: pendingNudges.length,
           ),
         ),
         NudgeCard(
-          nudge: null,
+          nudge1temp: null,
           buttonText: 'Status',
         ),
         const SizedBox(height: 20.0),

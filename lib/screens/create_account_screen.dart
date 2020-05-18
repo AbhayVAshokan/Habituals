@@ -1,6 +1,7 @@
 // User registration/create account screen.
 
 import 'package:flutter/material.dart';
+import 'package:habituals/screens/privacy_policy_tos.dart';
 
 import './login_screen.dart';
 import '../widgets/my_appbar.dart';
@@ -280,12 +281,32 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const Text(
-                                  'TOS ',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
+                                GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          FadeTransition(
+                                        opacity: Tween(
+                                          begin: 0.0,
+                                          end: 1.0,
+                                        ).animate(animation),
+                                        child: PrivacyPolicyTOS(
+                                          initialIndex: 0,
+                                        ),
+                                      ),
+                                      transitionDuration:
+                                          const Duration(milliseconds: 500),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'TOS ',
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                                 const Text(
@@ -294,12 +315,32 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                                const Text(
-                                  'Privacy Policy',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    decoration: TextDecoration.underline,
-                                    fontWeight: FontWeight.bold,
+                                GestureDetector(
+                                  onTap: () => Navigator.push(
+                                    context,
+                                    PageRouteBuilder(
+                                      pageBuilder: (context, animation,
+                                              secondaryAnimation) =>
+                                          FadeTransition(
+                                        opacity: Tween(
+                                          begin: 0.0,
+                                          end: 1.0,
+                                        ).animate(animation),
+                                        child: PrivacyPolicyTOS(
+                                          initialIndex: 1,
+                                        ),
+                                      ),
+                                      transitionDuration:
+                                          const Duration(milliseconds: 500),
+                                    ),
+                                  ),
+                                  child: const Text(
+                                    'Privacy Policy',
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                      decoration: TextDecoration.underline,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ],

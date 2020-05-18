@@ -87,12 +87,19 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         (route) => false,
       ),
     );
+
+    getMemos();
   }
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
+
+    fabOffset = Offset(
+      mediaQuery.size.width - 35,
+      mediaQuery.size.height / 2,
+    );
 
     return SafeArea(
       child: Scaffold(

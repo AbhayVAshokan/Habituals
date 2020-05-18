@@ -1,6 +1,5 @@
 // Well Being Journey screen.
 
-import 'dart:async';
 import 'dart:ui';
 import 'dart:math';
 
@@ -15,6 +14,7 @@ import '../widgets/my_bottom_navbar.dart';
 import '../screens/well_being_journey_7days.dart';
 import '../screens/well_being_journey_today.dart';
 import '../screens/well_being_journey_66days.dart';
+import '../widgets/my_floating_action_button.dart';
 
 class WellBeingJourney extends StatefulWidget {
   @override
@@ -33,10 +33,6 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
   AnimationController _transitionController2;
   Animation _scaleAnimation2;
   Animation _colorAnimation2;
-
-  AnimationController _fabController;
-  Animation _fabScaleAnimation;
-  Animation _fabColorAnimation;
 
   @override
   initState() {
@@ -63,24 +59,9 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
     _scaleAnimation2 =
         Tween<double>(begin: 1, end: 2000).animate(_transitionController2);
     _colorAnimation2 = ColorTween(
-      begin: Colors.green,
+      begin: Colors.yellow,
       end: Colors.white,
     ).animate(_transitionController2);
-
-    // FAB animation
-    _fabController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 400),
-    );
-    _fabScaleAnimation = Tween(
-      begin: 50.0,
-      end: 60.0,
-    ).animate(_fabController);
-    _fabColorAnimation = ColorTween(
-      begin: const Color(0xFFffd31d),
-      end: const Color(0xFFf57b51),
-    ).animate(_fabController);
-    _fabController.repeat(reverse: true);
   }
 
   @override
@@ -254,8 +235,8 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
                 ),
               ),
               Positioned(
-                bottom: 0.0,
-                right: 0.0,
+                top: fabOffset.dy,
+                left: fabOffset.dx,
                 child: AnimatedBuilder(
                   builder: (context, child) => Transform.scale(
                     scale: _scaleAnimation2.value,
@@ -271,37 +252,22 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
                   animation: _colorAnimation2,
                 ),
               ),
+              Positioned(
+                top: fabOffset.dy,
+                left: fabOffset.dx,
+                child: MyFloatingActionButton(
+                  rebuildScreen: () {
+                    setState(() {});
+                  },
+                  transitionAnimationController: _transitionController2,
+                ),
+              ),
             ],
           ),
           bottomNavigationBar: myBottomNavbar(
             context: context,
             forwardButton: false,
           ),
-          floatingActionButton: AnimatedBuilder(
-            builder: (context, child) => SizedBox(
-              width: _fabScaleAnimation.value,
-              height: _fabScaleAnimation.value,
-              child: FloatingActionButton(
-                backgroundColor: _fabColorAnimation.value,
-                onPressed: () {
-                  _transitionController2.forward();
-                  Timer(const Duration(milliseconds: 500), () {
-                    Navigator.pushNamed(context, '/pulseCheck');
-                  });
-                  Timer(
-                    const Duration(milliseconds: 1000),
-                    () => _transitionController2.reverse(),
-                  );
-                },
-                child: Icon(
-                  Icons.notifications,
-                  size: _fabScaleAnimation.value * 0.5,
-                ),
-              ),
-            ),
-            animation: _fabColorAnimation,
-          ),
-          floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
         ),
       ),
     );
@@ -309,7 +275,6 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
 
   @override
   void dispose() {
-    _fabController.dispose();
     _transitionController1.dispose();
     _transitionController2.dispose();
     super.dispose();

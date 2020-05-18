@@ -1,5 +1,6 @@
 // Dummy data to simulate the workflow of the app till the backend is ready.
 
+import 'package:habituals/models/memo.dart';
 import 'package:habituals/models/nudge_chart_66days.dart';
 import 'package:habituals/models/nudge_chart_7days.dart';
 
@@ -294,4 +295,51 @@ List<NudgeWellBeingGraph> dummyNudgeWellBeingGraph = [
   NudgeWellBeingGraph(dayCount: 64, score: 4.6),
   NudgeWellBeingGraph(dayCount: 65, score: 4.4),
   NudgeWellBeingGraph(dayCount: 66, score: 4),
+];
+
+List<Memo> dummyMemos = [
+  Memo(
+    title: 'Meeting at 10 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data:
+        'Security patch to be released on 1st June. Prepare detailed report of previous update.',
+  ),
+  Memo(
+    title: 'Presentation at 9 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data: 'Impact of globalization on Indian Economy.',
+  ),
+  Memo(
+    title: 'Meeting at 10 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data:
+        'Security patch to be released on 1st June. Prepare detailed report of previous update.',
+  ),
+  Memo(
+    title: 'Presentation at 9 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data: 'Impact of globalization on Indian Economy.',
+  ),
+  Memo(
+    title: 'Meeting at 10 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data:
+        'Security patch to be released on 1st June. Prepare detailed report of previous update.',
+  ),
+  Memo(
+    title: 'Presentation at 9 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data: 'Impact of globalization on Indian Economy.',
+  ),
+  Memo(
+    title: 'Meeting at 10 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data:
+        'Security patch to be released on 1st June. Prepare detailed report of previous update.',
+  ),
+  Memo(
+    title: 'Presentation at 9 AM',
+    date: DateTime.now().subtract(const Duration(days: 1)),
+    data: 'Impact of globalization on Indian Economy.',
+  ),
 ];

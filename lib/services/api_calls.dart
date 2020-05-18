@@ -183,3 +183,7 @@ getNudges({@required String emailAddress}) {
       dummyLineChart66Days.where((line) => line.status == 'skipped').toList();
   lineWellBeing66Days = dummyNudgeWellBeingGraph;
 }
+
+getMemos() {
+  memos = dummyMemos;
+}

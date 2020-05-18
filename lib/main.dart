@@ -2,8 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:habituals/screens/well_being_pulse_check.dart';
 
+import './screens/memos.dart';
 import './screens/404_screen.dart';
 import './screens/login_screen.dart';
 import './screens/audit_screen.dart';
@@ -19,11 +19,13 @@ import './screens/well_being_wall.dart';
 import './screens/well_being_audit.dart';
 import './screens/well_being_nudges.dart';
 import './screens/instruction_screen.dart';
+import './screens/privacy_policy_tos.dart';
 import './screens/well_being_journey.dart';
 import './resources/screen_transition.dart';
 import './screens/achievements_queries.dart';
 import './screens/relationship_queries.dart';
 import './screens/create_account_screen.dart';
+import './screens/well_being_pulse_check.dart';
 import './screens/personal_growth_queries.dart';
 import './screens/display_selection_screen.dart';
 
@@ -57,6 +59,7 @@ class HabitualApp extends StatelessWidget {
         '/login': (context) => LoginScreen(),
         '/loading': (context) => LoadingScreen(),
         '/instruction': (context) => InstructionScreen(),
+        '/privacyPolicyTOS': (context) => PrivacyPolicyTOS(),
         '/createAccount': (context) => CreateAccountScreen(),
       },
       onUnknownRoute: (settings) => PageRouteBuilder(
@@ -71,6 +74,16 @@ class HabitualApp extends StatelessWidget {
                   FadeTransition(
                 opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
                 child: WellBeingAudit(),
+              ),
+              transitionDuration: const Duration(milliseconds: 250),
+            );
+            break; 
+             case "/memos":
+            page = PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) =>
+                  FadeTransition(
+                opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                child: Memos(),
               ),
               transitionDuration: const Duration(milliseconds: 250),
             );

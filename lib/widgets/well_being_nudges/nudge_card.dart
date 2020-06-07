@@ -2,17 +2,17 @@
 
 import 'package:flutter/material.dart';
 
-import 'package:habituals/models/nudge.dart';
-
-import '../../resources/realtime_data.dart';
+import '../../models/nudge.dart';
+import '../../resources/constants.dart';
+import '../../screens/nudge_expanded.dart';
 
 class NudgeCard extends StatelessWidget {
-  final Nudge nudge1temp;
+  final Nudge nudge;
   final String imageUrl;
   final String buttonText;
 
   NudgeCard({
-    @required this.nudge1temp,
+    @required this.nudge,
     this.imageUrl,
     this.buttonText,
   });
@@ -34,9 +34,7 @@ class NudgeCard extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Text(
-                buttonText == null
-                    ? nudge1temp.nudge
-                    : 'Create your own nudge1temp',
+                buttonText == null ? nudge.nudge : 'Create your own nudge',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
@@ -48,20 +46,28 @@ class NudgeCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: RaisedButton(
-              color: const Color(0xFFC6D7C4),
+              color: color_accent,
               onPressed: () {
                 if (buttonText == null) {
-                  nudge = nudge1temp;
-                  Navigator.pushNamed(
+                  Navigator.push(
                     context,
-                    '/nudgeExpanded',
+                    PageRouteBuilder(
+                      pageBuilder: (context, animation, secondaryAnimation) =>
+                          FadeTransition(
+                        opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                        child: NudgeExpanded(
+                          nudge: nudge,
+                        ),
+                      ),
+                      transitionDuration: const Duration(milliseconds: 750),
+                    ),
                   );
                 } else
                   Navigator.pushNamed(context, '/createNudge');
               },
               child: Text(
                 buttonText == null
-                    ? nudge1temp.status.compareTo('not completed') == 0
+                    ? nudge.status.compareTo('not completed') == 0
                         ? 'to be done'
                         : 'to be done'
                     : buttonText,

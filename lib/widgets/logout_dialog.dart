@@ -1,7 +1,6 @@
-import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 
-Future<bool> exitDialog({@required BuildContext context}) {
+Future<bool> logoutDialog({@required BuildContext context}) {
   return showCupertinoDialog(
     barrierDismissible: true,
     context: context,
@@ -13,13 +12,13 @@ Future<bool> exitDialog({@required BuildContext context}) {
         ),
       ),
       content: Text(
-        'Do you want exit Habituals?',
+        'Do you want logout from Habituals?',
         style: TextStyle(color: CupertinoColors.black.withOpacity(0.54)),
       ),
       actions: <Widget>[
         CupertinoDialogAction(
           onPressed: () =>
-              SystemChannels.platform.invokeMethod('SystemNavigator.pop'),
+              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false),
           isDefaultAction: true,
           textStyle: const TextStyle(
             color: CupertinoColors.systemPink,

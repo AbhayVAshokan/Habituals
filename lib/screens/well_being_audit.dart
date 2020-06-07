@@ -6,6 +6,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../widgets/exit_dialog.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
@@ -73,6 +74,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
         'questions': bodyQuestions,
         'instructions':
             'The Well-Being Dimension \"Body\" is about physical fitness. When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
+        'color': color_body,
       },
       {
         'category': 'MIND',
@@ -81,6 +83,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
         'questions': mindQuestions,
         'instructions':
             'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
+        'color': color_mind,
       },
       {
         'category': 'RELATIONSHIPS',
@@ -89,6 +92,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
         'questions': relationshipQuestions,
         'instructions':
             'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
+        'color': color_relationship,
       },
       {
         'category': 'ACHIEVEMENTS',
@@ -97,6 +101,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
         'questions': achievementQuestions,
         'instructions':
             'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
+        'color': color_achievement,
       },
       {
         'category': 'PERSONAL DEVELOPMENT',
@@ -105,6 +110,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
         'questions': personalGrowthQuestions,
         'instructions':
             'This info is not provided (DUMMY DATA) When you get enough sleep, eat & drink well, exercise and take breaks regularly, your energy level is usually quite high',
+        'color': color_personal_development,
       },
     ];
 
@@ -206,8 +212,12 @@ class _WellBeingAuditState extends State<WellBeingAudit>
                                       shape: BoxShape.circle,
                                     ),
                                   ),
-                                  const Text(
-                                    'Hey there! Check out your Well-Being Scores.',
+                                  Expanded(
+                                    child: FittedBox(
+                                      child: const Text(
+                                        'Hey there! Check out your Well-Being Scores.',
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -215,7 +225,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
                             Stack(
                               children: [
                                 Container(
-                                  color: Colors.yellow[300],
+                                  color: color_header_background,
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 15.0,
@@ -250,7 +260,7 @@ class _WellBeingAuditState extends State<WellBeingAudit>
                             AnimatedContainer(
                               duration: const Duration(milliseconds: 400),
                               curve: Curves.decelerate,
-                              color: Colors.yellow[300],
+                              color: color_header_background,
                               height: _containerHeight,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(

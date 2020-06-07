@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 
-import '../widgets/nudges/category_card.dart';
+import '../widgets/well_being_nudges/category_card.dart';
 
 class WellBeingNudgesToday extends StatelessWidget {
   final List<Map<String, dynamic>> categories;

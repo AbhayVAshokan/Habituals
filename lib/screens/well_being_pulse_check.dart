@@ -1,11 +1,11 @@
-// Set of 5 questions on body.
+// Set of 5 questions asked twice every week to track the well-being of the user.
 
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
 
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
 import '../widgets/query_screens/custom_checkbox.dart';
@@ -85,7 +85,7 @@ class _WellBeingPulseCheckState extends State<WellBeingPulseCheck> {
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: const Color(0xFFf5ec76),
+                    color: color_header_background,
                   ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -231,31 +231,14 @@ class _WellBeingPulseCheckState extends State<WellBeingPulseCheck> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
-        body: Stack(
-          children: [
-            PageView.builder(
-              itemBuilder: (context, index) => questionPage(
-                question: wellBeingPulseCheckQuestions[index],
-                index: index,
-                mediaQuery: mediaQuery,
-              ),
-              itemCount: wellBeingPulseCheckQuestions.length,
-              controller: pageController,
-            ),
-            Positioned(
-              bottom: 10.0,
-              right: 30,
-              child: ScrollingPageIndicator(
-                dotColor: Colors.grey[400],
-                dotSelectedColor: const Color(0xFFb80d57),
-                dotSize: 6,
-                dotSelectedSize: 12,
-                dotSpacing: 15,
-                controller: pageController,
-                itemCount: wellBeingPulseCheckQuestions.length,
-              ),
-            )
-          ],
+        body: PageView.builder(
+          itemBuilder: (context, index) => questionPage(
+            question: wellBeingPulseCheckQuestions[index],
+            index: index,
+            mediaQuery: mediaQuery,
+          ),
+          itemCount: wellBeingPulseCheckQuestions.length,
+          controller: pageController,
         ),
         bottomNavigationBar: myBottomNavbar(
           context: context,

@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../../screens/audit_screen.dart';
 
@@ -51,97 +52,124 @@ class CategoryCard extends StatelessWidget {
           style: DefaultTextStyle.of(toHeroContext).style,
           child: toHeroContext.widget,
         ),
-        child: Stack(
-          children: [
-            Container(
-              width: min(mediaQuery.size.width * 0.9, 800),
-              height: cardHeight - 10,
-              color: Color(0xFFC6D7C4),
-              margin: const EdgeInsets.only(
-                bottom: 5.0,
-                top: 10.0,
-                right: 10.0,
-              ),
-              alignment: Alignment.center,
-              child: LayoutBuilder(
-                builder: (context, constraints) => Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Stack(
-                      alignment: Alignment.centerLeft,
-                      children: [
-                        CustomPaint(
-                          size: Size(
-                            min(constraints.maxHeight, 60.0),
-                            min(constraints.maxHeight, 60.0),
-                          ),
-                          painter: DrawTriangleShape(),
+        child: Card(
+          elevation: 10.0,
+          margin: const EdgeInsets.only(
+            bottom: 5.0,
+            top: 10.0,
+            right: 10.0,
+          ),
+          child: Container(
+            width: min(mediaQuery.size.width * 0.9, 800),
+            height: cardHeight - 10,
+            color: const Color(0xffe3e6f0),
+            alignment: Alignment.center,
+            child: LayoutBuilder(
+              builder: (context, constraints) => Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Stack(
+                    alignment: Alignment.centerLeft,
+                    children: [
+                      CustomPaint(
+                        child: Container(
+                          height: constraints.maxHeight,
+                          width: constraints.maxHeight * 0.75,
                         ),
-                        Image.asset(
-                          categoryData['imageUrl'],
-                          height: min(37, constraints.maxHeight * 2 / 3),
-                          width: min(37, constraints.maxHeight * 2 / 3),
-                          fit: BoxFit.cover,
+                        painter: DrawTriangleShape(
+                          triangleColor: categoryData['color'],
+                        ),
+                      ),
+                      Image.asset(
+                        categoryData['imageUrl'],
+                        height: min(37, constraints.maxHeight),
+                        width: min(37, constraints.maxHeight),
+                        fit: BoxFit.cover,
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: constraints.maxWidth * 0.5,
+                    child: AutoSizeText(
+                      categoryData['category'],
+                      maxLines: 2,
+                      style: const TextStyle(
+                        fontSize: 18.0,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                      vertical: 5.0,
+                      horizontal: 15.0,
+                    ),
+                    width: min(constraints.maxHeight, 60.0),
+                    height: min(constraints.maxHeight, 60.0),
+                    padding: const EdgeInsets.all(5.0),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      border: Border.all(
+                        width: 2.0,
+                        color: average(categoryData['data']) < 2.5
+                            ? Colors.red
+                            : Colors.white,
+                      ),
+                    ),
+                    child: Column(
+                      children: [
+                        Expanded(
+                          child: LayoutBuilder(
+                            builder: (context, constraints) => Container(
+                              height: constraints.maxHeight,
+                              width: constraints.maxHeight,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20.0),
+                                border: Border.all(
+                                  color: average(categoryData['data']) < 2.5
+                                      ? Colors.red[400]
+                                      : Color(0x00000000),
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: average(categoryData['data']) < 2.5
+                                  ? FittedBox(
+                                      child: Text(
+                                        '!',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.red,
+                                        ),
+                                      ),
+                                    )
+                                  : FittedBox(
+                                      child: Icon(
+                                        Icons.thumb_up,
+                                        color: Colors.green,
+                                      ),
+                                    ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
+                          child: FittedBox(
+                            child: Text(
+                              average(categoryData['data']).toString(),
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ),
                       ],
                     ),
-                    SizedBox(
-                      width: constraints.maxWidth - 200,
-                      child: Text(
-                        categoryData['category'],
-                        style: const TextStyle(
-                          fontSize: 18.0,
-                        ),
-                      ),
-                    ),
-                    Container(
-                      color: Colors.white,
-                      margin: const EdgeInsets.symmetric(
-                        vertical: 5.0,
-                        horizontal: 15.0,
-                      ),
-                      width: min(constraints.maxHeight, 60.0),
-                      height: min(constraints.maxHeight, 60.0),
-                      alignment: Alignment.center,
-                      child: Text(
-                        average(categoryData['data']).toString(),
-                        style: TextStyle(
-                          fontSize: 25.0,
-                          fontWeight: average(categoryData['data']) < 2.5
-                              ? FontWeight.bold
-                              : FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-            Positioned(
-              right: 3.0,
-              top: 3.0,
-              child: Container(
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    color: average(categoryData['data']) < 2.5
-                        ? Colors.red[200]
-                        : Color(0xFF8DAC9E),
-                    width: 2.0,
-                  ),
-                ),
-                child: average(categoryData['data']) < 2.5
-                    ? Icon(
-                        Icons.thumb_down,
-                        color: Colors.red[900],
-                      )
-                    : Icon(
-                        Icons.thumb_up,
-                        color: Colors.green,
-                      ),
-              ),
-            )
-          ],
+          ),
         ),
       ),
     );
@@ -150,28 +178,25 @@ class CategoryCard extends StatelessWidget {
 
 // Class to draw a triangle.
 class DrawTriangleShape extends CustomPainter {
-  Paint painter;
-
-  DrawTriangleShape() {
-    painter = Paint()
-      ..color = const Color(0xFF8DAC9D)
-      ..style = PaintingStyle.fill;
-  }
+  final Color triangleColor;
+  DrawTriangleShape({
+    @required this.triangleColor,
+  });
 
   @override
   void paint(Canvas canvas, Size size) {
-    var path = Path();
+    Paint painter = Paint()
+      ..color = triangleColor
+      ..style = PaintingStyle.fill;
 
-    path.moveTo(0, 0);
-    path.lineTo(0, size.height);
-    path.lineTo(size.height, size.width / 2);
-    path.close();
+    var path = Path()
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height / 2)
+      ..close();
 
     canvas.drawPath(path, painter);
   }
 
   @override
-  bool shouldRepaint(CustomPainter oldDelegate) {
-    return false;
-  }
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

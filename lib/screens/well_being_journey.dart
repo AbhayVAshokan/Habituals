@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../widgets/my_appbar.dart';
 import '../widgets/my_tabbar.dart';
 import '../widgets/exit_dialog.dart';
+import '../resources/constants.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -147,7 +148,7 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
                                 child: Stack(
                                   children: [
                                     Container(
-                                      color: Colors.yellow[300],
+                                      color: color_header_background,
                                       width: isLargeScreen
                                           ? 800
                                           : mediaQuery.size.width * 0.9,
@@ -186,7 +187,7 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
                               AnimatedContainer(
                                 duration: const Duration(milliseconds: 400),
                                 curve: Curves.decelerate,
-                                color: Colors.yellow[300],
+                                color: color_header_background,
                                 height: _containerHeight,
                                 alignment: Alignment.center,
                                 padding: const EdgeInsets.symmetric(

@@ -4,6 +4,8 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import './logout_dialog.dart';
+import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 
 class MenuDropDown extends StatelessWidget {
@@ -22,6 +24,10 @@ class MenuDropDown extends StatelessWidget {
     {
       'text': 'Well-Being Journey',
       'screen': '/journey',
+    },
+    {
+      'text': 'Well-Being Wall',
+      'screen': '/wall',
     },
     {
       'text': 'Your Memos',
@@ -47,28 +53,32 @@ class MenuDropDown extends StatelessWidget {
       curve: Curves.decelerate,
       width: isLargeScreen ? 200 : 130,
       height: menuBarHeight,
-      color: const Color(0xFF8DAC9D),
+      color: color_menu_background,
       child: Padding(
         padding: const EdgeInsets.only(top: 20.0),
         child: ListView.builder(
           itemCount: menuItems.length,
           itemBuilder: (context, index) => GestureDetector(
             onTap: () {
-              animationController.forward();
-              Timer(
-                const Duration(milliseconds: 500),
-                () => Navigator.pushReplacementNamed(
-                    context, menuItems[index]['screen']),
-              );
+              if (menuItems[index]['text'] == 'Logout')
+                logoutDialog(context: context);
+              else {
+                animationController.forward();
+                Timer(
+                  const Duration(milliseconds: 500),
+                  () => Navigator.pushReplacementNamed(
+                      context, menuItems[index]['screen']),
+                );
+              }
             },
             child: Container(
               height: isLargeScreen ? 50 : 35.0,
               width: isLargeScreen ? 200 : 175,
               decoration: BoxDecoration(
-                color: const Color(0xFFC6D7C3),
+                color: color_accent,
                 border: Border(
                   left: BorderSide(
-                    color: Color(0xFF4C7160),
+                    color: color_primary,
                     width: 5.0,
                   ),
                 ),

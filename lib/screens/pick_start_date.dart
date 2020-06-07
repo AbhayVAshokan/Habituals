@@ -1,10 +1,13 @@
 // Pick the start date for the journey of 66 days to track well being.
 
+import 'dart:async';
 import 'dart:math';
 
+import 'package:flutter/cupertino.dart';
+import 'package:habituals/screens/welcome_screen.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:some_calendar/some_calendar.dart';
 
 import '../widgets/my_appbar.dart';
 import '../resources/realtime_data.dart';
@@ -16,13 +19,58 @@ class PickStartDate extends StatefulWidget {
 }
 
 class _PickStartDateState extends State<PickStartDate> {
+  // Function to display custom calendar
+  showCalendar() {
+    showCupertinoDialog(
+      context: context,
+      builder: (_) => SomeCalendar(
+        primaryColor: Color(0xff5833A5),
+        mode: SomeMode.Single,
+        labels: new Labels(
+          dialogDone: 'Select',
+          dialogCancel: 'Cancel',
+        ),
+        isWithoutDialog: false,
+        selectedDate: startingDate,
+        scrollDirection: Axis.horizontal,
+        startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
+        lastDate: DateTime(
+          DateTime.now().year + 1,
+          (DateTime.now().add(const Duration(days: 365)).month),
+        ),
+        done: (date) {
+          setState(() {
+            startingDate = date;
+            Timer(
+              const Duration(milliseconds: 500),
+              () => Navigator.push(
+                context,
+                PageRouteBuilder(
+                  pageBuilder: (context, animation, secondaryAnimation) =>
+                      FadeTransition(
+                    opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
+                    child: WelcomeScreen(),
+                  ),
+                  transitionDuration: const Duration(milliseconds: 250),
+                ),
+              ),
+            );
+          });
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
 
+    GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
     return SafeArea(
       child: Scaffold(
+        key: _scaffoldKey,
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
         body: Center(
@@ -40,31 +88,10 @@ class _PickStartDateState extends State<PickStartDate> {
                 ),
                 const SizedBox(height: 20.0),
                 FlatButton(
-                  onPressed: () {
-                    DatePicker.showDatePicker(context,
-                        theme: DatePickerTheme(
-                          doneStyle: TextStyle(
-                            color: Colors.lightGreen,
-                            fontSize: isLargeScreen ? 22.0 : 18.0,
-                          ),
-                          itemStyle:
-                              TextStyle(fontSize: isLargeScreen ? 22.0 : 18.0),
-                          cancelStyle: TextStyle(
-                              fontSize: isLargeScreen ? 22.0 : 18.0,
-                              color: Colors.red),
-                        ),
-                        showTitleActions: true,
-                        minTime: DateTime.now(),
-                        maxTime: DateTime.now().add(
-                          const Duration(
-                            days: 365,
-                          ),
-                        ), onConfirm: (date) {
-                      setState(() {
-                        startingDate = date;
-                      });
-                    }, currentTime: DateTime.now(), locale: LocaleType.en);
-                  },
+                  padding: const EdgeInsets.all(0.0),
+                  splashColor: Colors.deepPurple[300],
+                  color: Colors.deepPurple[100],
+                  onPressed: showCalendar,
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 30.0,
@@ -85,8 +112,10 @@ class _PickStartDateState extends State<PickStartDate> {
             ),
           ),
         ),
-        bottomNavigationBar:
-            myBottomNavbar(context: context, nextScreen: '/welcome'),
+        bottomNavigationBar: myBottomNavbar(
+          context: context,
+          nextScreen: '/welcome',
+        ),
       ),
     );
   }

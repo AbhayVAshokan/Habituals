@@ -21,7 +21,7 @@ Future registerUser({
     ////////////////////////////// Add code here
     Future function() => null;
     var result = await function();
-    print(result);
+    result.toString();
     signInWithEmailAndPassword(
       email: emailAddress,
       password: password,

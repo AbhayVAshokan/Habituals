@@ -4,6 +4,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 
+import '../resources/constants.dart';
 import '../screens/login_screen.dart';
 import '../screens/create_account_screen.dart';
 
@@ -37,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
       child: Scaffold(
         backgroundColor: Colors.white,
         body: AnimatedOpacity(
-          duration: const Duration(seconds: 1),
+          duration: const Duration(milliseconds: 750),
           curve: Curves.easeIn,
           opacity: _opacity,
           child: SizedBox(
@@ -85,12 +86,12 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(bottom: 20.0),
+                        padding: const EdgeInsets.only(bottom: 5.0),
                         child: Hero(
                           tag: 'signinButton',
                           child: RaisedButton(
                             elevation: 5.0,
-                            color: Color(0xFFC6D7C3),
+                            color:color_accent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -107,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                   child: CreateAccountScreen(),
                                 ),
                                 transitionDuration:
-                                    const Duration(milliseconds: 750),
+                                    const Duration(milliseconds: 500),
                               ),
                             ),
                             child: Container(
@@ -121,7 +122,7 @@ class _SplashScreenState extends State<SplashScreen> {
                               child: Text(
                                 'Sign in',
                                 style: TextStyle(
-                                  fontWeight: FontWeight.bold,
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 20.0,
                                 ),
                               ),
@@ -154,14 +155,18 @@ class _SplashScreenState extends State<SplashScreen> {
                                       child: LoginScreen(),
                                     ),
                                     transitionDuration:
-                                        const Duration(milliseconds: 750),
+                                        const Duration(milliseconds: 500),
                                   ),
                                 ),
-                                child: const Text(
-                                  'Log in',
-                                  style: const TextStyle(
-                                    color: Colors.blue,
-                                    fontWeight: FontWeight.bold,
+                                child: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10.0),
+                                  child: const Text(
+                                    'Log in',
+                                    style: const TextStyle(
+                                      color: Colors.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 ),
                               ),

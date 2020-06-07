@@ -1,12 +1,11 @@
 // Stores the data which is required by different parts of the app at different times during a single execution.
 
 import 'package:flutter/material.dart';
-import 'package:habituals/models/memo.dart';
-import 'package:habituals/models/nudge_chart_66days.dart';
-import 'package:habituals/models/nudge_chart_7days.dart';
 
 import '../models/user.dart';
 import '../models/nudge.dart';
+import '../models/nudge_chart_66days.dart';
+import '../models/nudge_chart_7days.dart';
 
 // Answers the the set of 25 + 1 questions asked at the beginning of the app
 double generalQuery = 2.5;
@@ -103,18 +102,6 @@ List<double> wellBeingPulseQueries = [2.5, 2.5, 2.5, 2.5, 2.5];
 Offset fabOffset;
 
 // Memos
-List<Memo> memos = [];
+List memos = [];
 List myMemos = [];
 bool addingListItem = false;
-
-
-
-
-
-
-
-
-
-
-
-Nudge nudge;

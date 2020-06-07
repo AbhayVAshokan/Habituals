@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import '../widgets/my_tabbar.dart';
 import '../widgets/my_appbar.dart';
 import '../widgets/exit_dialog.dart';
+import '../resources/constants.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -47,7 +48,7 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
       'nudges': achievementNudges,
     },
     {
-      'category': 'personal development',
+      'category': 'personal growth',
       'imageUrl': 'assets/images/nudges_screen/personal_development.png',
       'nudges': personalGrowthNudges,
     },
@@ -175,7 +176,7 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                                 child: Stack(
                                   children: [
                                     Container(
-                                      color: Colors.yellow[300],
+                                      color: color_header_background,
                                       alignment: Alignment.center,
                                       padding: const EdgeInsets.symmetric(
                                         vertical: 15.0,
@@ -212,7 +213,7 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                             AnimatedContainer(
                               duration: const Duration(milliseconds: 400),
                               curve: Curves.decelerate,
-                              color: Colors.yellow[300],
+                              color: color_header_background,
                               height: _containerHeight,
                               alignment: Alignment.center,
                               padding: const EdgeInsets.symmetric(

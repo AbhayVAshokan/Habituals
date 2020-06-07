@@ -3,11 +3,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
+import '../widgets/query_screens/progress_bar.dart';
 import '../widgets/query_screens/custom_checkbox.dart';
 
 class RelationshipQueries extends StatefulWidget {
@@ -77,15 +79,26 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                ProgressBar(
+                  color: color_relationship,
+                  currentIndex: index,
+                  totalIndex: bodyQueries.length,
+                ),
                 Container(
+                  color: color_primary,
                   child: Text(
                     'Relationships ${index + 1}/5',
                     style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                       fontSize: 15.0,
                     ),
                   ),
                   alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5.0,
+                    vertical: 10.0,
+                  ),
                 ),
                 Container(
                   height: 100.0,
@@ -106,12 +119,13 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
                       )
                     ],
                   ),
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 10.0,
-                    vertical: 15.0,
+                    vertical: mediaQuery.size.height * 0.033,
                   ),
-                  child: Text(
+                  child: AutoSizeText(
                     question,
+                    maxLines: 3,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: isLargeScreen ? 25 : 18,
@@ -208,31 +222,14 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
-        body: Stack(
-          children: [
-            PageView.builder(
-              itemBuilder: (context, index) => questionPage(
-                question: relationshipQuestions[index],
-                index: index,
-                mediaQuery: mediaQuery,
-              ),
-              itemCount: relationshipQuestions.length,
-              controller: pageController,
-            ),
-            Positioned(
-              bottom: 10.0,
-              right: 30,
-              child: ScrollingPageIndicator(
-                dotColor: Colors.grey[400],
-                dotSelectedColor: Colors.pink[700],
-                dotSize: 6,
-                dotSelectedSize: 12,
-                dotSpacing: 15,
-                controller: pageController,
-                itemCount: bodyQuestions.length,
-              ),
-            )
-          ],
+        body: PageView.builder(
+          itemBuilder: (context, index) => questionPage(
+            question: relationshipQuestions[index],
+            index: index,
+            mediaQuery: mediaQuery,
+          ),
+          itemCount: relationshipQuestions.length,
+          controller: pageController,
         ),
         bottomNavigationBar: myBottomNavbar(
           context: context,

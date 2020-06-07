@@ -3,6 +3,7 @@
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
+import '../resources/constants.dart';
 import '../widgets/well_being_journey/nudge_chart_66days.dart';
 
 class WellBeingJourney66Days extends StatelessWidget {
@@ -32,7 +33,7 @@ class WellBeingJourney66Days extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               RaisedButton(
-                color: const Color(0xFFC6D7C4),
+                color: color_accent,
                 child: const Text(
                   'Dimension',
                   style: const TextStyle(

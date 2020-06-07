@@ -26,10 +26,13 @@ dependencies:
   intl: ^0.16.1
   http: ^0.12.1
   fluttertoast: ^4.0.1
+  some_calendar: ^1.2.3
+  url_launcher: ^5.4.10
   charts_flutter: ^0.9.0
+  auto_size_text: ^2.1.0
   flutter_markdown: ^0.3.5
-  flutter_datetime_picker: ^1.3.8
-  scrolling_page_indicator: ^0.1.2
+  url_launcher_web: ^0.1.0
+  implicitly_animated_reorderable_list: ^0.2.1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -73,9 +76,12 @@ flutter:
     - family: Raleway
       fonts:
         - asset: assets/fonts/Raleway-Regular.ttf
+        - asset: assets/fonts/Raleway-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Raleway-Bold.ttf
+          weight: 700
     - family: CustomIcons
       fonts:
         - asset: assets/fonts/CustomIcons.ttf
-  #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages

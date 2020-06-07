@@ -3,11 +3,13 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:scrolling_page_indicator/scrolling_page_indicator.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
+import '../widgets/query_screens/progress_bar.dart';
 import '../widgets/query_screens/custom_checkbox.dart';
 
 class PersonalGrowthQueries extends StatefulWidget {
@@ -31,7 +33,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (index == 4) Navigator.pushNamed(context, '/displaySelection');
+    if (index == 4) Navigator.pushNamed(context, '/welcome');
   }
 
   Widget questionPage({
@@ -77,15 +79,26 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
+                ProgressBar(
+                  color: color_personal_development,
+                  currentIndex: index,
+                  totalIndex: bodyQueries.length,
+                ),
                 Container(
+                  color: color_primary,
                   child: Text(
                     'Personal Growth ${index + 1}/5',
                     style: const TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w600,
                       fontSize: 15.0,
                     ),
                   ),
                   alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 5.0,
+                    vertical: 10.0,
+                  ),
                 ),
                 Container(
                   height: 100.0,
@@ -106,12 +119,13 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
                       )
                     ],
                   ),
-                  padding: const EdgeInsets.symmetric(
+                  padding: EdgeInsets.symmetric(
                     horizontal: 10.0,
-                    vertical: 15.0,
+                    vertical: mediaQuery.size.height * 0.033,
                   ),
-                  child: Text(
+                  child: AutoSizeText(
                     question,
+                    maxLines: 3,
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: isLargeScreen ? 25 : 18,
@@ -191,7 +205,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
                           curve: Curves.decelerate,
                         );
                       else
-                        Navigator.pushNamed(context, '/displaySelection');
+                        Navigator.pushNamed(context, '/welcome');
                     },
                   ),
                 )
@@ -208,34 +222,17 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
       child: Scaffold(
         backgroundColor: Colors.white,
         appBar: myAppBar(context: context),
-        body: Stack(
-          children: [
-            PageView.builder(
-              itemBuilder: (context, index) => questionPage(
-                question: personalGrowthQuestions[index],
-                index: index,
-                mediaQuery: mediaQuery,
-              ),
-              itemCount: personalGrowthQuestions.length,
-              controller: pageController,
-            ),
-            Positioned(
-              bottom: 10.0,
-              right: 30,
-              child: ScrollingPageIndicator(
-                dotColor: Colors.grey[400],
-                dotSelectedColor: Colors.green[700],
-                dotSize: 6,
-                dotSelectedSize: 12,
-                dotSpacing: 15,
-                controller: pageController,
-                itemCount: bodyQuestions.length,
-              ),
-            )
-          ],
+        body: PageView.builder(
+          itemBuilder: (context, index) => questionPage(
+            question: personalGrowthQuestions[index],
+            index: index,
+            mediaQuery: mediaQuery,
+          ),
+          itemCount: personalGrowthQuestions.length,
+          controller: pageController,
         ),
         bottomNavigationBar:
-            myBottomNavbar(context: context, nextScreen: '/displaySelection'),
+            myBottomNavbar(context: context, nextScreen: '/welcome'),
       ),
     );
   }

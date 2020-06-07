@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import '../resources/constants.dart';
 
 import '../widgets/my_appbar.dart';
 import '../widgets/menu_dropdown.dart';
@@ -127,8 +128,7 @@ class _AuditScreenState extends State<AuditScreen>
                                               ),
                                             ),
                                           ),
-                                          backgroundColor:
-                                              const Color(0xFF4C7160),
+                                          backgroundColor: color_primary,
                                         ),
                                       ),
                                       SizedBox(
@@ -200,16 +200,16 @@ class _AuditScreenState extends State<AuditScreen>
                       children: [
                         Stack(
                           children: [
-                            Container(
-                              color: const Color(0xFFC6D7C4),
-                              width: min(mediaQuery.size.width * 0.9, 800),
-                              height: 70.0,
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 10.0,
-                              ),
-                              child: Hero(
-                                tag: widget.categoryData['imageUrl'],
+                            Hero(
+                              tag: widget.categoryData['imageUrl'],
+                              child: Container(
+                                color: color_accent,
+                                width: min(mediaQuery.size.width * 0.9, 800),
+                                height: 70.0,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 10.0,
+                                ),
                                 child: Row(
                                   children: [
                                     const SizedBox(width: 5),
@@ -255,7 +255,7 @@ class _AuditScreenState extends State<AuditScreen>
                         AnimatedContainer(
                           duration: const Duration(milliseconds: 400),
                           curve: Curves.decelerate,
-                          color: Color(0xFFC6D7C4),
+                          color: color_accent,
                           width: min(mediaQuery.size.width * 0.9, 800),
                           height: _containerHeight,
                           alignment: Alignment.center,

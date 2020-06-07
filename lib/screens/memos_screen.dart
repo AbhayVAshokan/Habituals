@@ -1,11 +1,13 @@
 // Well Being Audit Screen.
 
 import 'dart:ui';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:implicitly_animated_reorderable_list/transitions.dart';
+import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../widgets/exit_dialog.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
@@ -13,12 +15,13 @@ import '../widgets/memos/memo_card.dart';
 import '../widgets/my_bottom_navbar.dart';
 import '../widgets/my_floating_action_button.dart';
 
-class Memos extends StatefulWidget {
+class MemosScreen extends StatefulWidget {
   @override
-  _MemosState createState() => _MemosState();
+  _MemosScreenState createState() => _MemosScreenState();
 }
 
-class _MemosState extends State<Memos> with TickerProviderStateMixin {
+class _MemosScreenState extends State<MemosScreen>
+    with TickerProviderStateMixin {
   GlobalKey<AnimatedListState> _globalKey = GlobalKey<AnimatedListState>();
   ImageFilter _imageFilter = ImageFilter.blur();
 
@@ -59,45 +62,21 @@ class _MemosState extends State<Memos> with TickerProviderStateMixin {
       end: Colors.white,
     ).animate(_transitionController2);
 
-    for (int i = 0; i < memos.length; i++) {
-      Timer(Duration(milliseconds: 150 * (i + 1)), () {
-        insertIntoList(memo: memos[i]);
-      });
-    }
+    // myMemos = [];
 
-    myMemos = [];
-  }
-
-  insertIntoList({@required memo, int position}) {
-    myMemos.insert(
-      position == null ? myMemos.length : position,
-      memo,
-    );
-    _globalKey.currentState.insertItem(
-        position == null ? myMemos.length - 1 : position,
-        duration: const Duration(milliseconds: 300));
-  }
-
-  deleteFromList() {
-    _globalKey.currentState.removeItem(
-      9,
-      (context, animation) => FadeTransition(
-        opacity: Tween(begin: 1.0, end: 0.0).animate(animation),
-        child: SlideTransition(
-          position: Tween(
-            begin: Offset(0, 0),
-            end: Offset(0, -1),
-          ).animate(animation),
-        ),
-      ),
-      duration: const Duration(seconds: 2),
-    );
-    // myMemos.removeAt(0);
+    // for (int i = 0; i < memos.length; i++) {
+    //   Timer(Duration(milliseconds: 150 * (i + 1)), () {
+    //     myMemos.add(memos[i]);
+    //   });
+    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    print(myMemos);
+    memos.forEach((element) {
+      print(element.id);
+    });
+
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
 
@@ -137,23 +116,21 @@ class _MemosState extends State<Memos> with TickerProviderStateMixin {
                       child: Stack(
                         alignment: Alignment.center,
                         children: [
-                          SizedBox(
+                          Container(
                             width: isLargeScreen
                                 ? 800
                                 : mediaQuery.size.width * 0.9,
                             height: 75.0,
-                            child: Container(
-                              color: Colors.yellow[300],
-                              alignment: Alignment.center,
-                              padding: const EdgeInsets.symmetric(
-                                vertical: 15.0,
-                              ),
-                              child: FittedBox(
-                                child: Text(
-                                  'Your Memos',
-                                  style: const TextStyle(
-                                    fontSize: 27.0,
-                                  ),
+                            color: color_header_background,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 15.0,
+                            ),
+                            child: FittedBox(
+                              child: Text(
+                                'Your Memos',
+                                style: const TextStyle(
+                                  fontSize: 27.0,
                                 ),
                               ),
                             ),
@@ -166,19 +143,18 @@ class _MemosState extends State<Memos> with TickerProviderStateMixin {
                             right: 0.0,
                             bottom: 0.0,
                             child: GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  addingListItem = true;
-                                  insertIntoList(
-                                    memo: Container(),
-                                    position: 0,
-                                  );
-                                });
-                              },
+                              // onTap: () {
+                              //   setState(() {
+                              //     addingListItem = true;
+                              //     myMemos.add(
+                              //       Container(),
+                              //     );
+                              //   });
+                              // },
                               child: Container(
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
-                                  color: const Color(0xFF4C7160),
+                                  color: color_primary,
                                 ),
                                 width: 50.0,
                                 height: 50.0,
@@ -229,38 +205,68 @@ class _MemosState extends State<Memos> with TickerProviderStateMixin {
                           )
                         : Expanded(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(20.0),
+                              borderRadius: BorderRadius.circular(5.0),
                               child: Container(
                                 width: isLargeScreen
                                     ? 800
                                     : mediaQuery.size.width * 0.9,
-                                color: Colors.blueGrey[50],
+                                color: Colors.grey[100],
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child: AnimatedList(
-                                        key: _globalKey,
-                                        itemBuilder:
-                                            (context, index, animation) =>
-                                                FadeTransition(
-                                          opacity: Tween(begin: 0.0, end: 1.0)
-                                              .animate(animation),
-                                          child: SlideTransition(
-                                            position: animation.drive(
-                                              Tween(
-                                                begin: Offset(-0.25, 0),
-                                                end: Offset(0, 0),
-                                              ),
-                                            ),
-                                            child: MemoCard(
-                                              memo: myMemos[index],
-                                              insertIntoList: insertIntoList,
-                                              deleteFromList: deleteFromList,
-                                            ),
-                                          ),
-                                        ),
-                                      ),
+                                      child: ImplicitlyAnimatedReorderableList(
+                                          key: _globalKey,
+                                          items: memos,
+                                          areItemsTheSame: (oldItem, newItem) =>
+                                              oldItem.id == newItem.id,
+                                          onReorderFinished:
+                                              (item, from, to, newItems) {
+                                            // Remember to update the underlying data when the list has been
+                                            // reordered.
+                                            setState(() {
+                                              memos
+                                                ..clear()
+                                                ..addAll(newItems);
+                                            });
+                                          },
+                                          itemBuilder: (context, itemAnimation,
+                                              item, index) {
+                                            // Each item must be wrapped in a Reorderable widget.
+                                            return Reorderable(
+                                              // Each item must have an unique key.
+                                              key: ValueKey(item),
+                                              // The animation of the Reorderable builder can be used to
+                                              // change to appearance of the item between dragged and normal
+                                              // state. For example to add elevation when the item is being dragged.
+                                              // This is not to be confused with the animation of the itemBuilder.
+                                              // Implicit animations (like AnimatedContainer) are sadly not yet supported.
+                                              builder: (context, dragAnimation,
+                                                  inDrag) {
+                                                final t = dragAnimation.value;
+                                                final elevation =
+                                                    lerpDouble(0, 8, t);
+                                                final color = Color.lerp(
+                                                    Colors.white,
+                                                    Colors.white
+                                                        .withOpacity(0.8),
+                                                    t);
+
+                                                return SizeFadeTransition(
+                                                  sizeFraction: 0.7,
+                                                  curve: Curves.easeInOut,
+                                                  animation: itemAnimation,
+                                                  child: MemoCard(
+                                                    index: index,
+                                                    rebuildScreen: () {
+                                                      setState(() {});
+                                                    },
+                                                    memo: memos[index],
+                                                  ),
+                                                );
+                                              },
+                                            );
+                                          }),
                                     ),
                                   ],
                                 ),

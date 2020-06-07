@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
+import '../resources/constants.dart';
 import '../widgets/login_signup_screens/custom_textfield.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -54,8 +55,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                     validation: (value) {
                       if (!RegExp(
-                              r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
-                          .hasMatch(value)) {
+                        r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
+                      ).hasMatch(value)) {
                         return 'Enter valid email address';
                       }
                       return null;
@@ -84,7 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     tag: 'signinButton',
                     child: RaisedButton(
                       elevation: 5.0,
-                      color: Color(0xFFC6D7C3),
+                      color: color_accent,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
@@ -115,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text(
                           'Log in',
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                             fontSize: 20.0,
                           ),
                         ),

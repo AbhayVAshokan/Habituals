@@ -1,11 +1,12 @@
 // User registration/create account screen.
 
 import 'package:flutter/material.dart';
-import 'package:habituals/screens/privacy_policy_tos.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import './login_screen.dart';
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
+import '../resources/constants.dart';
 import '../widgets/login_signup_screens/custom_textfield.dart';
 
 class CreateAccountScreen extends StatefulWidget {
@@ -27,6 +28,20 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _positionFocus = FocusNode();
   final FocusNode _emailAddressFocus = FocusNode();
+
+  Future<void> _launchSiteInApp(String url) async {
+    if (await canLaunch(url)) {
+      await launch(
+        url,
+        forceSafariVC: true,
+        forceWebView: true,
+        enableJavaScript: true,
+        headers: <String, String>{'my_header_key': 'my_header_value'},
+      );
+    } else {
+      throw 'Could not launch: $url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,8 +82,8 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         },
                         validation: (value) {
                           if (!RegExp(
-                                  r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$")
-                              .hasMatch(value)) {
+                            r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
+                          ).hasMatch(value)) {
                             return 'Enter valid email address';
                           }
                           return null;
@@ -198,6 +213,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 height: 20.0,
                                 child: Checkbox(
                                   value: _checkBox,
+                                  activeColor: Colors.green,
                                   onChanged: (value) {
                                     setState(() {
                                       _checkBox = value;
@@ -220,7 +236,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         tag: 'signinButton',
                         child: RaisedButton(
                           elevation: 5.0,
-                          color: Color(0xFFC6D7C3),
+                          color: color_accent,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(10.0),
                           ),
@@ -261,7 +277,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                             child: Text(
                               'Create Account',
                               style: TextStyle(
-                                fontWeight: FontWeight.bold,
+                                fontWeight: FontWeight.w600,
                                 fontSize: 20.0,
                               ),
                             ),
@@ -278,30 +294,15 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 const Text(
                                   'By clicking \'Create Account\' you agree to our ',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          FadeTransition(
-                                        opacity: Tween(
-                                          begin: 0.0,
-                                          end: 1.0,
-                                        ).animate(animation),
-                                        child: PrivacyPolicyTOS(
-                                          initialIndex: 0,
-                                        ),
-                                      ),
-                                      transitionDuration:
-                                          const Duration(milliseconds: 500),
-                                    ),
+                                  onTap: () => _launchSiteInApp(
+                                    terms_of_service_url,
                                   ),
                                   child: const Text(
-                                    'TOS ',
+                                    'TOS',
                                     style: const TextStyle(
                                       color: Colors.blue,
                                       decoration: TextDecoration.underline,
@@ -310,29 +311,14 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                   ),
                                 ),
                                 const Text(
-                                  'and  ',
+                                  ' and  ',
                                   style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                                 GestureDetector(
-                                  onTap: () => Navigator.push(
-                                    context,
-                                    PageRouteBuilder(
-                                      pageBuilder: (context, animation,
-                                              secondaryAnimation) =>
-                                          FadeTransition(
-                                        opacity: Tween(
-                                          begin: 0.0,
-                                          end: 1.0,
-                                        ).animate(animation),
-                                        child: PrivacyPolicyTOS(
-                                          initialIndex: 1,
-                                        ),
-                                      ),
-                                      transitionDuration:
-                                          const Duration(milliseconds: 500),
-                                    ),
+                                  onTap: () => _launchSiteInApp(
+                                    privacy_policy_url,
                                   ),
                                   child: const Text(
                                     'Privacy Policy',

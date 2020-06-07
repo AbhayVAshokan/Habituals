@@ -10,7 +10,7 @@ class ScreenSlideTransition extends PageRouteBuilder {
     @required this.screen,
     this.direction = 'left',
   }) : super(
-            transitionDuration: Duration(milliseconds: 300),
+            transitionDuration: Duration(milliseconds: 250),
             transitionsBuilder:
                 (context, animation, secondaryAnimation, child) {
               return SlideTransition(

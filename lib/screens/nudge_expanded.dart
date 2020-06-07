@@ -8,15 +8,17 @@ import 'package:flutter/material.dart';
 
 import '../models/nudge.dart';
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
-import '../widgets/nudges/skip_nudge.dart';
 import '../widgets/my_floating_action_button.dart';
-
-import '../resources/realtime_data.dart';
+import '../widgets/well_being_nudges/skip_nudge.dart';
 
 class NudgeExpanded extends StatefulWidget {
+  final Nudge nudge;
+  NudgeExpanded({this.nudge});
+
   @override
   _NudgeExpandedState createState() => _NudgeExpandedState();
 }
@@ -91,20 +93,20 @@ class _NudgeExpandedState extends State<NudgeExpanded>
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLargeScreen = mediaQuery.size.width >= 900;
-///////////////////////////////////////modal route
-    if (nudge.type == 'body')
+    if (widget.nudge.type == 'body')
       imageUrl = 'assets/images/nudges_screen/body.png';
-    else if (nudge.type == 'mind')
+    else if (widget.nudge.type == 'mind')
       imageUrl = 'assets/images/nudges_screen/mind.png';
-    else if (nudge.type == 'relationships')
+    else if (widget.nudge.type == 'relationships')
       imageUrl = 'assets/images/nudges_screen/relationships.png';
-    else if (nudge.type == 'achievements')
+    else if (widget.nudge.type == 'achievements')
       imageUrl = 'assets/images/nudges_screen/achievements.png';
     else
       imageUrl = 'assets/images/nudges_screen/personal_development.png';
 
     return SafeArea(
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: myAppBar(
           context: context,
           menuButton: true,
@@ -122,300 +124,341 @@ class _NudgeExpandedState extends State<NudgeExpanded>
           },
         ),
         body: Center(
-          child: Stack(
-            children: [
-              SizedBox(
-                width: isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Container(
-                      height: 20.0,
-                      width: min(mediaQuery.size.width * 0.9, 800),
-                      color: Colors.amber,
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Text('notification bar (to be developed)'),
-                    ),
-                    Container(
-                      color: const Color(0xFF4C7160),
-                      margin: const EdgeInsets.symmetric(vertical: 5.0),
-                      padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                      height: isLargeScreen ? 80 : 60,
-                      width: min(mediaQuery.size.width * 0.9, 800),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Image.asset(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                            height: 50.0,
-                            width: 50.0,
-                          ),
-                          Container(
-                            width: min(mediaQuery.size.width * 0.9, 800) - 70,
-                            alignment: Alignment.center,
-                            child: Text(
-                              '${nudge.type.toUpperCase()}',
-                              style: const TextStyle(
-                                fontSize: 25.0,
-                                color: Colors.white,
+          child: SizedBox(
+            width: mediaQuery.size.width,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: isLargeScreen ? 800 : mediaQuery.size.width * 0.9,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 20.0,
+                        margin: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Row(
+                          children: [
+                            Container(
+                              height: 15.0,
+                              width: 15.0,
+                              alignment: Alignment.center,
+                              margin: const EdgeInsets.only(right: 5.0),
+                              child: const Text('1'),
+                              decoration: BoxDecoration(
+                                color: Colors.red,
+                                shape: BoxShape.circle,
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            DateFormat('dd|MM|yyyy').format(nudge.date),
-                          ),
-                          SizedBox(
-                            height: 30.0,
-                            child: RaisedButton(
-                              color: const Color(0xFFC6D7C4),
-                              onPressed: () {},
-                              child: Text(
-                                nudge.status.compareTo('not completed') == 0
-                                    ? 'to be done'
-                                    : 'to be done',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
+                            Expanded(
+                              child: FittedBox(
+                                child: const Text(
+                                  'Make sure you tick your nudges to see your progress :-)',
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: Stack(
-                        children: [
-                          Column(
-                            children: [
-                              Expanded(
-                                flex: 2,
-                                child: Container(
-                                  width: isLargeScreen
-                                      ? 800
-                                      : mediaQuery.size.width * 0.9,
-                                  height: double.infinity,
-                                  alignment: Alignment.topLeft,
-                                  padding: const EdgeInsets.all(20.0),
-                                  color: const Color(0xFF8DAC9D),
-                                  child: Text(
-                                    nudge.nudge,
-                                    style: const TextStyle(
-                                      fontSize: 15.0,
-                                    ),
-                                  ),
+                      Hero(
+                        tag:
+                            '${widget.nudge.type.toUpperCase() == 'PERSONALGROWTH' ? 'PERSONAL GROWTH' : widget.nudge.type.toUpperCase()}_container',
+                        child: Container(
+                          color: color_primary,
+                          margin: const EdgeInsets.symmetric(vertical: 5.0),
+                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                          height: isLargeScreen ? 80 : 60,
+                          width: min(mediaQuery.size.width * 0.9, 800),
+                          child: SizedBox(
+                            width: isLargeScreen
+                                ? 800
+                                : mediaQuery.size.width * 0.9,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Image.asset(
+                                  imageUrl,
+                                  fit: BoxFit.cover,
+                                  height: 50.0,
+                                  width: 50.0,
                                 ),
-                              ),
-                              const SizedBox(height: 5),
-                              Expanded(
-                                flex: 5,
-                                child: Container(
-                                  width: isLargeScreen
-                                      ? 800
-                                      : mediaQuery.size.width * 0.9,
-                                  height: double.infinity,
-                                  alignment: Alignment.topLeft,
-                                  padding: const EdgeInsets.all(20.0),
-                                  color: const Color(0xFF8DAC9D),
-                                  child: RichText(
-                                    text: TextSpan(
-                                      text: 'NUDGE BOOSTER',
-                                      children: [
-                                        TextSpan(
-                                          text: '\n\n' + nudge.nudgeBooster,
-                                          style: const TextStyle(
-                                            fontSize: 15.0,
-                                          ),
-                                        ),
-                                      ],
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      widget.nudge.type.toUpperCase() ==
+                                              'PERSONALGROWTH'
+                                          ? 'PERSONAL GROWTH'
+                                          : '${widget.nudge.type.toUpperCase()}',
                                       style: const TextStyle(
-                                          fontSize: 18.0,
-                                          color: Colors.black,
-                                          fontFamily: 'Raleway'),
+                                        fontSize: 25.0,
+                                        color: Colors.white,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              const SizedBox(height: 10.0),
-                            ],
-                          ),
-                          BackdropFilter(
-                            filter: _imageFilter,
-                            child: Container(
-                              width: mediaQuery.size.width,
-                              height: mediaQuery.size.height,
-                              color: const Color(0x00000000),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                    SizedBox(
-                      height: 110.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(
-                            height: 30.0,
-                            child: RaisedButton(
-                              color: const Color(0xFFC6D7C4),
-                              onPressed: () {},
-                              child: const Text(
-                                'Daily',
-                                style: const TextStyle(
-                                  fontSize: 12.0,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              DateFormat('dd|MM|yyyy')
+                                  .format(widget.nudge.date),
+                            ),
+                            SizedBox(
+                              height: 30.0,
+                              child: RaisedButton(
+                                color: color_accent,
+                                onPressed: () {},
+                                child: Text(
+                                  widget.nudge.status
+                                              .compareTo('not completed') ==
+                                          0
+                                      ? 'to be done'
+                                      : 'to be done',
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Divider(
-                            color: Colors.black,
-                            thickness: 1.0,
-                          ),
-                          Stack(
-                            children: [
-                              Row(
-                                children: checkBoxes
-                                    .map(
-                                      (day) => Column(
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Stack(
+                          children: [
+                            Column(
+                              children: [
+                                Expanded(
+                                  flex: 2,
+                                  child: Container(
+                                    width: isLargeScreen
+                                        ? 800
+                                        : mediaQuery.size.width * 0.9,
+                                    height: double.infinity,
+                                    alignment: Alignment.topLeft,
+                                    padding: const EdgeInsets.all(20.0),
+                                    color: color_primary,
+                                    child: Text(
+                                      widget.nudge.nudge,
+                                      style: const TextStyle(
+                                        fontSize: 15.0,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 5),
+                                Expanded(
+                                  flex: 5,
+                                  child: Container(
+                                    width: isLargeScreen
+                                        ? 800
+                                        : mediaQuery.size.width * 0.9,
+                                    height: double.infinity,
+                                    alignment: Alignment.topLeft,
+                                    padding: const EdgeInsets.all(20.0),
+                                    color: color_primary,
+                                    child: RichText(
+                                      text: TextSpan(
+                                        text: 'NUDGE BOOSTER',
                                         children: [
-                                          Text(
-                                            day['day'],
+                                          TextSpan(
+                                            text: '\n\n' +
+                                                widget.nudge.nudgeBooster,
                                             style: const TextStyle(
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                          SizedBox(
-                                            width: isLargeScreen ? 55 : 35,
-                                            child: Checkbox(
-                                              value: day['selected'],
-                                              onChanged: (value) {
-                                                setState(() {
-                                                  day['selected'] =
-                                                      !day['selected'];
-                                                });
-                                              },
+                                              fontSize: 15.0,
                                             ),
                                           ),
                                         ],
-                                      ),
-                                    )
-                                    .toList(),
-                              ),
-                              Positioned(
-                                bottom: 0.0,
-                                right: 0.0,
-                                child: GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      _skipOpacity =
-                                          _skipOpacity == 0.0 ? 1.0 : 0.0;
-                                    });
-                                  },
-                                  child: Column(
-                                    children: [
-                                      const Text(
-                                        'Skip\nNudge',
-                                        textAlign: TextAlign.center,
                                         style: const TextStyle(
-                                          fontSize: 12.0,
-                                        ),
+                                            fontSize: 18.0,
+                                            color: Colors.black,
+                                            fontFamily: 'Raleway'),
                                       ),
-                                      Container(
-                                        margin: const EdgeInsets.all(2.5),
-                                        decoration: BoxDecoration(
-                                          border: Border.all(),
-                                        ),
-                                        child: Icon(
-                                          Icons.subdirectory_arrow_right,
-                                        ),
-                                      ),
-                                    ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                              ],
+                            ),
+                            BackdropFilter(
+                              filter: _imageFilter,
+                              child: Container(
+                                width: mediaQuery.size.width,
+                                height: mediaQuery.size.height,
+                                color: const Color(0x00000000),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 110.0,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              height: 30.0,
+                              child: RaisedButton(
+                                color: color_accent,
+                                onPressed: () {},
+                                child: const Text(
+                                  'Daily',
+                                  style: const TextStyle(
+                                    fontSize: 12.0,
                                   ),
                                 ),
                               ),
-                            ],
-                          ),
-                        ],
+                            ),
+                            Divider(
+                              color: Colors.black,
+                              thickness: 1.0,
+                            ),
+                            Stack(
+                              children: [
+                                Row(
+                                  children: checkBoxes
+                                      .map(
+                                        (day) => Column(
+                                          children: [
+                                            Text(
+                                              day['day'],
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: isLargeScreen ? 55 : 35,
+                                              child: Checkbox(
+                                                value: day['selected'],
+                                                onChanged: (value) {
+                                                  setState(() {
+                                                    day['selected'] =
+                                                        !day['selected'];
+                                                  });
+                                                },
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                      .toList(),
+                                ),
+                                Positioned(
+                                  bottom: 0.0,
+                                  right: 0.0,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      setState(() {
+                                        _skipOpacity =
+                                            _skipOpacity == 0.0 ? 1.0 : 0.0;
+                                      });
+                                    },
+                                    child: Column(
+                                      children: [
+                                        const Text(
+                                          'Skip\nNudge',
+                                          textAlign: TextAlign.center,
+                                          style: const TextStyle(
+                                            fontSize: 12.0,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: const EdgeInsets.all(2.5),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(),
+                                          ),
+                                          child: Icon(
+                                            Icons.subdirectory_arrow_right,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Positioned(
-                bottom: 35.0,
-                right: 7.0,
-                child: SkipNudge(
-                  containerOpacity: _skipOpacity,
-                  rebuildScreen: () {
-                    setState(() {
-                      _skipOpacity = 0.0;
-                    });
-                  },
-                ),
-              ),
-              Positioned(
-                top: 0.0,
-                right: 0.0,
-                child: MenuDropDown(
-                  animationController: _transitionController1,
-                ),
-              ),
-              Positioned(
-                top: fabOffset.dy,
-                left: fabOffset.dx,
-                child: AnimatedBuilder(
-                  builder: (context, child) => Transform.scale(
-                    scale: _scaleAnimation1.value,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _colorAnimation1.value,
-                        shape: BoxShape.circle,
-                      ),
-                      height: 1.0,
-                      width: 1.0,
-                    ),
+                    ],
                   ),
-                  animation: _colorAnimation1,
                 ),
-              ),
-              Positioned(
-                bottom: 0.0,
-                right: 0.0,
-                child: AnimatedBuilder(
-                  builder: (context, child) => Transform.scale(
-                    scale: _scaleAnimation2.value,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: _colorAnimation2.value,
-                        shape: BoxShape.circle,
-                      ),
-                      height: 1.0,
-                      width: 1.0,
-                    ),
+                Positioned(
+                  bottom: 35.0,
+                  right: 7.0,
+                  child: SkipNudge(
+                    containerOpacity: _skipOpacity,
+                    rebuildScreen: () {
+                      setState(() {
+                        _skipOpacity = 0.0;
+                      });
+                    },
                   ),
-                  animation: _colorAnimation2,
                 ),
-              ),
-              Positioned(
-                top: fabOffset.dy,
-                left: fabOffset.dx,
-                child: MyFloatingActionButton(
-                  rebuildScreen: () {
-                    setState(() {});
-                  },
-                  transitionAnimationController: _transitionController2,
+                Positioned(
+                  top: 0.0,
+                  right: 0.0,
+                  child: MenuDropDown(
+                    animationController: _transitionController1,
+                  ),
                 ),
-              ),
-            ],
+                Positioned(
+                  top: fabOffset.dy,
+                  left: fabOffset.dx,
+                  child: AnimatedBuilder(
+                    builder: (context, child) => Transform.scale(
+                      scale: _scaleAnimation1.value,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _colorAnimation1.value,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 1.0,
+                        width: 1.0,
+                      ),
+                    ),
+                    animation: _colorAnimation1,
+                  ),
+                ),
+                Positioned(
+                  bottom: 0.0,
+                  right: 0.0,
+                  child: AnimatedBuilder(
+                    builder: (context, child) => Transform.scale(
+                      scale: _scaleAnimation2.value,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: _colorAnimation2.value,
+                          shape: BoxShape.circle,
+                        ),
+                        height: 1.0,
+                        width: 1.0,
+                      ),
+                    ),
+                    animation: _colorAnimation2,
+                  ),
+                ),
+                Positioned(
+                  top: fabOffset.dy,
+                  left: fabOffset.dx,
+                  child: MyFloatingActionButton(
+                    rebuildScreen: () {
+                      setState(() {});
+                    },
+                    transitionAnimationController: _transitionController2,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
         bottomNavigationBar: myBottomNavbar(

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
+import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 import '../screens/well_being_audit.dart';
 
@@ -31,7 +32,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 1000),
+      const Duration(milliseconds: 500),
       () {
         setState(() {
           _welcomeOpacity = 1;
@@ -40,7 +41,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 2000),
+      const Duration(milliseconds: 1500),
       () {
         setState(() {
           _firstLineOpacity = 1;
@@ -49,7 +50,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 3000),
+      const Duration(milliseconds: 2500),
       () {
         setState(() {
           _secondLineOpacity = 1;
@@ -58,7 +59,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 4000),
+      const Duration(milliseconds: 3500),
       () {
         setState(() {
           _containerOpacity = 1;
@@ -150,7 +151,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 duration: const Duration(milliseconds: 500),
                 opacity: _containerOpacity,
                 child: Container(
-                  color: Color(0xFFC6D7C3),
+                  color: color_accent,
                   width: min(mediaQuery.size.width * 0.9, 600),
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10.0,

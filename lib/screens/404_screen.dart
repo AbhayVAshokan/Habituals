@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 
+import '../resources/constants.dart';
+
 class Screen404 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -44,11 +46,11 @@ class Screen404 extends StatelessWidget {
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             fontSize: 30.0,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                         RaisedButton(
-                          color: const Color(0xFF4C7160),
+                          color: color_primary,
                           onPressed: () {
                             if (Navigator.canPop(context))
                               Navigator.pop(context);
@@ -58,7 +60,7 @@ class Screen404 extends StatelessWidget {
                           child: const Text(
                             'Go Back Instead',
                             style: const TextStyle(
-                              fontWeight: FontWeight.bold,
+                              fontWeight: FontWeight.w600,
                               color: Colors.white,
                               fontSize: 20.0,
                             ),

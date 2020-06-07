@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../models/nudge.dart';
+import '../../resources/constants.dart';
 
 class NudgeCard extends StatelessWidget {
   final Nudge nudge;
@@ -18,7 +19,7 @@ class NudgeCard extends StatelessWidget {
             height: 40.0,
             width: 40.0,
             decoration: BoxDecoration(
-              color: const Color(0xFFC6D7C4),
+              color: color_accent,
               border: Border.all(width: 2.0),
             ),
             child: Icon(

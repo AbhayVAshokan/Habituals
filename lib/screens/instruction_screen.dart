@@ -5,6 +5,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../widgets/my_appbar.dart';
+import '../resources/constants.dart';
 import '../widgets/my_bottom_navbar.dart';
 
 class InstructionScreen extends StatefulWidget {
@@ -19,13 +20,16 @@ class _InstructionScreenState extends State<InstructionScreen> {
   @override
   void initState() {
     Timer(
-      const Duration(milliseconds: 100),
+      const Duration(milliseconds: 500),
       () {
         setState(() {
           _textOpacity = 1;
         });
         Timer(
-          const Duration(seconds: 3),
+          const Duration(
+            seconds: 1,
+            milliseconds: 500,
+          ),
           () {
             setState(() {
               _buttonOpacity = 1;
@@ -53,7 +57,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               AnimatedOpacity(
-                duration: const Duration(seconds: 2),
+                duration: const Duration(seconds: 1),
                 opacity: _textOpacity,
                 child: RichText(
                   textAlign: TextAlign.center,
@@ -69,7 +73,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                     style: TextStyle(
                       fontSize: isLargeScreen ? 28.0 : 20.0,
                       color: Colors.black,
-                      letterSpacing: 0.4,
+                      letterSpacing: 0.2,
                       fontFamily: 'Raleway',
                       fontWeight: FontWeight.w600,
                     ),
@@ -82,7 +86,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                 opacity: _buttonOpacity,
                 child: RaisedButton(
                   elevation: 5.0,
-                  color: Color(0xFFC6D7C3),
+                  color: color_accent,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10.0),
                   ),
@@ -98,7 +102,7 @@ class _InstructionScreenState extends State<InstructionScreen> {
                     child: Text(
                       'Easy! Let\'s do this.',
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
                         fontSize: 16.0,
                       ),
                     ),

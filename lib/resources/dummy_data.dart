@@ -9,6 +9,7 @@ import '../models/nudge.dart';
 
 List<Nudge> dummyBodyNudges = [
   Nudge(
+    id: '1',
     date: DateTime.now().add(Duration(days: 1)),
     type: 'body',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -17,6 +18,7 @@ List<Nudge> dummyBodyNudges = [
     status: 'completed',
   ),
   Nudge(
+    id: '2',
     date: DateTime.now(),
     type: 'body',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -25,6 +27,7 @@ List<Nudge> dummyBodyNudges = [
     status: 'not completed',
   ),
   Nudge(
+    id: '3',
     date: DateTime.now().add(Duration(days: 2)),
     type: 'body',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -36,6 +39,7 @@ List<Nudge> dummyBodyNudges = [
 
 List<Nudge> dummyMindNudges = [
   Nudge(
+    id: '4',
     date: DateTime.now(),
     type: 'mind',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -44,6 +48,7 @@ List<Nudge> dummyMindNudges = [
     status: 'not completed',
   ),
   Nudge(
+    id: '5',
     date: DateTime.now().add(Duration(days: 1)),
     type: 'mind',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -55,6 +60,7 @@ List<Nudge> dummyMindNudges = [
 
 List<Nudge> dummyRelationshipNudges = [
   Nudge(
+    id: '6',
     date: DateTime.now(),
     type: 'relationships',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -63,6 +69,7 @@ List<Nudge> dummyRelationshipNudges = [
     status: 'skipped',
   ),
   Nudge(
+    id: '7',
     date: DateTime.now().add(Duration(days: 1)),
     type: 'relationships',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -74,6 +81,7 @@ List<Nudge> dummyRelationshipNudges = [
 
 List<Nudge> dummyAchievementNudges = [
   Nudge(
+    id: '8',
     date: DateTime.now(),
     type: 'achievements',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -82,6 +90,7 @@ List<Nudge> dummyAchievementNudges = [
     status: 'completed',
   ),
   Nudge(
+    id: '9',
     date: DateTime.now().add(Duration(days: 1)),
     type: 'achievements',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -93,6 +102,7 @@ List<Nudge> dummyAchievementNudges = [
 
 List<Nudge> dummyPersonalGrowthNudges = [
   Nudge(
+    id: '10',
     date: DateTime.now(),
     type: 'personalGrowth',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -101,6 +111,7 @@ List<Nudge> dummyPersonalGrowthNudges = [
     status: 'skipped',
   ),
   Nudge(
+    id: '11',
     date: DateTime.now().add(Duration(days: 1)),
     type: 'personalGrowth',
     nudge: 'Take a 10 minutes walk in the fresh air',
@@ -299,45 +310,53 @@ List<NudgeWellBeingGraph> dummyNudgeWellBeingGraph = [
 
 List<Memo> dummyMemos = [
   Memo(
+    id: '1',
     title: 'Meeting at 10 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data:
         'Security patch to be released on 1st June. Prepare detailed report of previous update.',
   ),
   Memo(
+    id: '2',
     title: 'Presentation at 9 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data: 'Impact of globalization on Indian Economy.',
   ),
   Memo(
+    id: '3',
     title: 'Meeting at 10 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data:
         'Security patch to be released on 1st June. Prepare detailed report of previous update.',
   ),
   Memo(
+    id: '4',
     title: 'Presentation at 9 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data: 'Impact of globalization on Indian Economy.',
   ),
   Memo(
+    id: '5',
     title: 'Meeting at 10 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data:
         'Security patch to be released on 1st June. Prepare detailed report of previous update.',
   ),
   Memo(
+    id: '6',
     title: 'Presentation at 9 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data: 'Impact of globalization on Indian Economy.',
   ),
   Memo(
+    id: '7',
     title: 'Meeting at 10 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data:
         'Security patch to be released on 1st June. Prepare detailed report of previous update.',
   ),
   Memo(
+    id: '8',
     title: 'Presentation at 9 AM',
     date: DateTime.now().subtract(const Duration(days: 1)),
     data: 'Impact of globalization on Indian Economy.',

@@ -1,6 +1,8 @@
 // Sign in with email and password.
 
 import 'package:flutter/material.dart';
+import 'package:habituals/resources/dummy_data.dart';
+import 'package:habituals/resources/realtime_data.dart';
 
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
@@ -95,9 +97,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           return;
                         else {
                           LoginScreen._loginScreenFormKey.currentState.save();
-                          var status = await signInWithEmailAndPassword(
+                          var response = await signInWithEmailAndPassword(
                               email: _emailAddress, password: _password);
-                          if (status != null) {
+                          if (response != null) {
+                            currentUser = dummyUser;
                             Navigator.pushNamedAndRemoveUntil(
                               context,
                               '/instruction',

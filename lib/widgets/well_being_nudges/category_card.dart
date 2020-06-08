@@ -75,6 +75,7 @@ class CategoryCard extends StatelessWidget {
             itemBuilder: (context, index) => NudgeCard(
               nudge: pendingNudges[index],
               imageUrl: category['imageUrl'],
+              color: category['color'],
             ),
             itemCount: pendingNudges.length,
           ),
@@ -82,6 +83,7 @@ class CategoryCard extends StatelessWidget {
         NudgeCard(
           nudge: null,
           buttonText: 'Status',
+          color: category['color'],
         ),
         const SizedBox(height: 20.0),
       ],

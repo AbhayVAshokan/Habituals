@@ -85,7 +85,7 @@ class _AchievementsQueriesState extends State<AchievementsQueries> {
                   totalIndex: bodyQueries.length,
                 ),
                 Container(
-                  color: color_primary,
+                  color: color_menu_background,
                   child: Text(
                     'Achievements ${index + 1}/5',
                     style: const TextStyle(

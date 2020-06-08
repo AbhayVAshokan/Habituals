@@ -85,7 +85,7 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
                   totalIndex: bodyQueries.length,
                 ),
                 Container(
-                  color: color_primary,
+                  color: color_menu_background,
                   child: Text(
                     'Relationships ${index + 1}/5',
                     style: const TextStyle(

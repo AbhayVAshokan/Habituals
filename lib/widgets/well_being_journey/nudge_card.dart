@@ -9,6 +9,14 @@ class NudgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Color color;
+    if (nudge.status == 'not completed')
+      color = color_body;
+    else if (nudge.status == 'completed')
+      color = color_body.withOpacity(0.5);
+    else
+      color = Colors.blue[500];
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.5),
       child: Row(
@@ -19,7 +27,7 @@ class NudgeCard extends StatelessWidget {
             height: 40.0,
             width: 40.0,
             decoration: BoxDecoration(
-              color: color_accent,
+              color: color,
               border: Border.all(width: 2.0),
             ),
             child: Icon(

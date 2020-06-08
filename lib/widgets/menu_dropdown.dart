@@ -26,10 +26,6 @@ class MenuDropDown extends StatelessWidget {
       'screen': '/journey',
     },
     {
-      'text': 'Well-Being Wall',
-      'screen': '/wall',
-    },
-    {
       'text': 'Your Memos',
       'screen': '/memos',
     },

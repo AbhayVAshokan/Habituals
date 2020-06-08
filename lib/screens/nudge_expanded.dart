@@ -3,6 +3,7 @@
 import 'dart:ui';
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,12 @@ import '../widgets/well_being_nudges/skip_nudge.dart';
 
 class NudgeExpanded extends StatefulWidget {
   final Nudge nudge;
-  NudgeExpanded({this.nudge});
+  final Color color;
+
+  NudgeExpanded({
+    this.nudge,
+    this.color,
+  });
 
   @override
   _NudgeExpandedState createState() => _NudgeExpandedState();
@@ -94,15 +100,15 @@ class _NudgeExpandedState extends State<NudgeExpanded>
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLargeScreen = mediaQuery.size.width >= 900;
     if (widget.nudge.type == 'body')
-      imageUrl = 'assets/images/nudges_screen/body.png';
+      imageUrl = 'assets/images/home_screen/body.png';
     else if (widget.nudge.type == 'mind')
-      imageUrl = 'assets/images/nudges_screen/mind.png';
+      imageUrl = 'assets/images/home_screen/mind.png';
     else if (widget.nudge.type == 'relationships')
-      imageUrl = 'assets/images/nudges_screen/relationships.png';
+      imageUrl = 'assets/images/home_screen/relationships.png';
     else if (widget.nudge.type == 'achievements')
-      imageUrl = 'assets/images/nudges_screen/achievements.png';
+      imageUrl = 'assets/images/home_screen/achievements.png';
     else
-      imageUrl = 'assets/images/nudges_screen/personal_development.png';
+      imageUrl = 'assets/images/home_screen/personal_development.png';
 
     return SafeArea(
       child: Scaffold(
@@ -164,41 +170,59 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                         tag:
                             '${widget.nudge.type.toUpperCase() == 'PERSONALGROWTH' ? 'PERSONAL GROWTH' : widget.nudge.type.toUpperCase()}_container',
                         child: Container(
-                          color: color_primary,
+                          color: widget.color.withOpacity(0.33),
                           margin: const EdgeInsets.symmetric(vertical: 5.0),
-                          padding: const EdgeInsets.symmetric(horizontal: 5.0),
                           height: isLargeScreen ? 80 : 60,
                           width: min(mediaQuery.size.width * 0.9, 800),
                           child: SizedBox(
                             width: isLargeScreen
                                 ? 800
                                 : mediaQuery.size.width * 0.9,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Image.asset(
-                                  imageUrl,
-                                  fit: BoxFit.cover,
-                                  height: 50.0,
-                                  width: 50.0,
-                                ),
-                                Expanded(
-                                  child: FittedBox(
-                                    fit: BoxFit.scaleDown,
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      widget.nudge.type.toUpperCase() ==
-                                              'PERSONALGROWTH'
-                                          ? 'PERSONAL GROWTH'
-                                          : '${widget.nudge.type.toUpperCase()}',
-                                      style: const TextStyle(
-                                        fontSize: 25.0,
-                                        color: Colors.white,
+                            child: LayoutBuilder(
+                              builder: (context, constraints) => Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Stack(
+                                    alignment: Alignment.centerLeft,
+                                    children: [
+                                      CustomPaint(
+                                        child: Container(
+                                          height: constraints.maxHeight,
+                                          width: constraints.maxHeight * 0.75,
+                                        ),
+                                        painter: DrawTriangleShape(
+                                          triangleColor: widget.color,
+                                        ),
+                                      ),
+                                      Image.asset(
+                                        imageUrl,
+                                        height: min(
+                                            35, constraints.maxHeight * 0.95),
+                                        width: min(
+                                            35, constraints.maxHeight * 0.95),
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ],
+                                  ),
+                                  Expanded(
+                                    child: FittedBox(
+                                      fit: BoxFit.scaleDown,
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        widget.nudge.type.toUpperCase() ==
+                                                'PERSONALGROWTH'
+                                            ? 'PERSONAL GROWTH'
+                                            : '${widget.nudge.type.toUpperCase()}',
+                                        style: const TextStyle(
+                                          fontSize: 27.0,
+                                          letterSpacing: 0.5,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -207,31 +231,78 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                         padding: const EdgeInsets.symmetric(vertical: 5.0),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              DateFormat('dd|MM|yyyy')
-                                  .format(widget.nudge.date),
-                            ),
-                            SizedBox(
-                              height: 30.0,
-                              child: RaisedButton(
-                                color: color_accent,
-                                onPressed: () {},
-                                child: Text(
-                                  widget.nudge.status
-                                              .compareTo('not completed') ==
-                                          0
-                                      ? 'to be done'
-                                      : 'to be done',
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  DateFormat('dd|MM|yyyy')
+                                      .format(widget.nudge.date),
                                   style: const TextStyle(
-                                    fontSize: 12.0,
+                                    fontSize: 16.0,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
-                              ),
+                                const SizedBox(height: 5.0),
+                                SizedBox(
+                                  height: 26.0,
+                                  width: 100.0,
+                                  child: RaisedButton(
+                                    color: Colors.blue,
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Daily',
+                                      style: const TextStyle(
+                                        fontSize: 14.0,
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: 26.0,
+                                  width: 100.0,
+                                  child: RaisedButton(
+                                    color: widget.color,
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Done',
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 10.0),
+                                SizedBox(
+                                  height: 26.0,
+                                  width: 100.0,
+                                  child: RaisedButton(
+                                    color: widget.color,
+                                    onPressed: () {},
+                                    child: Text(
+                                      'Skip',
+                                      style: const TextStyle(
+                                        fontSize: 12.0,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ],
                         ),
                       ),
+                      const SizedBox(height: 15.0),
                       Expanded(
                         child: Stack(
                           children: [
@@ -246,11 +317,13 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                                     height: double.infinity,
                                     alignment: Alignment.topLeft,
                                     padding: const EdgeInsets.all(20.0),
-                                    color: color_primary,
-                                    child: Text(
+                                    color: color_card_background,
+                                    child: AutoSizeText(
                                       widget.nudge.nudge,
                                       style: const TextStyle(
-                                        fontSize: 15.0,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.5,
                                       ),
                                     ),
                                   ),
@@ -264,29 +337,37 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                                         : mediaQuery.size.width * 0.9,
                                     height: double.infinity,
                                     alignment: Alignment.topLeft,
-                                    padding: const EdgeInsets.all(20.0),
-                                    color: color_primary,
-                                    child: RichText(
-                                      text: TextSpan(
-                                        text: 'NUDGE BOOSTER',
-                                        children: [
-                                          TextSpan(
-                                            text: '\n\n' +
-                                                widget.nudge.nudgeBooster,
-                                            style: const TextStyle(
-                                              fontSize: 15.0,
-                                            ),
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 20.0,
+                                      vertical: 10.0,
+                                    ),
+                                    color: color_card_background,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          'NUDGE BOOSTER',
+                                          style: TextStyle(
+                                            fontSize: 20.0,
                                           ),
-                                        ],
-                                        style: const TextStyle(
-                                            fontSize: 18.0,
-                                            color: Colors.black,
-                                            fontFamily: 'Raleway'),
-                                      ),
+                                        ),
+                                        const SizedBox(height: 20.0),
+                                        AutoSizeText(
+                                          widget.nudge.nudgeBooster,
+                                          style: const TextStyle(
+                                            fontSize: 15.0,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
                                 ),
                                 const SizedBox(height: 10.0),
+                                const Divider(
+                                  color: Colors.black,
+                                  thickness: 1,
+                                ),
                               ],
                             ),
                             BackdropFilter(
@@ -296,95 +377,6 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                                 height: mediaQuery.size.height,
                                 color: const Color(0x00000000),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 110.0,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              height: 30.0,
-                              child: RaisedButton(
-                                color: color_accent,
-                                onPressed: () {},
-                                child: const Text(
-                                  'Daily',
-                                  style: const TextStyle(
-                                    fontSize: 12.0,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Divider(
-                              color: Colors.black,
-                              thickness: 1.0,
-                            ),
-                            Stack(
-                              children: [
-                                Row(
-                                  children: checkBoxes
-                                      .map(
-                                        (day) => Column(
-                                          children: [
-                                            Text(
-                                              day['day'],
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                              ),
-                                            ),
-                                            SizedBox(
-                                              width: isLargeScreen ? 55 : 35,
-                                              child: Checkbox(
-                                                value: day['selected'],
-                                                onChanged: (value) {
-                                                  setState(() {
-                                                    day['selected'] =
-                                                        !day['selected'];
-                                                  });
-                                                },
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      )
-                                      .toList(),
-                                ),
-                                Positioned(
-                                  bottom: 0.0,
-                                  right: 0.0,
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      setState(() {
-                                        _skipOpacity =
-                                            _skipOpacity == 0.0 ? 1.0 : 0.0;
-                                      });
-                                    },
-                                    child: Column(
-                                      children: [
-                                        const Text(
-                                          'Skip\nNudge',
-                                          textAlign: TextAlign.center,
-                                          style: const TextStyle(
-                                            fontSize: 12.0,
-                                          ),
-                                        ),
-                                        Container(
-                                          margin: const EdgeInsets.all(2.5),
-                                          decoration: BoxDecoration(
-                                            border: Border.all(),
-                                          ),
-                                          child: Icon(
-                                            Icons.subdirectory_arrow_right,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
-                              ],
                             ),
                           ],
                         ),
@@ -475,4 +467,29 @@ class _NudgeExpandedState extends State<NudgeExpanded>
     _transitionController2.dispose();
     super.dispose();
   }
+}
+
+// Class to draw a triangle.
+class DrawTriangleShape extends CustomPainter {
+  final Color triangleColor;
+  DrawTriangleShape({
+    @required this.triangleColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint painter = Paint()
+      ..color = triangleColor
+      ..style = PaintingStyle.fill;
+
+    var path = Path()
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height / 2)
+      ..close();
+
+    canvas.drawPath(path, painter);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

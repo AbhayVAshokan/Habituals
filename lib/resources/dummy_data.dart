@@ -123,7 +123,7 @@ List<Nudge> dummyPersonalGrowthNudges = [
 
 User dummyUser = User(
   emailAddress: 'abhayvashokan@gmail.com',
-  createdAt: DateTime.now(),
+  startDate: DateTime.now(),
   age: 20,
   gender: 'male',
   mailingList: false,

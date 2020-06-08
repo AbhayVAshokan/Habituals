@@ -7,17 +7,16 @@ class User {
   final String gender;
   final String position;
   final bool mailingList;
-  final DateTime createdAt;
+  final DateTime startDate;
   final String emailAddress;
 
   User({
-    @required this.createdAt,
     @required this.emailAddress,
     this.age,
     this.gender,
     this.position,
+    this.startDate,
     this.mailingList,
-
   });
 
   // Function to convert json file obtained as response to API call into User class object
@@ -26,7 +25,7 @@ class User {
       age: jsonFile['age'],
       gender: jsonFile['gender'],
       position: jsonFile['position'],
-      createdAt: jsonFile['createdAt'],
+      startDate: jsonFile['createdAt'],
       mailingList: jsonFile['mailingList'],
       emailAddress: jsonFile['emailAddress'],
     );

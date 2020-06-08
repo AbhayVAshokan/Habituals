@@ -3,6 +3,7 @@
 import 'dart:ui';
 import 'dart:math';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import '../resources/constants.dart';
 
@@ -26,12 +27,14 @@ class _AuditScreenState extends State<AuditScreen>
   ImageFilter _imageFilter = ImageFilter.blur();
 
   AnimationController _transitionController1;
-  Animation<double> _scaleAnimation1;
-  Animation _colorAnimation1;
+  AnimationController _colorAnimationController;
 
   AnimationController _transitionController2;
-  Animation _scaleAnimation2;
+  Animation<double> _scaleAnimation1;
+  Animation<double> _scaleAnimation2;
+  Animation _colorAnimation1;
   Animation _colorAnimation2;
+  Animation _colorAnimation3;
 
   @override
   initState() {
@@ -61,6 +64,15 @@ class _AuditScreenState extends State<AuditScreen>
       begin: Colors.yellow,
       end: Colors.white,
     ).animate(_transitionController2);
+
+    // Instruction dropdown animation
+    _colorAnimationController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _colorAnimation3 =
+        ColorTween(begin: const Color(0xffe3e6f0), end: Colors.white)
+            .animate(_colorAnimationController);
   }
 
   @override
@@ -192,6 +204,9 @@ class _AuditScreenState extends State<AuditScreen>
                                 sigmaX: 2.0,
                                 sigmaY: 2.0,
                               );
+                        _containerHeight == 130
+                            ? _colorAnimationController.reverse()
+                            : _colorAnimationController.forward();
                         _containerHeight =
                             _containerHeight == 130 ? 0.0 : 130.0;
                       });
@@ -202,35 +217,57 @@ class _AuditScreenState extends State<AuditScreen>
                           children: [
                             Hero(
                               tag: widget.categoryData['imageUrl'],
-                              child: Container(
-                                color: color_accent,
-                                width: min(mediaQuery.size.width * 0.9, 800),
-                                height: 70.0,
-                                alignment: Alignment.center,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 10.0,
-                                ),
-                                child: Row(
-                                  children: [
-                                    const SizedBox(width: 5),
-                                    Image.asset(
-                                      widget.categoryData['imageUrl'],
-                                      height: 50.0,
-                                    ),
-                                    Expanded(
-                                      child: Center(
-                                        child: FittedBox(
-                                          child: Text(
-                                            '${widget.categoryData['category'].toUpperCase() + ' AUDIT'}',
-                                            style: const TextStyle(
-                                              fontSize: 25.0,
+                              child: AnimatedBuilder(
+                                animation: _colorAnimation3,
+                                builder: (context, child) => Container(
+                                  color: _colorAnimation3.value,
+                                  width: min(mediaQuery.size.width * 0.9, 800),
+                                  height: 70.0,
+                                  alignment: Alignment.center,
+                                  child: LayoutBuilder(
+                                    builder: (context, constraints) => Row(
+                                      children: [
+                                        Stack(
+                                          alignment: Alignment.centerLeft,
+                                          children: [
+                                            CustomPaint(
+                                              child: Container(
+                                                height: constraints.maxHeight,
+                                                width: constraints.maxHeight *
+                                                    0.75,
+                                              ),
+                                              painter: DrawTriangleShape(
+                                                triangleColor: widget
+                                                    .categoryData['color'],
+                                              ),
+                                            ),
+                                            Image.asset(
+                                              widget.categoryData['imageUrl'],
+                                              height: min(
+                                                  37, constraints.maxHeight),
+                                              width: min(
+                                                  37, constraints.maxHeight),
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ],
+                                        ),
+                                        Expanded(
+                                          child: Center(
+                                            child: AutoSizeText(
+                                              '${widget.categoryData['category'].toUpperCase() + ' AUDIT'}',
+                                              textAlign: TextAlign.center,
+                                              style: const TextStyle(
+                                                fontSize: 25.0,
+                                                fontWeight: FontWeight.w600,
+                                                letterSpacing: 0.75,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                      ),
+                                        SizedBox(width: 50.0),
+                                      ],
                                     ),
-                                    SizedBox(width: 50.0),
-                                  ],
+                                  ),
                                 ),
                               ),
                             ),
@@ -252,22 +289,25 @@ class _AuditScreenState extends State<AuditScreen>
                           ],
                         ),
                         const SizedBox(height: 5.0),
-                        AnimatedContainer(
-                          duration: const Duration(milliseconds: 400),
-                          curve: Curves.decelerate,
-                          color: color_accent,
-                          width: min(mediaQuery.size.width * 0.9, 800),
-                          height: _containerHeight,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 15.0,
-                            horizontal: 20.0,
-                          ),
-                          child: Text(
-                            widget.categoryData['instructions'],
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontSize: 15.0,
+                        AnimatedBuilder(
+                          animation: _colorAnimation3,
+                          builder: (context, child) => AnimatedContainer(
+                            duration: const Duration(milliseconds: 400),
+                            curve: Curves.decelerate,
+                            color: _colorAnimation3.value,
+                            width: min(mediaQuery.size.width * 0.9, 800),
+                            height: _containerHeight,
+                            alignment: Alignment.center,
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 15.0,
+                              horizontal: 20.0,
+                            ),
+                            child: Text(
+                              widget.categoryData['instructions'],
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 15.0,
+                              ),
                             ),
                           ),
                         ),
@@ -346,4 +386,29 @@ class _AuditScreenState extends State<AuditScreen>
     _transitionController2.dispose();
     super.dispose();
   }
+}
+
+// Class to draw a triangle.
+class DrawTriangleShape extends CustomPainter {
+  final Color triangleColor;
+  DrawTriangleShape({
+    @required this.triangleColor,
+  });
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    Paint painter = Paint()
+      ..color = triangleColor
+      ..style = PaintingStyle.fill;
+
+    var path = Path()
+      ..lineTo(0, size.height)
+      ..lineTo(size.width, size.height / 2)
+      ..close();
+
+    canvas.drawPath(path, painter);
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }

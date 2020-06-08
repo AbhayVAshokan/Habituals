@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:habituals/resources/constants.dart';
 
 import '../../screens/audit_screen.dart';
 
@@ -53,7 +54,8 @@ class CategoryCard extends StatelessWidget {
           child: toHeroContext.widget,
         ),
         child: Card(
-          elevation: 10.0,
+          elevation: 5.0,
+          shadowColor: Colors.blueGrey[50],
           margin: const EdgeInsets.only(
             bottom: 5.0,
             top: 10.0,
@@ -62,7 +64,7 @@ class CategoryCard extends StatelessWidget {
           child: Container(
             width: min(mediaQuery.size.width * 0.9, 800),
             height: cardHeight - 10,
-            color: const Color(0xffe3e6f0),
+            color: color_card_background,
             alignment: Alignment.center,
             child: LayoutBuilder(
               builder: (context, constraints) => Row(
@@ -94,7 +96,7 @@ class CategoryCard extends StatelessWidget {
                       categoryData['category'],
                       maxLines: 2,
                       style: const TextStyle(
-                        fontSize: 18.0,
+                        fontSize: 20.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

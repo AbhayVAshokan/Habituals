@@ -1,11 +1,13 @@
 // Set of API calls.
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:habituals/models/nudge_chart_7days.dart';
 
+import '../resources/keys.dart';
 import '../resources/dummy_data.dart';
 import '../resources/realtime_data.dart';
+import '../models/nudge_chart_7days.dart';
 
 // Register a new user into the database.
 Future registerUser({
@@ -26,6 +28,7 @@ Future registerUser({
       email: emailAddress,
       password: password,
     );
+    currentUser = dummyUser;
     return true;
     ////////////////////////////// Add code here
   } catch (e) {
@@ -67,14 +70,22 @@ Future registerUser({
 Future signInWithEmailAndPassword(
     {@required String email, @required String password}) async {
   try {
-    ////////////////////////////// Add code here
-    Future function() => null;
-    var result = await function();
-    print(result);
-    currentUser = dummyUser;
-    return true;
-    ////////////////////////////// Add code here
-
+    print(email);
+    print(password);
+    print(baseUrl + ':' + port + '/user/login');
+    var response = await http.post(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/login'),
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: {
+        'email': email,
+        'password': password,
+      },
+    );
+    print(response);
+    print('hello world');
+    return response;
   } catch (e) {
     ////////////////////////////// Update errors
 

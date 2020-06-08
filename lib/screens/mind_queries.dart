@@ -86,7 +86,7 @@ class _MindQueriesState extends State<MindQueries> {
                   totalIndex: bodyQueries.length,
                 ),
                 Container(
-                  color: color_primary,
+                  color: color_menu_background,
                   child: Text(
                     'Mind ${index + 1}/5',
                     style: const TextStyle(

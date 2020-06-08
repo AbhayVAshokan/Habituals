@@ -29,28 +29,33 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
   List<Map<String, dynamic>> categories = [
     {
       'category': 'body',
-      'imageUrl': 'assets/images/nudges_screen/body.png',
+      'imageUrl': 'assets/images/home_screen/body.png',
       'nudges': bodyNudges,
+      'color': color_body,
     },
     {
       'category': 'mind',
-      'imageUrl': 'assets/images/nudges_screen/mind.png',
+      'imageUrl': 'assets/images/home_screen/mind.png',
       'nudges': mindNudges,
+      'color': color_mind,
     },
     {
       'category': 'relationships',
-      'imageUrl': 'assets/images/nudges_screen/relationships.png',
+      'imageUrl': 'assets/images/home_screen/relationships.png',
       'nudges': relationshipNudges,
+      'color': color_relationship,
     },
     {
       'category': 'achievements',
-      'imageUrl': 'assets/images/nudges_screen/achievements.png',
+      'imageUrl': 'assets/images/home_screen/achievements.png',
       'nudges': achievementNudges,
+      'color': color_achievement,
     },
     {
       'category': 'personal growth',
-      'imageUrl': 'assets/images/nudges_screen/personal_development.png',
+      'imageUrl': 'assets/images/home_screen/personal_development.png',
       'nudges': personalGrowthNudges,
+      'color': color_personal_development,
     },
   ];
 

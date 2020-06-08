@@ -3,16 +3,17 @@
 import 'package:flutter/material.dart';
 
 import '../../models/nudge.dart';
-import '../../resources/constants.dart';
 import '../../screens/nudge_expanded.dart';
 
 class NudgeCard extends StatelessWidget {
   final Nudge nudge;
+  final Color color;
   final String imageUrl;
   final String buttonText;
 
   NudgeCard({
     @required this.nudge,
+    this.color,
     this.imageUrl,
     this.buttonText,
   });
@@ -46,7 +47,7 @@ class NudgeCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(5.0),
             child: RaisedButton(
-              color: color_accent,
+              color: color,
               onPressed: () {
                 if (buttonText == null) {
                   Navigator.push(
@@ -57,6 +58,7 @@ class NudgeCard extends StatelessWidget {
                         opacity: Tween(begin: 0.0, end: 1.0).animate(animation),
                         child: NudgeExpanded(
                           nudge: nudge,
+                          color: color,
                         ),
                       ),
                       transitionDuration: const Duration(milliseconds: 750),
@@ -73,6 +75,7 @@ class NudgeCard extends StatelessWidget {
                     : buttonText,
                 style: const TextStyle(
                   fontSize: 12.0,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
             ),

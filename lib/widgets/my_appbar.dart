@@ -36,7 +36,7 @@ AppBar myAppBar({
                     : MediaQuery.of(context).orientation ==
                             Orientation.landscape
                         ? 345
-                        : 295;
+                        : 255;
                 rebuildScreen();
               },
             )

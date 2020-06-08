@@ -17,4 +17,5 @@ const Color color_mind = const Color(0xfffdcc9b);
 const Color color_body = const Color(0xff9adaef);
 const Color color_achievement = const Color(0xff9ed8d2);
 const Color color_relationship = const Color(0xffebcee3);
+const Color color_card_background = const Color(0xffe3e6f0);
 const Color color_personal_development = const Color(0xfff6f3af);

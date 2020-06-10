@@ -7,7 +7,6 @@ class User {
   final String gender;
   final String position;
   final bool mailingList;
-  final DateTime startDate;
   final String emailAddress;
 
   User({
@@ -15,7 +14,6 @@ class User {
     this.age,
     this.gender,
     this.position,
-    this.startDate,
     this.mailingList,
   });
 
@@ -25,7 +23,6 @@ class User {
       age: jsonFile['age'],
       gender: jsonFile['gender'],
       position: jsonFile['position'],
-      startDate: jsonFile['createdAt'],
       mailingList: jsonFile['mailingList'],
       emailAddress: jsonFile['emailAddress'],
     );

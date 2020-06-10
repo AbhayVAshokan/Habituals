@@ -18,7 +18,7 @@ class CreateAccountScreen extends StatefulWidget {
 class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool _checkBox = true;
 
-  int _age;
+  String _age;
   String _gender;
   String _password;
   String _position;
@@ -255,7 +255,6 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                                 password: _password,
                                 position: _position,
                                 mailingList: _checkBox,
-                                createdAt: DateTime.now(),
                                 emailAddress: _emailAddress,
                               );
                               if (status != null)

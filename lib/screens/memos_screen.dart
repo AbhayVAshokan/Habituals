@@ -1,10 +1,9 @@
 // Well Being Audit Screen.
 
+import 'dart:async';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:implicitly_animated_reorderable_list/transitions.dart';
-import 'package:implicitly_animated_reorderable_list/implicitly_animated_reorderable_list.dart';
 
 import '../widgets/my_appbar.dart';
 import '../resources/constants.dart';
@@ -16,13 +15,13 @@ import '../widgets/my_bottom_navbar.dart';
 import '../widgets/my_floating_action_button.dart';
 
 class MemosScreen extends StatefulWidget {
+  static GlobalKey<AnimatedListState> _memoKey = GlobalKey<AnimatedListState>();
   @override
   _MemosScreenState createState() => _MemosScreenState();
 }
 
 class _MemosScreenState extends State<MemosScreen>
     with TickerProviderStateMixin {
-  GlobalKey<AnimatedListState> _globalKey = GlobalKey<AnimatedListState>();
   ImageFilter _imageFilter = ImageFilter.blur();
 
   AnimationController _transitionController1;
@@ -61,24 +60,20 @@ class _MemosScreenState extends State<MemosScreen>
       begin: Colors.yellow,
       end: Colors.white,
     ).animate(_transitionController2);
-
-    // myMemos = [];
-
-    // for (int i = 0; i < memos.length; i++) {
-    //   Timer(Duration(milliseconds: 150 * (i + 1)), () {
-    //     myMemos.add(memos[i]);
-    //   });
-    // }
   }
 
   @override
   Widget build(BuildContext context) {
-    memos.forEach((element) {
-      print(element.id);
-    });
-
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
+
+    myMemos = [];
+    for (int i = 0; i < memos.length; i++) {
+      Timer(Duration(milliseconds: 150 * (i + 1)), () {
+        myMemos.add(memos[i]);
+        MemosScreen._memoKey.currentState.insertItem(i);
+      });
+    }
 
     return SafeArea(
       child: WillPopScope(
@@ -178,9 +173,11 @@ class _MemosScreenState extends State<MemosScreen>
                                 Container(
                                   width: mediaQuery.size.width * 0.6,
                                   child: Opacity(
-                                      opacity: 0.75,
-                                      child: Image.asset(
-                                          'assets/images/memo.png')),
+                                    opacity: 0.75,
+                                    child: Image.asset(
+                                      'assets/images/memo.png',
+                                    ),
+                                  ),
                                 ),
                                 Padding(
                                   padding: const EdgeInsets.symmetric(
@@ -205,68 +202,41 @@ class _MemosScreenState extends State<MemosScreen>
                           )
                         : Expanded(
                             child: ClipRRect(
-                              borderRadius: BorderRadius.circular(5.0),
+                              borderRadius: BorderRadius.circular(10.0),
                               child: Container(
                                 width: isLargeScreen
                                     ? 800
                                     : mediaQuery.size.width * 0.9,
-                                color: Colors.grey[100],
+                                color: Colors.lightGreen[50].withOpacity(0.5),
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child: ImplicitlyAnimatedReorderableList(
-                                          key: _globalKey,
-                                          items: memos,
-                                          areItemsTheSame: (oldItem, newItem) =>
-                                              oldItem.id == newItem.id,
-                                          onReorderFinished:
-                                              (item, from, to, newItems) {
-                                            // Remember to update the underlying data when the list has been
-                                            // reordered.
-                                            setState(() {
-                                              memos
-                                                ..clear()
-                                                ..addAll(newItems);
-                                            });
-                                          },
-                                          itemBuilder: (context, itemAnimation,
-                                              item, index) {
-                                            // Each item must be wrapped in a Reorderable widget.
-                                            return Reorderable(
-                                              // Each item must have an unique key.
-                                              key: ValueKey(item),
-                                              // The animation of the Reorderable builder can be used to
-                                              // change to appearance of the item between dragged and normal
-                                              // state. For example to add elevation when the item is being dragged.
-                                              // This is not to be confused with the animation of the itemBuilder.
-                                              // Implicit animations (like AnimatedContainer) are sadly not yet supported.
-                                              builder: (context, dragAnimation,
-                                                  inDrag) {
-                                                final t = dragAnimation.value;
-                                                final elevation =
-                                                    lerpDouble(0, 8, t);
-                                                final color = Color.lerp(
-                                                    Colors.white,
-                                                    Colors.white
-                                                        .withOpacity(0.8),
-                                                    t);
-
-                                                return SizeFadeTransition(
-                                                  sizeFraction: 0.7,
-                                                  curve: Curves.easeInOut,
-                                                  animation: itemAnimation,
-                                                  child: MemoCard(
-                                                    index: index,
-                                                    rebuildScreen: () {
-                                                      setState(() {});
-                                                    },
-                                                    memo: memos[index],
-                                                  ),
-                                                );
+                                      child: AnimatedList(
+                                        key: MemosScreen._memoKey,
+                                        itemBuilder:
+                                            (context, index, animation) =>
+                                                FadeTransition(
+                                          opacity: animation.drive(
+                                            Tween<double>(begin: 0.0, end: 1.0),
+                                          ),
+                                          child: SlideTransition(
+                                            position: animation.drive(
+                                              Tween<Offset>(
+                                                begin: const Offset(-0.25, 1),
+                                                end: const Offset(0, 0),
+                                              ),
+                                            ),
+                                            child: MemoCard(
+                                              memo: myMemos[index],
+                                              index: index,
+                                              rebuildScreen: () {
+                                                // setState(() {});
                                               },
-                                            );
-                                          }),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),

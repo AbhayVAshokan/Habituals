@@ -3,9 +3,13 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 import '../resources/constants.dart';
 import '../screens/login_screen.dart';
+import '../screens/welcome_screen.dart';
+import '../resources/realtime_data.dart';
+import '../resources/local_storage.dart';
 import '../screens/create_account_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,9 +20,18 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double _opacity = 0;
 
+  // Request storage permission.
+  _permissionHandler() async {
+    Map<Permission, PermissionStatus> status = await [
+      Permission.storage,
+    ].request();
+    print(status[Permission.storage]);
+  }
+
   @override
   void initState() {
     super.initState();
+    // Trigger transition animation
     Timer(
       Duration(milliseconds: 100),
       () {
@@ -27,6 +40,12 @@ class _SplashScreenState extends State<SplashScreen> {
         });
       },
     );
+
+    // Step 1: Request permissions
+    _permissionHandler();
+
+    // Step 2: Sync with server.
+    getLocalPath().then((_) => syncWithServer());
   }
 
   @override
@@ -91,7 +110,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           tag: 'signinButton',
                           child: RaisedButton(
                             elevation: 5.0,
-                            color:color_accent,
+                            color: color_accent,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(10.0),
                             ),
@@ -105,7 +124,9 @@ class _SplashScreenState extends State<SplashScreen> {
                                     begin: 0.0,
                                     end: 1.0,
                                   ).animate(animation),
-                                  child: CreateAccountScreen(),
+                                  child: isLoggedIn
+                                      ? WelcomeScreen()
+                                      : CreateAccountScreen(),
                                 ),
                                 transitionDuration:
                                     const Duration(milliseconds: 500),
@@ -120,7 +141,7 @@ class _SplashScreenState extends State<SplashScreen> {
                                   ? 400
                                   : mediaQuery.size.width * 0.75,
                               child: Text(
-                                'Sign in',
+                                isLoggedIn ? 'Continue' : 'Sign in',
                                 style: TextStyle(
                                   fontWeight: FontWeight.w600,
                                   fontSize: 20.0,
@@ -130,50 +151,52 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                         ),
                       ),
-                      FittedBox(
-                        child: Hero(
-                          tag: 'already_have_an_account',
-                          child: Row(
-                            children: [
-                              const Text(
-                                'Already have an account? ',
-                                style: const TextStyle(
-                                  fontWeight: FontWeight.bold,
+                      isLoggedIn
+                          ? FittedBox(
+                              child: Hero(
+                                tag: 'already_have_an_account',
+                                child: Row(
+                                  children: [
+                                    const Text(
+                                      'Already have an account? ',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () => Navigator.push(
+                                        context,
+                                        PageRouteBuilder(
+                                          pageBuilder: (context, animation,
+                                                  secondaryAnimation) =>
+                                              FadeTransition(
+                                            opacity: Tween(
+                                              begin: 0.0,
+                                              end: 1.0,
+                                            ).animate(animation),
+                                            child: LoginScreen(),
+                                          ),
+                                          transitionDuration:
+                                              const Duration(milliseconds: 500),
+                                        ),
+                                      ),
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            vertical: 10.0),
+                                        child: const Text(
+                                          'Log in',
+                                          style: const TextStyle(
+                                            color: Colors.blue,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () => Navigator.push(
-                                  context,
-                                  PageRouteBuilder(
-                                    pageBuilder: (context, animation,
-                                            secondaryAnimation) =>
-                                        FadeTransition(
-                                      opacity: Tween(
-                                        begin: 0.0,
-                                        end: 1.0,
-                                      ).animate(animation),
-                                      child: LoginScreen(),
-                                    ),
-                                    transitionDuration:
-                                        const Duration(milliseconds: 500),
-                                  ),
-                                ),
-                                child: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 10.0),
-                                  child: const Text(
-                                    'Log in',
-                                    style: const TextStyle(
-                                      color: Colors.blue,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                            )
+                          : Container(),
                     ],
                   ),
                 ),

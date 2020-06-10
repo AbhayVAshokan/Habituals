@@ -99,7 +99,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     fabOffset = Offset(
       mediaQuery.size.width - 35,
-      mediaQuery.size.height / 2,
+      mediaQuery.size.height * 0.75,
     );
 
     return SafeArea(

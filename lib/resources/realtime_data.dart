@@ -16,6 +16,12 @@ List<double> relationshipQueries = [2.5, 2.5, 2.5, 2.5, 2.5];
 List<double> personalGrowthQueries = [2.5, 2.5, 2.5, 2.5, 2.5];
 DateTime startingDate = DateTime.now();
 
+double bodyAverage = 2.5;
+double mindAverage = 2.5;
+double achievementAverage = 2.5;
+double relationshipAverage = 2.5;
+double personalDevelopmentAverage = 2.5;
+
 // Set of 25 questions asked to the user at the initial login.
 List<String> bodyQuestions = [
   'I feel full of energy most of the weekdays.',
@@ -105,3 +111,7 @@ Offset fabOffset;
 List memos = [];
 List myMemos = [];
 bool addingListItem = false;
+
+// Local storage
+String pathToDirectory;
+bool isLoggedIn = false;

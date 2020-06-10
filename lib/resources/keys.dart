@@ -1,2 +1,2 @@
-const baseUrl = 'https://my-json-server.typicode.com/AbhayVAshokan/Habituals-jsonplaceholder-FakeAPI';
-const port = '';
+const baseUrl = 'http://204.48.26.50';
+const port = '8010';

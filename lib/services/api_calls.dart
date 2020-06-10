@@ -1,5 +1,7 @@
 // Set of API calls.
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -12,57 +14,53 @@ import '../models/nudge_chart_7days.dart';
 // Register a new user into the database.
 Future registerUser({
   @required String password,
-  @required DateTime createdAt,
   @required String emailAddress,
-  int age,
+  String age,
   String gender,
   String position,
   bool mailingList,
 }) async {
   try {
-    ////////////////////////////// Add code here
-    Future function() => null;
-    var result = await function();
-    result.toString();
-    signInWithEmailAndPassword(
-      email: emailAddress,
-      password: password,
+    http.Response response = await http.post(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/register'),
+      headers: {
+        'Accept': 'application/json',
+      },
+      body: {
+        'emailAddress': emailAddress,
+        'password': password,
+        'gender': gender,
+        'age': age,
+        'position': position,
+        'mailingList': mailingList.toString(),
+      },
     );
-    currentUser = dummyUser;
-    return true;
-    ////////////////////////////// Add code here
-  } catch (e) {
-    ////////////////////////////// Update errors
 
-    // Network failure
-    if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED') ||
-        e.toString().contains('auth/network-request-failed'))
-      Fluttertoast.showToast(
-        msg: "Network error",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+    Map jsonResponse = json.decode(response.body);
 
-    // Email already registered
-    else if (e.toString().contains('ERROR_EMAIL_ALREADY_IN_USE') ||
-        e.toString().contains('auth/email-already-in-use'))
-      Fluttertoast.showToast(
-        msg: "Email already registered",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    else
-      print(e.toString());
-    ////////////////////////////// Update errors
+    if (jsonResponse['status']) return response;
+
+    Fluttertoast.showToast(
+      msg: jsonResponse['error'],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black87,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
     return null;
+  } catch (e) {
+    if (e.toString().contains('Network is unreachable'))
+      Fluttertoast.showToast(
+        msg: 'No network connectivity',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
   }
 }
 
@@ -70,67 +68,122 @@ Future registerUser({
 Future signInWithEmailAndPassword(
     {@required String email, @required String password}) async {
   try {
-    print(email);
-    print(password);
-    print(baseUrl + ':' + port + '/user/login');
-    var response = await http.post(
+    http.Response response = await http.post(
       Uri.encodeFull(baseUrl + ':' + port + '/user/login'),
       headers: {
         'Accept': 'application/json',
       },
       body: {
-        'email': email,
+        'emailAddress': email,
         'password': password,
       },
     );
-    print(response);
-    print('hello world');
-    return response;
-  } catch (e) {
-    ////////////////////////////// Update errors
 
-    // User not registered
-    if (e.toString().contains('ERROR_USER_NOT_FOUND') ||
-        e.toString().contains('auth/user-not-found'))
-      Fluttertoast.showToast(
-        msg: "User not registered",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+    Map jsonResponse = json.decode(response.body);
 
-    // Network failure
-    else if (e.toString().contains('ERROR_NETWORK_REQUEST_FAILED') ||
-        e.toString().contains('auth/network-request-failed'))
-      Fluttertoast.showToast(
-        msg: "Network error",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
+    if (jsonResponse['status']) return response;
 
-    // Wrong password entered.
-    else if (e.toString().contains('ERROR_WRONG_PASSWORD') ||
-        e.toString().contains('auth/wrong-password'))
-      Fluttertoast.showToast(
-        msg: "Wrong password",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black87,
-        textColor: Colors.white,
-        fontSize: 16.0,
-      );
-    else
-      print(e.toString());
-    ////////////////////////////// Update errors
+    Fluttertoast.showToast(
+      msg: jsonResponse['error'],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.CENTER,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black87,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
     return null;
+  } catch (e) {
+    if (e.toString().contains('Network is unreachable'))
+      Fluttertoast.showToast(
+        msg: 'No network connectivity',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+  }
+}
+
+// Submit initial set of questions
+Future querySubmission() async {
+  try {
+    http.Response response = await http.post(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/questions'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization':
+            "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbEFkZHJlc3MiOiJhYmhheXZhc2hva2FuQGdtYWlsLmNvbSIsInVzZXJJZCI6ImZlZTEyYmMyLTRmYzItNDFjMi05ZTRiLTkwMTQ1ZDFhMjYzNSIsImlhdCI6MTU5MTgwOTE0Mn0.p_fO5PtC6pizBufvL5JrD1r8Pyl41vq9aQBgRZE2VYw",
+      },
+      body: {
+        'generalQuery': generalQuery.toString(),
+        'startDate': startingDate.toIso8601String(),
+        'bodyQuery': {
+          '1': bodyQueries[0],
+          '2': bodyQueries[1],
+          '3': bodyQueries[2],
+          '4': bodyQueries[3],
+          '5': bodyQueries[4]
+        }.toString(),
+        'mindQuery': {
+          '1': mindQueries[0],
+          '2': mindQueries[1],
+          '3': mindQueries[2],
+          '4': mindQueries[3],
+          '5': mindQueries[4],
+        }.toString(),
+        'relationshipQuery': {
+          '1': relationshipQueries[0],
+          '2': relationshipQueries[1],
+          '3': relationshipQueries[2],
+          '4': relationshipQueries[3],
+          '5': relationshipQueries[4],
+        }.toString(),
+        'achievementQuery': {
+          '1': achievementsQueries[0],
+          '2': achievementsQueries[1],
+          '3': achievementsQueries[2],
+          '4': achievementsQueries[3],
+          '5': achievementsQueries[4],
+        }.toString(),
+        'personalDevelopmentQuery': {
+          '1': personalGrowthQueries[0],
+          '2': personalGrowthQueries[1],
+          '3': personalGrowthQueries[2],
+          '4': personalGrowthQueries[3],
+          '5': personalGrowthQueries[4],
+        }.toString(),
+      },
+    );
+
+    print(response.body);
+    Map jsonResponse = json.decode(response.body);
+
+    if (jsonResponse['status']) return response;
+
+    Fluttertoast.showToast(
+      msg: jsonResponse['error'],
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black87,
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
+    return null;
+  } catch (e) {
+    if (e.toString().contains('Network is unreachable'))
+      Fluttertoast.showToast(
+        msg: 'No network connectivity',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.black87,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
   }
 }
 

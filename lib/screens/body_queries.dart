@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:habituals/services/api_calls.dart';
 
 import '../widgets/my_appbar.dart';
 import '../resources/constants.dart';
@@ -23,7 +24,7 @@ class _BodyQueriesState extends State<BodyQueries> {
   rebuildScreen({
     @required int optionNumber,
     @required int index,
-  }) {
+  }) async {
     setState(() {
       bodyQueries[index] = optionNumber.toDouble();
     });
@@ -34,7 +35,10 @@ class _BodyQueriesState extends State<BodyQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (index == 4) Navigator.pushNamed(context, '/mindQueries');
+    if (index == 4) {
+     var status = await querySubmission(); 
+    }
+      // Navigator.pushNamed(context, '/mindQueries');
   }
 
   Widget questionPage({
@@ -197,7 +201,7 @@ class _BodyQueriesState extends State<BodyQueries> {
                       size: 60.0,
                       color: Colors.grey[300],
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (index < 4)
                         pageController.animateToPage(
                           index + 1,

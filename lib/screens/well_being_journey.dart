@@ -101,7 +101,7 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            const SizedBox(height: 90.0),
+                            const SizedBox(height: 70.0),
                             Align(
                               alignment: Alignment.centerLeft,
                               child: myTabBar(screen: 'journey'),

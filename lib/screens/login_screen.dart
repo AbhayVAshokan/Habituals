@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:habituals/resources/dummy_data.dart';
 import 'package:habituals/resources/realtime_data.dart';
+import 'package:http/http.dart';
 
 import '../widgets/my_appbar.dart';
 import '../services/api_calls.dart';
@@ -97,8 +98,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           return;
                         else {
                           LoginScreen._loginScreenFormKey.currentState.save();
-                          var response = await signInWithEmailAndPassword(
+                          Response response = await signInWithEmailAndPassword(
                               email: _emailAddress, password: _password);
+
                           if (response != null) {
                             currentUser = dummyUser;
                             Navigator.pushNamedAndRemoveUntil(

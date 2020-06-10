@@ -15,7 +15,7 @@ class NudgeCard extends StatelessWidget {
     else if (nudge.status == 'completed')
       color = color_body.withOpacity(0.5);
     else
-      color = Colors.blue[500];
+      color = color_body.withBlue(255).withGreen(190);
 
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 2.5),

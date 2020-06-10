@@ -204,8 +204,10 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.decelerate,
                         );
-                      else
+                      else {
+                        
                         Navigator.pushNamed(context, '/welcome');
+                      }
                     },
                   ),
                 )

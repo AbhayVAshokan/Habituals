@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../widgets/my_appbar.dart';
+import '../services/api_calls.dart';
 import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -33,7 +34,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (index == 4) Navigator.pushNamed(context, '/welcome');
+    if (index == 4) Navigator.pushNamed(context, '/pickStartDate');
   }
 
   Widget questionPage({
@@ -197,17 +198,15 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
                       size: 60.0,
                       color: Colors.grey[300],
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (index < 4)
                         pageController.animateToPage(
                           index + 1,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.decelerate,
                         );
-                      else {
-                        
-                        Navigator.pushNamed(context, '/welcome');
-                      }
+                      else
+                        Navigator.pushNamed(context, '/pickStartDate');
                     },
                   ),
                 )

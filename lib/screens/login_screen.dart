@@ -105,7 +105,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             currentUser = dummyUser;
                             Navigator.pushNamedAndRemoveUntil(
                               context,
-                              '/instruction',
+                              '/welcome',
                               (route) => false,
                             );
                           }

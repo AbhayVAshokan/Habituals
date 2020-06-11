@@ -6,8 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../models/user.dart';
+import '../models/nudge.dart';
 import '../resources/keys.dart';
 import '../resources/dummy_data.dart';
+import '../resources/local_storage.dart';
 import '../resources/realtime_data.dart';
 import '../models/nudge_chart_7days.dart';
 
@@ -21,6 +24,7 @@ Future registerUser({
   bool mailingList,
 }) async {
   try {
+    // Step 1: Register user into the server
     http.Response response = await http.post(
       Uri.encodeFull(baseUrl + ':' + port + '/user/register'),
       headers: {
@@ -36,9 +40,66 @@ Future registerUser({
       },
     );
 
-    Map jsonResponse = json.decode(response.body);
+    final Map jsonResponse = json.decode(response.body);
 
-    if (jsonResponse['status']) return response;
+    // Step 2: Login the user to get the auth token.
+    if (jsonResponse['status']) {
+      http.Response loginResponse = await http.post(
+        Uri.encodeFull(baseUrl + ':' + port + '/user/login'),
+        headers: {
+          'Accept': 'application/json',
+        },
+        body: {
+          'emailAddress': emailAddress,
+          'password': password,
+        },
+      );
+
+      authToken = json.decode(loginResponse.body)['authToken'];
+
+      // Step 3: updating realtime data
+      currentUser = User(
+        emailAddress: emailAddress,
+        age: int.parse(age),
+        gender: gender,
+        mailingList: mailingList,
+        position: position,
+      );
+
+      // Function to calculate average
+      double avg(arr) {
+        double sum = 0;
+        arr.forEach((element) => sum += element);
+        return sum / arr.length;
+      }
+
+      bodyAverage = avg(bodyQueries);
+      mindAverage = avg(mindQueries);
+      achievementAverage = avg(achievementsQueries);
+      relationshipAverage = avg(relationshipQueries);
+      personalDevelopmentAverage = avg(personalGrowthQueries);
+
+      // Step 2: Update local data
+      writeToFile(
+        content: {
+          'emailAddress': currentUser.emailAddress,
+          'age': currentUser.age,
+          'gender': currentUser.gender,
+          'mailingList': currentUser.mailingList,
+          'position': currentUser.position,
+          'auth': authToken,
+          'startingDate': startingDate.toString(),
+          'generalQuery': generalQuery,
+          'body': bodyAverage,
+          'mind': mindAverage,
+          'achievement': achievementAverage,
+          'relationship': relationshipAverage,
+          'personalDevelopment': personalDevelopmentAverage,
+        },
+      );
+
+      return response;
+    }
 
     Fluttertoast.showToast(
       msg: jsonResponse['error'],
@@ -81,7 +142,61 @@ Future signInWithEmailAndPassword(
 
     Map jsonResponse = json.decode(response.body);
 
-    if (jsonResponse['status']) return response;
+    if (jsonResponse['status']) {
+      authToken = jsonResponse['authToken'];
+
+      http.Response response = await http.get(
+        Uri.encodeFull(baseUrl + ':' + port + '/user/profile'),
+        headers: {
+          'Accept': 'application/json',
+          'Authorization': authToken,
+        },
+      );
+
+      // Step 1: updating realtime data
+      Map profileResponse = json.decode(response.body);
+      currentUser = User(
+        emailAddress: profileResponse['emailAddress'],
+        age: profileResponse['age'],
+        gender: profileResponse['gender'],
+        mailingList: profileResponse['mailingList'] == 'subscribed',
+        position: profileResponse['position'],
+      );
+
+      startingDate = DateTime.parse(profileResponse['startDate']);
+
+      // generalQuery = double.parse(profileResponse['generalQuery'].toString());
+
+      // bodyAverage = double.parse(profileResponse['bodyQuery'].toString());
+      // mindAverage = double.parse(profileResponse['mindQuery'].toString());
+      // achievementAverage =
+      //     double.parse(profileResponse['achievementQuery'].toString());
+      // relationshipAverage =
+      //     double.parse(profileResponse['relationshipQuery'].toString());
+      // personalDevelopmentAverage =
+      //     double.parse(profileResponse['personalDevelopmentQuery'].toString());
+
+      // Step 2: Update local data
+      writeToFile(
+        content: {
+          'emailAddress': currentUser.emailAddress,
+          'age': currentUser.age,
+          'gender': currentUser.gender,
+          'mailingList': currentUser.mailingList,
+          'position': currentUser.position,
+          'auth': authToken,
+          'startingDate': startingDate.toString(),
+          'generalQuery': generalQuery,
+          'body': bodyAverage,
+          'mind': mindAverage,
+          'achievement': achievementAverage,
+          'relationship': relationshipAverage,
+          'personalDevelopment': personalDevelopmentAverage,
+        },
+      );
+
+      return response;
+    }
 
     Fluttertoast.showToast(
       msg: jsonResponse['error'],
@@ -94,6 +209,7 @@ Future signInWithEmailAndPassword(
     );
     return null;
   } catch (e) {
+    print('Error: ' + e.toString());
     if (e.toString().contains('Network is unreachable'))
       Fluttertoast.showToast(
         msg: 'No network connectivity',
@@ -109,13 +225,20 @@ Future signInWithEmailAndPassword(
 
 // Submit initial set of questions
 Future querySubmission() async {
+  print(generalQuery);
+  print(bodyQueries);
+  print(mindQueries);
+  print(relationshipQueries);
+  print(achievementsQueries);
+  print(personalGrowthQueries);
+  print(startingDate);
+
   try {
     http.Response response = await http.post(
       Uri.encodeFull(baseUrl + ':' + port + '/user/questions'),
       headers: {
         'Accept': 'application/json',
-        'Authorization':
-            "bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbEFkZHJlc3MiOiJhYmhheXZhc2hva2FuQGdtYWlsLmNvbSIsInVzZXJJZCI6ImZlZTEyYmMyLTRmYzItNDFjMi05ZTRiLTkwMTQ1ZDFhMjYzNSIsImlhdCI6MTU5MTgwOTE0Mn0.p_fO5PtC6pizBufvL5JrD1r8Pyl41vq9aQBgRZE2VYw",
+        'Authorization': authToken,
       },
       body: {
         'generalQuery': generalQuery.toString(),
@@ -158,7 +281,6 @@ Future querySubmission() async {
       },
     );
 
-    print(response.body);
     Map jsonResponse = json.decode(response.body);
 
     if (jsonResponse['status']) return response;
@@ -188,12 +310,15 @@ Future querySubmission() async {
 }
 
 // Get Nudges for the given user
-getNudges({@required String emailAddress}) {
+getNudges() async {
+  List nudges;
+
   bodyNudges = dummyBodyNudges;
   mindNudges = dummyMindNudges;
   relationshipNudges = dummyRelationshipNudges;
   achievementNudges = dummyAchievementNudges;
   personalGrowthNudges = dummyPersonalGrowthNudges;
+
   allNudges = [
     ...bodyNudges,
     ...mindNudges,
@@ -201,6 +326,95 @@ getNudges({@required String emailAddress}) {
     ...achievementNudges,
     ...personalGrowthNudges,
   ];
+
+  try {
+    // Fetching body nudges
+    http.Response bodyResponse = await http.get(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/nudge/body'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': authToken,
+      },
+    );
+
+    bodyNudges = [];
+    nudges = json.decode(bodyResponse.body)['nudges'];
+    if (nudges != null)
+      nudges.forEach((_nudge) {
+        bodyNudges.add(Nudge.jsonToObject(_nudge));
+      });
+
+    // Fetching mind nudges
+    http.Response mindResponse = await http.get(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/nudge/mind'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': authToken,
+      },
+    );
+
+    mindNudges = [];
+    nudges = json.decode(mindResponse.body)['nudges'];
+    if (nudges != null)
+      nudges.forEach((_nudge) {
+        mindNudges.add(Nudge.jsonToObject(_nudge));
+      });
+
+    // Fetching relationship nudges
+    http.Response relationshipResponse = await http.get(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/nudge/relationship'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': authToken,
+      },
+    );
+    relationshipNudges = [];
+    nudges = json.decode(relationshipResponse.body)['nudges'];
+    if (nudges != null)
+      nudges.forEach((_nudge) {
+        relationshipNudges.add(Nudge.jsonToObject(_nudge));
+      });
+
+    // Fetching achievement nudges
+    http.Response achievementResponse = await http.get(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/nudge/achievement'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': authToken,
+      },
+    );
+    achievementNudges = [];
+    nudges = json.decode(achievementResponse.body)['nudges'];
+    if (nudges != null)
+      nudges.forEach((_nudge) {
+        achievementNudges.add(Nudge.jsonToObject(_nudge));
+      });
+
+    // Fetching personalDevelopment nudges
+    http.Response personalDevelopmentResponse = await http.get(
+      Uri.encodeFull(baseUrl + ':' + port + '/user/nudge/personalDevelopment'),
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': authToken,
+      },
+    );
+    personalGrowthNudges = [];
+    nudges = json.decode(personalDevelopmentResponse.body)['nudges'];
+    if (nudges != null)
+      nudges.forEach((_nudge) {
+        personalGrowthNudges.add(Nudge.jsonToObject(_nudge));
+      });
+
+    allNudges = [
+      ...bodyNudges,
+      ...mindNudges,
+      ...relationshipNudges,
+      ...achievementNudges,
+      ...personalGrowthNudges,
+    ];
+  } catch (e) {
+    print('Error' + e.toString());
+  }
 
   // Sorting Nudges according to their dates.
   bodyNudges.sort((a, b) => a.date.isBefore(b.date) ? 0 : 1);

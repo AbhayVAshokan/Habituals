@@ -71,7 +71,7 @@ class NudgeCard extends StatelessWidget {
                 buttonText == null
                     ? nudge.status.compareTo('not completed') == 0
                         ? 'to be done'
-                        : 'to be done'
+                        : 'done'
                     : buttonText,
                 style: const TextStyle(
                   fontSize: 12.0,

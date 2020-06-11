@@ -34,11 +34,11 @@ class _MyFloatingActionButtonState extends State<MyFloatingActionButton>
     );
     scaleAnimation = Tween(
       begin: 30.0,
-      end: 35.0,
+      end: 32.0,
     ).animate(animationController);
     colorAnimation = ColorTween(
-      begin: const Color(0xFFffd31d),
-      end: const Color(0xFFf57b51),
+      end: const Color(0xeeffd31d),
+      begin: const Color(0xf57b51),
     ).animate(animationController);
     animationController.repeat(reverse: true);
     super.initState();

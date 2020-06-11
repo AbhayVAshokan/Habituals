@@ -10,14 +10,41 @@ import '../../widgets/well_being_nudges/nudge_card.dart';
 
 class CategoryCard extends StatelessWidget {
   final Map<String, dynamic> category;
-  CategoryCard({@required this.category});
+  final String type;
+
+  CategoryCard({
+    @required this.category,
+    @required this.type,
+  });
 
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     final bool isLargeScreen = MediaQuery.of(context).size.width >= 900;
 
-    List<Nudge> pendingNudges = category['nudges'];
+    List<Nudge> pendingNudges = type == 'today'
+        ? category['nudges']
+            .where(
+              (Nudge _nudge) => (_nudge.date.day == DateTime.now().day &&
+                  _nudge.date.month == DateTime.now().month &&
+                  _nudge.date.year == DateTime.now().year &&
+                  _nudge.status == 'not completed'),
+            )
+            .toList()
+        : category['nudges']
+            .where(
+              (Nudge _nudge) => ((_nudge.date.day >= DateTime.now().day &&
+                      _nudge.date.day <=
+                          DateTime.now().add(Duration(days: 7)).day) &&
+                  (_nudge.date.month >= DateTime.now().month &&
+                      _nudge.date.month <=
+                          DateTime.now().add(Duration(days: 7)).month) &&
+                  (_nudge.date.year >= DateTime.now().year &&
+                      _nudge.date.year <=
+                          DateTime.now().add(Duration(days: 7)).year) &&
+                  _nudge.status == 'not completed'),
+            )
+            .toList();
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -70,15 +97,26 @@ class CategoryCard extends StatelessWidget {
           margin: const EdgeInsets.only(
             top: 5.0,
           ),
-          child: ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) => NudgeCard(
-              nudge: pendingNudges[index],
-              imageUrl: category['imageUrl'],
-              color: category['color'],
-            ),
-            itemCount: pendingNudges.length,
-          ),
+          child: pendingNudges.length == 0
+              ? Container(
+                  child: Text(
+                    'No pending nudges',
+                    style: const TextStyle(
+                      fontSize: 17.0,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.blueGrey,
+                    ),
+                  ),
+                )
+              : ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  itemBuilder: (context, index) => NudgeCard(
+                    nudge: pendingNudges[index],
+                    imageUrl: category['imageUrl'],
+                    color: category['color'],
+                  ),
+                  itemCount: pendingNudges.length,
+                ),
         ),
         NudgeCard(
           nudge: null,

@@ -1,7 +1,7 @@
 // Well Being Audit Screen.
 
-import 'dart:async';
 import 'dart:ui';
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 
@@ -207,7 +207,7 @@ class _MemosScreenState extends State<MemosScreen>
                                 width: isLargeScreen
                                     ? 800
                                     : mediaQuery.size.width * 0.9,
-                                color: Colors.lightGreen[50].withOpacity(0.5),
+                                color: Colors.lightGreen[50].withOpacity(0.25),
                                 padding: const EdgeInsets.all(10.0),
                                 child: Column(
                                   children: [

@@ -33,29 +33,6 @@ class _NudgeExpandedState extends State<NudgeExpanded>
     with TickerProviderStateMixin {
   ImageFilter _imageFilter = ImageFilter.blur();
   String imageUrl;
-  double _skipOpacity = 0.0;
-  List<Map<String, dynamic>> checkBoxes = [
-    {
-      'day': 'M',
-      'selected': false,
-    },
-    {
-      'day': 'T',
-      'selected': false,
-    },
-    {
-      'day': 'W',
-      'selected': false,
-    },
-    {
-      'day': 'T',
-      'selected': false,
-    },
-    {
-      'day': 'F',
-      'selected': false,
-    },
-  ];
 
   AnimationController _transitionController1;
   Animation<double> _scaleAnimation1;
@@ -271,7 +248,21 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                                   width: 100.0,
                                   child: RaisedButton(
                                     color: widget.color,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        for (int i = 0;
+                                            i < allNudges.length;
+                                            i++) {
+                                          if (allNudges[i].id ==
+                                                  widget.nudge.id &&
+                                              allNudges[i].date ==
+                                                  widget.nudge.date) {
+                                            allNudges[i].status = 'completed';
+                                            break;
+                                          }
+                                        }
+                                      });
+                                    },
                                     child: Text(
                                       'Done',
                                       style: const TextStyle(
@@ -287,7 +278,21 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                                   width: 100.0,
                                   child: RaisedButton(
                                     color: widget.color,
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      setState(() {
+                                        for (int i = 0;
+                                            i < allNudges.length;
+                                            i++) {
+                                          if (allNudges[i].id ==
+                                                  widget.nudge.id &&
+                                              allNudges[i].date ==
+                                                  widget.nudge.date) {
+                                            allNudges[i].status = 'skipped';
+                                            break;
+                                          }
+                                        }
+                                      });
+                                    },
                                     child: Text(
                                       'Skip',
                                       style: const TextStyle(
@@ -382,18 +387,6 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                         ),
                       ),
                     ],
-                  ),
-                ),
-                Positioned(
-                  bottom: 35.0,
-                  right: 7.0,
-                  child: SkipNudge(
-                    containerOpacity: _skipOpacity,
-                    rebuildScreen: () {
-                      setState(() {
-                        _skipOpacity = 0.0;
-                      });
-                    },
                   ),
                 ),
                 Positioned(

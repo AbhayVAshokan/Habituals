@@ -151,7 +151,7 @@ class _SplashScreenState extends State<SplashScreen> {
                           ),
                         ),
                       ),
-                      isLoggedIn
+                      !isLoggedIn
                           ? FittedBox(
                               child: Hero(
                                 tag: 'already_have_an_account',

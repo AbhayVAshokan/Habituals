@@ -1,14 +1,15 @@
 // Pick the start date for the journey of 66 days to track well being.
 
-import 'dart:async';
 import 'dart:math';
+import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
-import 'package:habituals/screens/welcome_screen.dart';
 import 'package:intl/intl.dart';
+import '../services/api_calls.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:some_calendar/some_calendar.dart';
 
+import './welcome_screen.dart';
 import '../widgets/my_appbar.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -59,6 +60,12 @@ class _PickStartDateState extends State<PickStartDate> {
         },
       ),
     );
+  }
+
+  @override
+  void initState() {
+    querySubmission();
+    super.initState();
   }
 
   @override

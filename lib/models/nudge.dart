@@ -3,10 +3,10 @@
 import 'package:flutter/foundation.dart';
 
 class Nudge {
+  String status;
   final String id;
   final String type;
   final String nudge;
-  final String status;
   final DateTime date;
   final String nudgeBooster;
 
@@ -23,9 +23,9 @@ class Nudge {
   factory Nudge.jsonToObject(jsonFile) {
     return Nudge(
       id: jsonFile['id'],
-      date: jsonFile['date'],
+      date: DateTime.parse(jsonFile['date']),
       type: jsonFile['type'],
-      nudge: jsonFile['nudge'],
+      nudge: jsonFile['title'],
       status: jsonFile['status'],
       nudgeBooster: jsonFile['nudgeBooster'],
     );

@@ -34,8 +34,9 @@ Future syncWithServer() async {
       position: data['position'],
     );
 
+
     authToken = data['auth'];
-    startingDate = data['startingDate'];
+    startingDate = DateTime.parse(data['startingDate']);
     generalQuery = data['generalQuery'];
 
     bodyAverage = data['body'];
@@ -44,7 +45,7 @@ Future syncWithServer() async {
     relationshipAverage = data['relationship'];
     personalDevelopmentAverage = data['personalDevelopment'];
 
-    // Step 2: Sync with server (in case user uses multiple devices)
+    // Step 3: Sync with server (in case user uses multiple devices)
     try {
       http.Response response = await http.get(
         Uri.encodeFull(baseUrl + ':' + port + '/user/profile'),
@@ -54,25 +55,31 @@ Future syncWithServer() async {
         },
       );
 
+      // Step 4: Sync realtime data
       Map jsonResponse = json.decode(response.body);
+
       currentUser = User(
         emailAddress: jsonResponse['emailAddress'],
-        age: jsonResponse['age'],
+        age: jsonResponse['age'] == null
+            ? 20
+            : int.parse(jsonResponse['age'].toString()),
         gender: jsonResponse['gender'],
         mailingList: jsonResponse['mailingList'] == 'subscribed',
         position: jsonResponse['position'],
       );
+      startingDate = DateTime.parse(jsonResponse['startDate']);
+      // generalQuery = double.parse(jsonResponse['generalQuery'].toString());
 
-      startingDate = jsonResponse['startingDate'];
-      generalQuery = jsonResponse['generalQuery'];
+      // bodyAverage = double.parse(jsonResponse['bodyQuery'].toString());
+      // mindAverage = double.parse(jsonResponse['mindQuery'].toString());
+      // achievementAverage =
+      //     double.parse(jsonResponse['achievementQuery'].toString());
+      // relationshipAverage =
+      //     double.parse(jsonResponse['relationshipQuery'].toString());
+      // personalDevelopmentAverage =
+      //     double.parse(jsonResponse['personalDevelopmentQuery'].toString());
 
-      bodyAverage = jsonResponse['bodyQuery'];
-      mindAverage = jsonResponse['mindQuery'];
-      achievementAverage = jsonResponse['achievementQuery'];
-      relationshipAverage = jsonResponse['relationshipQuery'];
-      personalDevelopmentAverage = jsonResponse['personalDevelopmentQuery'];
-
-      // Sync cloud data with local data
+      // Step 5: Sync cloud data with local data
       await writeToFile(
         content: {
           'emailAddress': currentUser.emailAddress,
@@ -81,7 +88,7 @@ Future syncWithServer() async {
           'mailingList': currentUser.mailingList,
           'position': currentUser.position,
           'auth': authToken,
-          'startingDate': startingDate,
+          'startingDate': startingDate.toString(),
           'generalQuery': generalQuery,
           'body': bodyAverage,
           'mind': mindAverage,
@@ -93,7 +100,7 @@ Future syncWithServer() async {
 
       return true;
     } catch (e) {
-      print(e.toString());
+      print('Error: ' + e.toString());
     }
   }
 }

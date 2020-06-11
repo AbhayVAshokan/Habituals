@@ -18,6 +18,7 @@ class MemoCard extends StatelessWidget {
     return Dismissible(
       onDismissed: (removedMemo) {
         memos.removeAt(index);
+        print(memos.length);
         rebuildScreen();
       },
       key: UniqueKey(),
@@ -56,14 +57,7 @@ class MemoCard extends StatelessWidget {
         margin: const EdgeInsets.symmetric(vertical: 5.0),
         child: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Colors.green[100],
-                Colors.lightGreen[50],
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
+            color: Colors.green[50],
             borderRadius: BorderRadius.circular(20.0),
           ),
           height: 120.0,

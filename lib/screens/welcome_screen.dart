@@ -27,9 +27,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     super.initState();
     menuBarHeight = 0.0;
 
-    getNudges(
-      emailAddress: currentUser.emailAddress,
-    );
+    getNudges();
 
     Timer(
       const Duration(milliseconds: 500),
@@ -102,6 +100,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
       mediaQuery.size.height * 0.75,
     );
 
+    int day = DateTime.now().difference(startingDate).inDays;
+
     return SafeArea(
       child: Scaffold(
         backgroundColor: Colors.white,
@@ -130,8 +130,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 duration: const Duration(milliseconds: 500),
                 opacity: _firstLineOpacity,
                 curve: Curves.easeIn,
-                child: const Text(
-                  'This is the first day of your Well-Being Journey.',
+                child: Text(
+                  'This is the ${dayCounter[day >= 0 && day < 66 ? day : 65]} day of your Well-Being Journey.',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 25.0),
                 ),

@@ -21,6 +21,7 @@ class WellBeingNudgesToday extends StatelessWidget {
               child: ListView.builder(
                 itemBuilder: (context, index) => CategoryCard(
                   category: categories[index],
+                  type: 'today',
                 ),
                 itemCount: categories.length,
               ),

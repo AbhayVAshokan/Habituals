@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:habituals/resources/constants.dart';
+import 'package:habituals/screens/create_nudge.dart';
 
 import './screens/404_screen.dart';
 import './screens/login_screen.dart';
@@ -180,6 +181,9 @@ class HabitualApp extends StatelessWidget {
             break;
           case "/welcome":
             page = ScreenSlideTransition(screen: WelcomeScreen());
+            break;
+          case "/createNudge":
+            page = ScreenSlideTransition(screen: CreateNudge());
             break;
         }
         return page;

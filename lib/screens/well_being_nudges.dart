@@ -143,7 +143,9 @@ class _WellBeingNudgesState extends State<WellBeingNudges>
                                   WellBeingNudgesToday(
                                     categories: categories,
                                   ),
-                                  WellBeingNudges7Days(),
+                                  WellBeingNudges7Days(
+                                    categories: categories,
+                                  ),
                                 ],
                               ),
                             ),

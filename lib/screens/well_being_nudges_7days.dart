@@ -1,12 +1,35 @@
-// Well Being Nudges for 7 days
+// Well being nudges for the current day.
 
 import 'package:flutter/material.dart';
 
+import '../widgets/well_being_nudges/category_card.dart';
+
 class WellBeingNudges7Days extends StatelessWidget {
+  final List<Map<String, dynamic>> categories;
+  WellBeingNudges7Days({@required this.categories});
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('Well Being Nudges 7 Days'),
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Expanded(
+          child: LayoutBuilder(
+            builder: (context, constraints) => Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: ListView.builder(
+                itemBuilder: (context, index) => CategoryCard(
+                  category: categories[index],
+                  type: '7 days',
+                ),
+                itemCount: categories.length,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

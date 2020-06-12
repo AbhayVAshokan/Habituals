@@ -178,9 +178,9 @@ Offset fabOffset;
 
 // Memos
 List memos = [];
-List myMemos = [];
 bool addingListItem = false;
 
 // Local storage
 String pathToDirectory;
 bool isLoggedIn = false;
+Map wellBeingPulseStatus;

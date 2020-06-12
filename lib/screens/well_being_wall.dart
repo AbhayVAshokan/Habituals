@@ -132,12 +132,19 @@ class _WellBeingWallState extends State<WellBeingWall>
                                 ),
                               ),
                               Divider(color: Colors.black),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Icon(Icons.share),
-                                  Icon(Icons.image),
-                                ],
+                              Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 5.0,
+                                  horizontal: 10.0,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Icon(Icons.share),
+                                    const SizedBox(width: 5.0),
+                                    Icon(Icons.image),
+                                  ],
+                                ),
                               ),
                             ],
                           ),

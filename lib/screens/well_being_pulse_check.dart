@@ -3,6 +3,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:habituals/resources/local_storage.dart';
 
 import '../widgets/my_appbar.dart';
 import '../resources/constants.dart';
@@ -57,15 +58,24 @@ class _WellBeingPulseCheckState extends State<WellBeingPulseCheck> {
                       size: 60.0,
                       color: Colors.grey[300],
                     ),
-                    onPressed: () {
+                    onPressed: () async {
                       if (index > 0)
                         pageController.animateToPage(
                           index - 1,
                           duration: const Duration(milliseconds: 300),
                           curve: Curves.decelerate,
                         );
-                      else
+                      else {
+                        await writeToFile(
+                          content: {
+                            'wellBeingPulseStatus': {
+                              'date': DateTime.now(),
+                              'status': true,
+                            }
+                          },
+                        );
                         Navigator.pop(context);
+                      }
                     },
                   ),
                 )

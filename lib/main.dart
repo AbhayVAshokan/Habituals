@@ -2,10 +2,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:habituals/resources/constants.dart';
-import 'package:habituals/screens/create_nudge.dart';
 
 import './screens/404_screen.dart';
+import './resources/constants.dart';
+import './screens/create_nudge.dart';
 import './screens/login_screen.dart';
 import './screens/memos_screen.dart';
 import './screens/audit_screen.dart';
@@ -28,6 +28,7 @@ import './screens/relationship_queries.dart';
 import './screens/create_account_screen.dart';
 import './screens/well_being_pulse_check.dart';
 import './screens/personal_growth_queries.dart';
+import './screens/display_selection_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -185,6 +186,8 @@ class HabitualApp extends StatelessWidget {
           case "/createNudge":
             page = ScreenSlideTransition(screen: CreateNudge());
             break;
+          case '/displaySelection':
+            page = ScreenSlideTransition(screen: DisplaySelectionScreen());
         }
         return page;
       },

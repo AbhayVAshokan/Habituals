@@ -34,102 +34,99 @@ class _LoginScreenState extends State<LoginScreen> {
           context: context,
           closeButton: true,
         ),
-        body: SizedBox(
-          width: mediaQuery.size.width,
-          child: Form(
-            key: LoginScreen._loginScreenFormKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40.0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CustomTextField(
-                    focusNode: _emailAddressFocus,
-                    hintText: 'Your email address',
-                    keyboardType: TextInputType.emailAddress,
+        body: Form(
+          key: LoginScreen._loginScreenFormKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CustomTextField(
+                  focusNode: _emailAddressFocus,
+                  hintText: 'Your email address',
+                  keyboardType: TextInputType.emailAddress,
+                  onChanged: (newValue) {
+                    setState(() {
+                      _emailAddress = newValue;
+                    });
+                  },
+                  onFieldSubmitted: (val) {
+                    _emailAddressFocus.unfocus();
+                    FocusScope.of(context).requestFocus(_passwordFocus);
+                  },
+                  validation: (value) {
+                    if (!RegExp(
+                      r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
+                    ).hasMatch(value)) {
+                      return 'Enter valid email address';
+                    }
+                    return null;
+                  },
+                ),
+                CustomTextField(
+                    focusNode: _passwordFocus,
+                    obscureText: true,
+                    hintText: 'Your password',
                     onChanged: (newValue) {
                       setState(() {
-                        _emailAddress = newValue;
+                        _password = newValue;
                       });
                     },
                     onFieldSubmitted: (val) {
-                      _emailAddressFocus.unfocus();
-                      FocusScope.of(context).requestFocus(_passwordFocus);
+                      _passwordFocus.unfocus();
                     },
-                    validation: (value) {
-                      if (!RegExp(
-                        r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$",
-                      ).hasMatch(value)) {
-                        return 'Enter valid email address';
-                      }
-                      return null;
-                    },
-                  ),
-                  CustomTextField(
-                      focusNode: _passwordFocus,
-                      obscureText: true,
-                      hintText: 'Your password',
-                      onChanged: (newValue) {
-                        setState(() {
-                          _password = newValue;
-                        });
-                      },
-                      onFieldSubmitted: (val) {
-                        _passwordFocus.unfocus();
-                      },
-                      textInputAction: TextInputAction.done,
-                      validation: (String input) {
-                        if (input.isEmpty)
-                          return "Password cannot be null";
-                        else
-                          return null;
-                      }),
-                  Hero(
-                    tag: 'signinButton',
-                    child: RaisedButton(
-                      elevation: 5.0,
-                      color: color_accent,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                      ),
-                      onPressed: () async {
-                        if (!LoginScreen._loginScreenFormKey.currentState
-                            .validate())
-                          return;
-                        else {
-                          LoginScreen._loginScreenFormKey.currentState.save();
-                          Response response = await signInWithEmailAndPassword(
-                              email: _emailAddress, password: _password);
+                    textInputAction: TextInputAction.done,
+                    validation: (String input) {
+                      if (input.isEmpty)
+                        return "Password cannot be null";
+                      else
+                        return null;
+                    }),
+                Hero(
+                  tag: 'signinButton',
+                  child: RaisedButton(
+                    elevation: 5.0,
+                    color: color_accent,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                    ),
+                    onPressed: () async {
+                      if (!LoginScreen._loginScreenFormKey.currentState
+                          .validate())
+                        return;
+                      else {
+                        LoginScreen._loginScreenFormKey.currentState.save();
+                        Response response = await signInWithEmailAndPassword(
+                            email: _emailAddress, password: _password);
 
-                          if (response != null) {
-                            currentUser = dummyUser;
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              '/welcome',
-                              (route) => false,
-                            );
-                          }
+                        if (response != null) {
+                          currentUser = dummyUser;
+                          Navigator.pushNamedAndRemoveUntil(
+                            context,
+                            '/welcome',
+                            (route) => false,
+                          );
                         }
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        padding: const EdgeInsets.symmetric(
-                          vertical: 7.0,
-                        ),
-                        width:
-                            isLargeScreen ? 400 : mediaQuery.size.width * 0.75,
-                        child: Text(
-                          'Log in',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 20.0,
-                          ),
+                      }
+                    },
+                    child: Container(
+                      alignment: Alignment.center,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 7.0,
+                      ),
+                      width:
+                          isLargeScreen ? 400 : mediaQuery.size.width * 0.75,
+                      child: Text(
+                        'Log in',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 20.0,
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

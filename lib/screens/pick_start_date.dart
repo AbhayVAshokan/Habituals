@@ -34,10 +34,12 @@ class _PickStartDateState extends State<PickStartDate> {
         isWithoutDialog: false,
         selectedDate: startingDate,
         scrollDirection: Axis.horizontal,
-        startDate: DateTime(DateTime.now().year, DateTime.now().month, 1),
+        startDate: DateTime.now().subtract(
+          const Duration(days: 10000),
+        ),
         lastDate: DateTime(
           DateTime.now().year + 1,
-          (DateTime.now().add(const Duration(days: 365)).month),
+          (DateTime.now().add(const Duration(days: 10000)).month),
         ),
         done: (date) {
           setState(() {

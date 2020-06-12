@@ -11,7 +11,6 @@ class _AddMemoState extends State<AddMemo> {
   bool _hiddenContainer = false;
   final FocusNode _descriptionFocus = FocusNode();
   final FocusNode _titleFocus = FocusNode();
-  String _title, _data;
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +40,7 @@ class _AddMemoState extends State<AddMemo> {
                         padding: const EdgeInsets.all(5.0),
                         color: Colors.white38,
                         child: TextFormField(
-                          onChanged: (value) {
-                            setState(() {
-                              _title = value;
-                            });
-                          },
+                          onChanged: (value) {},
                           cursorColor: Colors.teal,
                           validator: (value) {
                             if (value.isEmpty)
@@ -97,11 +92,7 @@ class _AddMemoState extends State<AddMemo> {
                   padding: const EdgeInsets.all(5.0),
                   color: Colors.white38,
                   child: TextFormField(
-                    onChanged: (value) {
-                      setState(() {
-                        _data = value;
-                      });
-                    },
+                    onChanged: (value) {},
                     focusNode: _descriptionFocus,
                     validator: (value) {
                       if (value.isEmpty)

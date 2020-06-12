@@ -1,7 +1,6 @@
 // Well Being Audit Screen.
 
 import 'dart:ui';
-import 'dart:async';
 
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ import '../widgets/my_bottom_navbar.dart';
 import '../widgets/my_floating_action_button.dart';
 
 class MemosScreen extends StatefulWidget {
-  static GlobalKey<AnimatedListState> _memoKey = GlobalKey<AnimatedListState>();
+  // static GlobalKey<AnimatedListState> _memoKey = GlobalKey<AnimatedListState>();
   @override
   _MemosScreenState createState() => _MemosScreenState();
 }
@@ -66,14 +65,6 @@ class _MemosScreenState extends State<MemosScreen>
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
-
-    myMemos = [];
-    for (int i = 0; i < memos.length; i++) {
-      Timer(Duration(milliseconds: 150 * (i + 1)), () {
-        myMemos.add(memos[i]);
-        MemosScreen._memoKey.currentState.insertItem(i);
-      });
-    }
 
     return SafeArea(
       child: WillPopScope(
@@ -212,30 +203,18 @@ class _MemosScreenState extends State<MemosScreen>
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child: AnimatedList(
-                                        key: MemosScreen._memoKey,
-                                        itemBuilder:
-                                            (context, index, animation) =>
-                                                FadeTransition(
-                                          opacity: animation.drive(
-                                            Tween<double>(begin: 0.0, end: 1.0),
-                                          ),
-                                          child: SlideTransition(
-                                            position: animation.drive(
-                                              Tween<Offset>(
-                                                begin: const Offset(-0.25, 1),
-                                                end: const Offset(0, 0),
-                                              ),
-                                            ),
-                                            child: MemoCard(
-                                              memo: myMemos[index],
-                                              index: index,
-                                              rebuildScreen: () {
-                                                // setState(() {});
-                                              },
-                                            ),
-                                          ),
+                                      child: ListView.builder(
+                                        // initialItemCount: memos.length,
+                                        // key: MemosScreen._memoKey,
+                                        itemBuilder: (context, index) =>
+                                            MemoCard(
+                                          memo: memos[index],
+                                          index: index,
+                                          rebuildScreen: () {
+                                            // setState(() {});
+                                          },
                                         ),
+                                        itemCount: memos.length,
                                       ),
                                     ),
                                   ],

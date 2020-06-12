@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:dropdown_search/dropdown_search.dart';
 
 import './login_screen.dart';
 import '../widgets/my_appbar.dart';
@@ -12,6 +13,7 @@ import '../widgets/login_signup_screens/custom_textfield.dart';
 class CreateAccountScreen extends StatefulWidget {
   @override
   _CreateAccountScreenState createState() => _CreateAccountScreenState();
+
   static GlobalKey<FormState> _createAccountFormKey = GlobalKey<FormState>();
 }
 
@@ -19,15 +21,21 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
   bool _checkBox = true;
 
   String _age;
-  String _gender;
+  String _gender = 'What is your gender?';
   String _password;
   String _position;
   String _emailAddress;
   final FocusNode _ageFocus = FocusNode();
-  final FocusNode _genderFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _positionFocus = FocusNode();
   final FocusNode _emailAddressFocus = FocusNode();
+
+  List<String> genderSuggestions = [
+    'male',
+    'female',
+    'other',
+    'prefer not to say',
+  ];
 
   Future<void> _launchSiteInApp(String url) async {
     if (await canLaunch(url)) {
@@ -100,7 +108,7 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                         },
                         onFieldSubmitted: (val) {
                           _passwordFocus.unfocus();
-                          FocusScope.of(context).requestFocus(_genderFocus);
+                          FocusScope.of(context).requestFocus(_ageFocus);
                         },
                         validation: (String input) {
                           bool _checkNumber() {
@@ -149,24 +157,82 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           ),
                         ),
                       ),
-                      CustomTextField(
-                        focusNode: _genderFocus,
-                        hintText: 'What is your gender',
-                        onChanged: (newValue) {
-                          setState(() {
-                            _gender = newValue;
-                          });
-                        },
-                        onFieldSubmitted: (val) {
-                          _genderFocus.unfocus();
-                          FocusScope.of(context).requestFocus(_ageFocus);
-                        },
-                        validation: (value) {
-                          if (value.isEmpty)
-                            return "Gender cannot be null";
-                          else
-                            return null;
-                        },
+                      Container(
+                        width: isLargeScreen ? 600 : mediaQuery.size.width,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 1.0,
+                          vertical: 5,
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          boxShadow: [
+                            BoxShadow(
+                              offset: Offset(
+                                0.0,
+                                2.0,
+                              ),
+                              color: Colors.black26,
+                              blurRadius: 5.0,
+                            ),
+                          ],
+                          color: Colors.white,
+                        ),
+                        child: DropdownSearch<String>(
+                          validator: (v) => v == 'What is your gender?'
+                              ? 'Choose your gender'
+                              : null,
+                          mode: Mode.MENU,
+                          showSelectedItem: true,
+                          items: [
+                            'Male',
+                            "Female",
+                            'Other',
+                            'Prefer not to say'
+                          ],
+                          label: 'Choose gender',
+                          onChanged: (value) {
+                            setState(() {
+                              _gender = value;
+                            });
+                          },
+                          dropdownSearchDecoration: InputDecoration(
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0.0,
+                              horizontal: 10.0,
+                            ),
+                            errorMaxLines: 1,
+                            errorBorder: InputBorder.none,
+                            focusedErrorBorder: InputBorder.none,
+                            enabledBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Color(0xFF8DAC9E),
+                              ),
+                            ),
+                            focusedBorder: const OutlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Colors.lightGreen,
+                              ),
+                            ),
+                          ),
+                          selectedItem: _gender,
+                          popupItemBuilder: (context, item, isSelected) =>
+                              ListTile(
+                            selected: isSelected,
+                            contentPadding: const EdgeInsets.symmetric(
+                              vertical: 0.0,
+                              horizontal: 20.0,
+                            ),
+                            title: Text(
+                              item,
+                              style: TextStyle(
+                                color: Colors.black,
+                                height: 1.0,
+                                fontSize: 15.0,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                       CustomTextField(
                         focusNode: _ageFocus,

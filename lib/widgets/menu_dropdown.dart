@@ -31,7 +31,7 @@ class MenuDropDown extends StatelessWidget {
     },
     {
       'text': 'Support',
-      'screen': '/support',
+      'screen': '/wall',
     },
     {
       'text': 'Logout',
@@ -41,13 +41,10 @@ class MenuDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLargeScreen = mediaQuery.size.width >= 900;
-
     return AnimatedContainer(
       duration: const Duration(milliseconds: 400),
       curve: Curves.decelerate,
-      width: isLargeScreen ? 200 : 130,
+      width: 130,
       height: menuBarHeight,
       color: color_menu_background,
       child: Padding(
@@ -60,16 +57,15 @@ class MenuDropDown extends StatelessWidget {
                 logoutDialog(context: context);
               else {
                 animationController.forward();
-                Timer(
-                  const Duration(milliseconds: 500),
-                  () => Navigator.pushReplacementNamed(
-                      context, menuItems[index]['screen']),
-                );
+                Timer(const Duration(milliseconds: 500), () {
+                  Navigator.pushReplacementNamed(
+                      context, menuItems[index]['screen']);
+                });
               }
             },
             child: Container(
-              height: isLargeScreen ? 50 : 35.0,
-              width: isLargeScreen ? 200 : 175,
+              height: 35.0,
+              width: 175,
               decoration: BoxDecoration(
                 color: color_accent,
                 border: Border(
@@ -82,11 +78,11 @@ class MenuDropDown extends StatelessWidget {
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.all(5.0),
               margin: const EdgeInsets.symmetric(vertical: 2.0),
-              child: Text(
-                menuItems[index]['text'],
-                textAlign: TextAlign.right,
-                style: TextStyle(
-                  fontSize: isLargeScreen ? 15.00 : 12.0,
+              child: FittedBox(
+                child: Text(
+                  menuItems[index]['text'],
+                  textAlign: TextAlign.right,
+                  style: TextStyle(fontSize: 12.0),
                 ),
               ),
             ),

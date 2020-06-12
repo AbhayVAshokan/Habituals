@@ -21,9 +21,10 @@ class CustomCheckBox extends StatelessWidget {
     bool isLargeScreen = mediaQuery.size.width >= 900;
     return GestureDetector(
       onTap: rebuildScreen,
-      child: SizedBox(
+      child: Container(
         height: isLargeScreen ? 100.0 : 80.0,
         width: isLargeScreen ? 100.0 : 60.0,
+        color: Colors.white,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,

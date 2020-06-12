@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 
 import '../widgets/my_appbar.dart';
-import '../services/api_calls.dart';
 import '../resources/constants.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
@@ -34,7 +33,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
         duration: const Duration(milliseconds: 300),
         curve: Curves.decelerate,
       );
-    if (index == 4) Navigator.pushNamed(context, '/pickStartDate');
+    if (index == 4) Navigator.pushNamed(context, '/displaySelection');
   }
 
   Widget questionPage({
@@ -76,114 +75,144 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
             width: isLargeScreen
                 ? min(600.0, MediaQuery.of(context).size.width * 0.9)
                 : min(350.0, MediaQuery.of(context).size.width * 0.9),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Stack(
               children: [
-                ProgressBar(
-                  color: color_personal_development,
-                  currentIndex: index,
-                  totalIndex: bodyQueries.length,
-                ),
-                Container(
-                  color: color_menu_background,
-                  child: Text(
-                    'Personal Growth ${index + 1}/5',
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 15.0,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    ProgressBar(
+                      color: color_personal_development,
+                      currentIndex: index,
+                      totalIndex: bodyQueries.length,
                     ),
-                  ),
-                  alignment: Alignment.centerRight,
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 5.0,
-                    vertical: 10.0,
-                  ),
-                ),
-                Container(
-                  height: 100.0,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color(0xFF8DAC9E),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(
-                          0.0,
-                          2.0,
+                    Container(
+                      color: color_menu_background,
+                      child: Text(
+                        'Personal Growth ${index + 1}/5',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 15.0,
                         ),
-                        color: Colors.black12,
-                        blurRadius: 5.0,
+                      ),
+                      alignment: Alignment.centerRight,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 5.0,
+                        vertical: 10.0,
+                      ),
+                    ),
+                    Container(
+                      height: 100.0,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Color(0xFF8DAC9E),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(
+                              0.0,
+                              2.0,
+                            ),
+                            color: Colors.black12,
+                            blurRadius: 5.0,
+                          )
+                        ],
+                      ),
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: mediaQuery.size.height * 0.033,
+                      ),
+                      child: AutoSizeText(
+                        question,
+                        maxLines: 3,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontSize: isLargeScreen ? 25 : 18,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomCheckBox(
+                            title: 1,
+                            subtitle: 'Strongly disagree',
+                            isSelected: personalGrowthQueries[index] == 1,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 1,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 2,
+                            isSelected: personalGrowthQueries[index] == 2,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 2,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 3,
+                            subtitle: 'Indifferent',
+                            isSelected: personalGrowthQueries[index] == 3,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 3,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 4,
+                            isSelected: personalGrowthQueries[index] == 4,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 4,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 5,
+                            subtitle: 'Strongly agree',
+                            isSelected: personalGrowthQueries[index] == 5,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 5,
+                              index: index,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                index != 0
+                    ? Positioned(
+                        left: 0.0,
+                        top: mediaQuery.size.height * 0.05,
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: Image.asset(
+                            'assets/images/swipe_right.png',
+                            height: mediaQuery.size.height * 0.04,
+                          ),
+                        ),
                       )
-                    ],
-                  ),
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: mediaQuery.size.height * 0.033,
-                  ),
-                  child: AutoSizeText(
-                    question,
-                    maxLines: 3,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: isLargeScreen ? 25 : 18,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CustomCheckBox(
-                        title: 1,
-                        subtitle: 'Strongly disagree',
-                        isSelected: personalGrowthQueries[index] == 1,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 1,
-                          index: index,
+                    : SizedBox.shrink(),
+                index != 4
+                    ? Positioned(
+                        right: 0.0,
+                        bottom: mediaQuery.size.height * 0.05,
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: Image.asset(
+                            'assets/images/swipe_left.png',
+                            height: mediaQuery.size.height * 0.04,
+                          ),
                         ),
-                      ),
-                      CustomCheckBox(
-                        title: 2,
-                        isSelected: personalGrowthQueries[index] == 2,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 2,
-                          index: index,
-                        ),
-                      ),
-                      CustomCheckBox(
-                        title: 3,
-                        subtitle: 'Indifferent',
-                        isSelected: personalGrowthQueries[index] == 3,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 3,
-                          index: index,
-                        ),
-                      ),
-                      CustomCheckBox(
-                        title: 4,
-                        isSelected: personalGrowthQueries[index] == 4,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 4,
-                          index: index,
-                        ),
-                      ),
-                      CustomCheckBox(
-                        title: 5,
-                        subtitle: 'Strongly agree',
-                        isSelected: personalGrowthQueries[index] == 5,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 5,
-                          index: index,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),
@@ -206,7 +235,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
                           curve: Curves.decelerate,
                         );
                       else
-                        Navigator.pushNamed(context, '/pickStartDate');
+                        Navigator.pushNamed(context, '/displaySelection');
                     },
                   ),
                 )
@@ -233,7 +262,7 @@ class _PersonalGrowthQueriesState extends State<PersonalGrowthQueries> {
           controller: pageController,
         ),
         bottomNavigationBar:
-            myBottomNavbar(context: context, nextScreen: '/welcome'),
+            myBottomNavbar(context: context, nextScreen: '/displaySelection'),
       ),
     );
   }

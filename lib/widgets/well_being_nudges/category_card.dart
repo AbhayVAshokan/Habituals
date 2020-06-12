@@ -49,46 +49,37 @@ class CategoryCard extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Hero(
-          tag: '${category['category'].toUpperCase()}_container',
-          flightShuttleBuilder: (flightContext, animation, flightDirection,
-                  fromHeroContext, toHeroContext) =>
-              DefaultTextStyle(
-            style: DefaultTextStyle.of(toHeroContext).style,
-            child: toHeroContext.widget,
-          ),
-          child: Container(
-            color: color_primary,
-            margin: const EdgeInsets.symmetric(vertical: 5.0),
-            padding: const EdgeInsets.symmetric(horizontal: 5.0),
-            height: isLargeScreen ? 80 : 60,
-            child: SizedBox(
-              width: min(mediaQuery.size.width * 0.9, 800),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Image.asset(
-                    category['imageUrl'],
-                    fit: BoxFit.cover,
-                    height: 50.0,
-                    width: 50.0,
-                  ),
-                  const SizedBox(width: 10.0),
-                  Expanded(
-                    child: FittedBox(
-                      alignment: Alignment.centerLeft,
-                      fit: BoxFit.scaleDown,
-                      child: Text(
-                        '${category['category'].toUpperCase()}',
-                        style: const TextStyle(
-                          fontSize: 25.0,
-                          color: Colors.white,
-                        ),
+        Container(
+          color: color_primary,
+          margin: const EdgeInsets.symmetric(vertical: 5.0),
+          padding: const EdgeInsets.symmetric(horizontal: 5.0),
+          height: isLargeScreen ? 80 : 60,
+          child: SizedBox(
+            width: min(mediaQuery.size.width * 0.9, 800),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Image.asset(
+                  category['imageUrl'],
+                  fit: BoxFit.cover,
+                  height: 50.0,
+                  width: 50.0,
+                ),
+                const SizedBox(width: 10.0),
+                Expanded(
+                  child: FittedBox(
+                    alignment: Alignment.centerLeft,
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      '${category['category'].toUpperCase()}',
+                      style: const TextStyle(
+                        fontSize: 25.0,
+                        color: Colors.white,
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

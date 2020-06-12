@@ -125,12 +125,14 @@ class _CreateNudgeState extends State<CreateNudge>
                                   child: FittedBox(
                                     fit: BoxFit.scaleDown,
                                     alignment: Alignment.center,
-                                    child: Text(
-                                      'CUSTOM NUDGE',
-                                      style: const TextStyle(
-                                        fontSize: 27.0,
-                                        letterSpacing: 0.5,
-                                        fontWeight: FontWeight.w600,
+                                    child: FittedBox(
+                                      child: Text(
+                                        'CUSTOM NUDGE',
+                                        style: const TextStyle(
+                                          fontSize: 27.0,
+                                          letterSpacing: 0.5,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
                                   ),

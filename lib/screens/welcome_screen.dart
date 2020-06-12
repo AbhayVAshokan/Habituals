@@ -64,6 +64,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         });
       },
     );
+    getMemos();
 
     Timer(
       const Duration(
@@ -86,18 +87,17 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
         (route) => false,
       ),
     );
-
-    getMemos();
   }
 
   @override
   Widget build(BuildContext context) {
+    print(currentUser.emailAddress);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
 
     fabOffset = Offset(
       mediaQuery.size.width - 35,
-      mediaQuery.size.height * 0.75,
+      mediaQuery.size.height * 0.6,
     );
 
     int day = DateTime.now().difference(startingDate).inDays;
@@ -131,7 +131,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 opacity: _firstLineOpacity,
                 curve: Curves.easeIn,
                 child: Text(
-                  'This is the ${dayCounter[day >= 0 && day < 66 ? day : 65]} day of your Well-Being Journey.',
+                  'This is the ${day < 0 ? 'Zeroth' : dayCounter[day >= 0 && day < 66 ? day : 65]} day of your Well-Being Journey.',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 25.0),
                 ),

@@ -215,58 +215,55 @@ class _AuditScreenState extends State<AuditScreen>
                       children: [
                         Stack(
                           children: [
-                            Hero(
-                              tag: widget.categoryData['imageUrl'],
-                              child: AnimatedBuilder(
-                                animation: _colorAnimation3,
-                                builder: (context, child) => Container(
-                                  color: _colorAnimation3.value,
-                                  width: min(mediaQuery.size.width * 0.9, 800),
-                                  height: 70.0,
-                                  alignment: Alignment.center,
-                                  child: LayoutBuilder(
-                                    builder: (context, constraints) => Row(
-                                      children: [
-                                        Stack(
-                                          alignment: Alignment.centerLeft,
-                                          children: [
-                                            CustomPaint(
-                                              child: Container(
-                                                height: constraints.maxHeight,
-                                                width: constraints.maxHeight *
-                                                    0.75,
-                                              ),
-                                              painter: DrawTriangleShape(
-                                                triangleColor: widget
-                                                    .categoryData['color'],
-                                              ),
+                            AnimatedBuilder(
+                              animation: _colorAnimation3,
+                              builder: (context, child) => Container(
+                                color: _colorAnimation3.value,
+                                width: min(mediaQuery.size.width * 0.9, 800),
+                                height: 70.0,
+                                alignment: Alignment.center,
+                                child: LayoutBuilder(
+                                  builder: (context, constraints) => Row(
+                                    children: [
+                                      Stack(
+                                        alignment: Alignment.centerLeft,
+                                        children: [
+                                          CustomPaint(
+                                            child: Container(
+                                              height: constraints.maxHeight,
+                                              width: constraints.maxHeight *
+                                                  0.75,
                                             ),
-                                            Image.asset(
-                                              widget.categoryData['imageUrl'],
-                                              height: min(
-                                                  37, constraints.maxHeight),
-                                              width: min(
-                                                  37, constraints.maxHeight),
-                                              fit: BoxFit.cover,
+                                            painter: DrawTriangleShape(
+                                              triangleColor: widget
+                                                  .categoryData['color'],
                                             ),
-                                          ],
-                                        ),
-                                        Expanded(
-                                          child: Center(
-                                            child: AutoSizeText(
-                                              '${widget.categoryData['category'].toUpperCase() + ' AUDIT'}',
-                                              textAlign: TextAlign.center,
-                                              style: const TextStyle(
-                                                fontSize: 25.0,
-                                                fontWeight: FontWeight.w600,
-                                                letterSpacing: 0.75,
-                                              ),
+                                          ),
+                                          Image.asset(
+                                            widget.categoryData['imageUrl'],
+                                            height: min(
+                                                37, constraints.maxHeight),
+                                            width: min(
+                                                37, constraints.maxHeight),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ],
+                                      ),
+                                      Expanded(
+                                        child: Center(
+                                          child: AutoSizeText(
+                                            '${widget.categoryData['category'].toUpperCase() + ' AUDIT'}',
+                                            textAlign: TextAlign.center,
+                                            style: const TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.75,
                                             ),
                                           ),
                                         ),
-                                        SizedBox(width: 50.0),
-                                      ],
-                                    ),
+                                      ),
+                                      SizedBox(width: 50.0),
+                                    ],
                                   ),
                                 ),
                               ),

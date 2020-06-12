@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
+import '../resources/realtime_data.dart';
 
 Future<bool> logoutDialog({@required BuildContext context}) {
   return showCupertinoDialog(
@@ -17,8 +20,12 @@ Future<bool> logoutDialog({@required BuildContext context}) {
       ),
       actions: <Widget>[
         CupertinoDialogAction(
-          onPressed: () =>
-              Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false),
+          onPressed: () {
+            isLoggedIn = false;
+            File file = File(pathToDirectory + '/data.json');
+            file.deleteSync();
+            Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false);
+          },
           isDefaultAction: true,
           textStyle: const TextStyle(
             color: CupertinoColors.systemPink,

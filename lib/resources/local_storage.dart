@@ -45,6 +45,8 @@ Future syncWithServer() async {
     relationshipAverage = data['relationship'];
     personalDevelopmentAverage = data['personalDevelopment'];
 
+    wellBeingPulseStatus = data['wellBeingPulseStatus'];
+
     // Step 3: Sync with server (in case user uses multiple devices)
     try {
       http.Response response = await http.get(

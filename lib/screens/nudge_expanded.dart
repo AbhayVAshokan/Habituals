@@ -14,7 +14,6 @@ import '../widgets/menu_dropdown.dart';
 import '../resources/realtime_data.dart';
 import '../widgets/my_bottom_navbar.dart';
 import '../widgets/my_floating_action_button.dart';
-import '../widgets/well_being_nudges/skip_nudge.dart';
 
 class NudgeExpanded extends StatefulWidget {
   final Nudge nudge;
@@ -143,63 +142,59 @@ class _NudgeExpandedState extends State<NudgeExpanded>
                           ],
                         ),
                       ),
-                      Hero(
-                        tag:
-                            '${widget.nudge.type.toUpperCase() == 'PERSONALGROWTH' ? 'PERSONAL GROWTH' : widget.nudge.type.toUpperCase()}_container',
-                        child: Container(
-                          color: widget.color.withOpacity(0.33),
-                          margin: const EdgeInsets.symmetric(vertical: 5.0),
-                          height: isLargeScreen ? 80 : 60,
-                          width: min(mediaQuery.size.width * 0.9, 800),
-                          child: SizedBox(
-                            width: isLargeScreen
-                                ? 800
-                                : mediaQuery.size.width * 0.9,
-                            child: LayoutBuilder(
-                              builder: (context, constraints) => Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Stack(
-                                    alignment: Alignment.centerLeft,
-                                    children: [
-                                      CustomPaint(
-                                        child: Container(
-                                          height: constraints.maxHeight,
-                                          width: constraints.maxHeight * 0.75,
-                                        ),
-                                        painter: DrawTriangleShape(
-                                          triangleColor: widget.color,
-                                        ),
+                      Container(
+                        color: widget.color.withOpacity(0.33),
+                        margin: const EdgeInsets.symmetric(vertical: 5.0),
+                        height: isLargeScreen ? 80 : 60,
+                        width: min(mediaQuery.size.width * 0.9, 800),
+                        child: SizedBox(
+                          width: isLargeScreen
+                              ? 800
+                              : mediaQuery.size.width * 0.9,
+                          child: LayoutBuilder(
+                            builder: (context, constraints) => Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  alignment: Alignment.centerLeft,
+                                  children: [
+                                    CustomPaint(
+                                      child: Container(
+                                        height: constraints.maxHeight,
+                                        width: constraints.maxHeight * 0.75,
                                       ),
-                                      Image.asset(
-                                        imageUrl,
-                                        height: min(
-                                            35, constraints.maxHeight * 0.95),
-                                        width: min(
-                                            35, constraints.maxHeight * 0.95),
-                                        fit: BoxFit.cover,
+                                      painter: DrawTriangleShape(
+                                        triangleColor: widget.color,
                                       ),
-                                    ],
-                                  ),
-                                  Expanded(
-                                    child: FittedBox(
-                                      fit: BoxFit.scaleDown,
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        widget.nudge.type.toUpperCase() ==
-                                                'PERSONALGROWTH'
-                                            ? 'PERSONAL GROWTH'
-                                            : '${widget.nudge.type.toUpperCase()}',
-                                        style: const TextStyle(
-                                          fontSize: 27.0,
-                                          letterSpacing: 0.5,
-                                          fontWeight: FontWeight.w600,
-                                        ),
+                                    ),
+                                    Image.asset(
+                                      imageUrl,
+                                      height: min(
+                                          35, constraints.maxHeight * 0.95),
+                                      width: min(
+                                          35, constraints.maxHeight * 0.95),
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ],
+                                ),
+                                Expanded(
+                                  child: FittedBox(
+                                    fit: BoxFit.scaleDown,
+                                    alignment: Alignment.center,
+                                    child: Text(
+                                      widget.nudge.type.toUpperCase() ==
+                                              'PERSONALGROWTH'
+                                          ? 'PERSONAL GROWTH'
+                                          : '${widget.nudge.type.toUpperCase()}',
+                                      style: const TextStyle(
+                                        fontSize: 27.0,
+                                        letterSpacing: 0.5,
+                                        fontWeight: FontWeight.w600,
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
                           ),
                         ),

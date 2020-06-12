@@ -26,15 +26,14 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final MediaQueryData mediaQuery = MediaQuery.of(context);
-    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
+    bool isLargeScreen = mediaQuery.orientation == Orientation.landscape;
 
     return Container(
-      width: isLandscape ? 600 : mediaQuery.size.width,
+      width: isLargeScreen ? 600 : mediaQuery.size.width,
       margin: const EdgeInsets.symmetric(
         horizontal: 1.0,
         vertical: 5,
       ),
-      height: 42.0,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         boxShadow: [
@@ -51,14 +50,18 @@ class CustomTextField extends StatelessWidget {
       ),
       child: TextFormField(
         focusNode: focusNode,
+        maxLines: 1,
         onFieldSubmitted: onFieldSubmitted,
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: 0.0,
+            horizontal: 10.0,
+          ),
           hintText: hintText,
           hintStyle: const TextStyle(
             color: Color(0xFF616161),
-            letterSpacing: 1.5,
             fontWeight: FontWeight.w400,
-            fontSize: 14.0,
+            fontSize: 15.0,
           ),
           errorMaxLines: 1,
           errorBorder: InputBorder.none,
@@ -77,6 +80,7 @@ class CustomTextField extends StatelessWidget {
         style: TextStyle(
           color: Colors.black,
           letterSpacing: 1.5,
+          height: 1.0,
           fontWeight: FontWeight.w400,
         ),
         cursorColor: Colors.lightGreen,

@@ -38,11 +38,13 @@ class WellBeingJourneyToday extends StatelessWidget {
                 width: 100.0,
                 child: RaisedButton(
                   color: color_body,
-                  child: const Text(
-                    'Dimension',
-                    style: const TextStyle(
-                      fontSize: 13.0,
-                      fontWeight: FontWeight.w600,
+                  child: const FittedBox(
+                    child: const Text(
+                      'Dimension',
+                      style: const TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                   onPressed: () {},

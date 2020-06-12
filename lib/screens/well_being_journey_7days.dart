@@ -34,10 +34,12 @@ class WellBeingJourney7Days extends StatelessWidget {
             children: [
               RaisedButton(
                 color: color_accent,
-                child: const Text(
-                  'Dimension',
-                  style: const TextStyle(
-                    fontSize: 18.0,
+                child: const FittedBox(
+                  child: const Text(
+                    'Dimension',
+                    style: const TextStyle(
+                      fontSize: 18.0,
+                    ),
                   ),
                 ),
                 onPressed: () {},

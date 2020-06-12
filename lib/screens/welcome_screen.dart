@@ -91,7 +91,6 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(currentUser.emailAddress);
     final MediaQueryData mediaQuery = MediaQuery.of(context);
     bool isLargeScreen = mediaQuery.size.width >= 900;
 

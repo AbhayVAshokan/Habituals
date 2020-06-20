@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import '../resources/realtime_data.dart';
 
 Future<bool> logoutDialog({@required BuildContext context}) {
-  return showCupertinoDialog(
-    barrierDismissible: true,
+  return showDialog(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
       title: Text(

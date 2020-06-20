@@ -135,11 +135,11 @@ class _CreateAccountScreenState extends State<CreateAccountScreen> {
                           }
 
                           if (input.length < 8)
-                            return "Must contain atleast 8 characters";
+                            return "Must contain at least 8 characters";
                           else if (!_checkNumber())
-                            return "Must contain atleast one digit";
+                            return "Must contain at least one digit";
                           else if (!_checkCharacter())
-                            return "Must contain atleast one character";
+                            return "Must contain at least one character";
                           else
                             return null;
                         },

@@ -1,5 +1,6 @@
 // Custom Tab Bar
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 Widget myTabBar({@required String screen}) {
@@ -13,8 +14,9 @@ Widget myTabBar({@required String screen}) {
       ),
     ),
     const Tab(
-      child: const Text(
+      child: AutoSizeText(
         '7 Days',
+        maxLines: 1,
         style: const TextStyle(
           color: Colors.black,
         ),
@@ -25,8 +27,9 @@ Widget myTabBar({@required String screen}) {
   if (screen == 'journey')
     tabs.add(
       const Tab(
-        child: const Text(
+        child: const AutoSizeText(
           '66 Days',
+          maxLines: 1,
           style: const TextStyle(
             color: Colors.black,
           ),

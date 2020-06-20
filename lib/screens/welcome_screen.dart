@@ -39,7 +39,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 1500),
+      const Duration(milliseconds: 2000),
       () {
         setState(() {
           _firstLineOpacity = 1;
@@ -48,7 +48,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 2500),
+      const Duration(milliseconds: 3000),
       () {
         setState(() {
           _secondLineOpacity = 1;
@@ -57,7 +57,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
     );
 
     Timer(
-      const Duration(milliseconds: 3500),
+      const Duration(milliseconds: 4000),
       () {
         setState(() {
           _containerOpacity = 1;
@@ -68,7 +68,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     Timer(
       const Duration(
-        seconds: 5,
+        seconds: 7,
         milliseconds: 500,
       ),
       () => Navigator.pushAndRemoveUntil(
@@ -130,7 +130,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 opacity: _firstLineOpacity,
                 curve: Curves.easeIn,
                 child: Text(
-                  'This is the ${day < 0 ? 'Zeroth' : dayCounter[day >= 0 && day < 66 ? day : 65]} day of your Well-Being Journey.',
+                  'Welcome to your Well-Being Journey',
                   textAlign: TextAlign.center,
                   style: const TextStyle(fontSize: 25.0),
                 ),

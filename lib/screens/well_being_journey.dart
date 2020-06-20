@@ -195,7 +195,7 @@ class _WellBeingJourneyState extends State<WellBeingJourney>
                                   horizontal: 20.0,
                                 ),
                                 child: const Text(
-                                  'The Well-Being Journey shows you your progress in the Corporate Well-Being over time. In the dashboard you can choose a \"Today\", \"7 Days\" and \"66 Days\" time frame, as well as Dimension. Check the status of your nudges and see what impact it has on your Well-Being Pulse!',
+                                  'The Well-Being Journey shows you your progress in the Coporate Well-Being over time. In the dashboard you can choose a \"Today\", \"7 Days\" and \"66 Days\" time frame, as well as Dimension. Check the status of your nudges and see what impact it has on your Well-Being Pulse!',
                                   textAlign: TextAlign.center,
                                   style: const TextStyle(
                                     fontSize: 15.0,

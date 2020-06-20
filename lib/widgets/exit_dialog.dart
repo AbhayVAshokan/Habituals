@@ -1,9 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/cupertino.dart';
 
 Future<bool> exitDialog({@required BuildContext context}) {
-  return showCupertinoDialog(
-    barrierDismissible: true,
+  return showDialog(
     context: context,
     builder: (BuildContext context) => CupertinoAlertDialog(
       title: Text(

@@ -56,7 +56,7 @@ class CategoryCard extends StatelessWidget {
         child: Container(
           width: min(mediaQuery.size.width * 0.9, 800),
           height: cardHeight - 10,
-          color: color_card_background,
+          color: Colors.grey[200],
           alignment: Alignment.center,
           child: LayoutBuilder(
             builder: (context, constraints) => Row(

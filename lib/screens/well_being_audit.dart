@@ -199,40 +199,28 @@ class _WellBeingAuditState extends State<WellBeingAudit>
                             Container(
                               height: 20.0,
                               margin: const EdgeInsets.symmetric(vertical: 5.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    height: 15.0,
-                                    width: 15.0,
-                                    alignment: Alignment.center,
-                                    margin: const EdgeInsets.only(right: 5.0),
-                                    child: const Text('1'),
-                                    decoration: BoxDecoration(
-                                      color: Colors.red,
-                                      shape: BoxShape.circle,
-                                    ),
+                              child: FittedBox(
+                                child: const Text(
+                                  'Hey there! Check out your Well-Being Scores.',
+                                  style: TextStyle(
+                                    fontStyle: FontStyle.italic,
                                   ),
-                                  Expanded(
-                                    child: FittedBox(
-                                      child: const Text(
-                                        'Hey there! Check out your Well-Being Scores.',
-                                      ),
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
                             ),
                             Stack(
                               children: [
                                 Container(
+                                  height: 60.0,
                                   color: color_header_background,
                                   alignment: Alignment.center,
                                   padding: const EdgeInsets.symmetric(
                                     vertical: 15.0,
+                                    horizontal: 20.0,
                                   ),
                                   child: FittedBox(
                                     child: Text(
-                                      'Well-Being Audit',
+                                      'Well-Being Audit Overview',
                                       style: const TextStyle(
                                         fontSize: 25.0,
                                       ),

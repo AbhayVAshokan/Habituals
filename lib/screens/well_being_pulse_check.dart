@@ -84,124 +84,155 @@ class _WellBeingPulseCheckState extends State<WellBeingPulseCheck> {
             width: isLargeScreen
                 ? min(600.0, MediaQuery.of(context).size.width * 0.9)
                 : min(350.0, MediaQuery.of(context).size.width * 0.9),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: 250.0,
-                  width: 250.0,
-                  padding: const EdgeInsets.all(10.0),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: color_header_background,
-                  ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      const SizedBox(height: 30.0),
-                      const Text(
-                        'WELL-BEING PULSE CHECK*',
+            child: Stack(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Container(
+                      height: 250.0,
+                      width: 250.0,
+                      padding: const EdgeInsets.all(10.0),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: color_header_background,
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          const SizedBox(height: 30.0),
+                          const Text(
+                            'WELL-BEING PULSE CHECK*',
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(fontSize: 30.0),
+                          ),
+                          Image.asset(
+                            'assets/images/pulse_icon.png',
+                            fit: BoxFit.contain,
+                            height: 75.0,
+                          ),
+                          Text(
+                            '${index + 1}/5',
+                            style: const TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    Container(
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        border: Border.all(
+                          color: Color(0xFF8DAC9E),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            offset: Offset(
+                              0.0,
+                              2.0,
+                            ),
+                            color: Colors.black12,
+                            blurRadius: 5.0,
+                          )
+                        ],
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10.0,
+                        vertical: 30.0,
+                      ),
+                      child: Text(
+                        question,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(fontSize: 30.0),
-                      ),
-                      Icon(
-                        Icons.trending_up,
-                        size: 80.0,
-                      ),
-                      Text(
-                        '${index + 1}/5',
-                        style: const TextStyle(
-                          fontSize: 18.0,
+                        style: TextStyle(
+                          fontSize: isLargeScreen ? 25 : 18,
                         ),
                       ),
-                    ],
-                  ),
-                ),
-                const SizedBox(height: 30),
-                Container(
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    border: Border.all(
-                      color: Color(0xFF8DAC9E),
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                        offset: Offset(
-                          0.0,
-                          2.0,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          CustomCheckBox(
+                            title: 1,
+                            subtitle: 'Strongly disagree',
+                            isSelected: wellBeingPulseQueries[index] == 1,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 1,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 2,
+                            isSelected: wellBeingPulseQueries[index] == 2,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 2,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 3,
+                            subtitle: 'Indifferent',
+                            isSelected: wellBeingPulseQueries[index] == 3,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 3,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 4,
+                            isSelected: wellBeingPulseQueries[index] == 4,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 4,
+                              index: index,
+                            ),
+                          ),
+                          CustomCheckBox(
+                            title: 5,
+                            subtitle: 'Strongly agree',
+                            isSelected: wellBeingPulseQueries[index] == 5,
+                            rebuildScreen: () => rebuildScreen(
+                              optionNumber: 5,
+                              index: index,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                index != 0
+                    ? Positioned(
+                        left: 0.0,
+                        top: mediaQuery.size.height * 0.05,
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: Image.asset(
+                            'assets/images/swipe_right.png',
+                            height: mediaQuery.size.height * 0.04,
+                          ),
                         ),
-                        color: Colors.black12,
-                        blurRadius: 5.0,
                       )
-                    ],
-                  ),
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10.0,
-                    vertical: 30.0,
-                  ),
-                  child: Text(
-                    question,
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontSize: isLargeScreen ? 25 : 18,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      CustomCheckBox(
-                        title: 1,
-                        subtitle: 'Strongly disagree',
-                        isSelected: wellBeingPulseQueries[index] == 1,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 1,
-                          index: index,
+                    : SizedBox.shrink(),
+                index != 4
+                    ? Positioned(
+                        right: 0.0,
+                        bottom: mediaQuery.size.height * 0.05,
+                        child: Opacity(
+                          opacity: 0.5,
+                          child: Image.asset(
+                            'assets/images/swipe_left.png',
+                            height: mediaQuery.size.height * 0.04,
+                          ),
                         ),
-                      ),
-                      CustomCheckBox(
-                        title: 2,
-                        isSelected: wellBeingPulseQueries[index] == 2,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 2,
-                          index: index,
-                        ),
-                      ),
-                      CustomCheckBox(
-                        title: 3,
-                        subtitle: 'Indifferent',
-                        isSelected: wellBeingPulseQueries[index] == 3,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 3,
-                          index: index,
-                        ),
-                      ),
-                      CustomCheckBox(
-                        title: 4,
-                        isSelected: wellBeingPulseQueries[index] == 4,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 4,
-                          index: index,
-                        ),
-                      ),
-                      CustomCheckBox(
-                        title: 5,
-                        subtitle: 'Strongly agree',
-                        isSelected: wellBeingPulseQueries[index] == 5,
-                        rebuildScreen: () => rebuildScreen(
-                          optionNumber: 5,
-                          index: index,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),

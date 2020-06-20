@@ -1,5 +1,6 @@
 // Custom checkbox for the query screens.
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class CustomCheckBox extends StatelessWidget {
@@ -60,8 +61,9 @@ class CustomCheckBox extends StatelessWidget {
                 ? Container(
                     height: isLargeScreen ? 50.0 : 30.0,
                     alignment: Alignment.center,
-                    child: Text(
+                    child: AutoSizeText(
                       subtitle,
+                      maxLines: subtitle == 'Indifferent' ? 1 : 2,
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         fontSize: isLargeScreen ? 15.0 : 12.0,

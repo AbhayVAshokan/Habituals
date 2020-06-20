@@ -36,7 +36,7 @@ List<String> mindQuestions = [
   'Most of the time, there are positive vibes at work.',
   'My supervisor / leader makes sure that workloads are not unreasonable.',
   'I know how to manage my time so that I can focus and concentrate better.',
-  'I take care of myself and know how to integrate mindful practives at work when I\'m stressed.',
+  'I take care of myself and know how to integrate mindful practices at work when I\'m stressed.',
 ];
 
 List<String> relationshipQuestions = [
@@ -49,7 +49,7 @@ List<String> relationshipQuestions = [
 
 List<String> achievementQuestions = [
   'As a team, we regularly celebrate small and big successes.',
-  'Know what is exppected from me at work.',
+  'Know what is expected from me at work.',
   'My job challenges me and fits my competencies.',
   'A trustful working environment empowers me to push projects on my own.',
   'In the last week, I have received recognition for doing good work by my supervisor or colleagues.',

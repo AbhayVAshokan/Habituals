@@ -2,6 +2,7 @@
 
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:habituals/resources/constants.dart';
 
 Widget myTabBar({@required String screen}) {
   List<Tab> tabs = [
@@ -41,6 +42,7 @@ Widget myTabBar({@required String screen}) {
     alignment: Alignment.centerLeft,
     width: screen == 'audit' ? 175.0 : 300,
     child: TabBar(
+      indicatorColor: color_body,
       labelStyle: const TextStyle(
         fontWeight: FontWeight.bold,
         fontSize: 18.0,

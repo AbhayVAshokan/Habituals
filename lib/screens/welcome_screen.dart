@@ -96,10 +96,8 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
 
     fabOffset = Offset(
       mediaQuery.size.width - 35,
-      mediaQuery.size.height * 0.6,
+      mediaQuery.size.height * 0.65,
     );
-
-    int day = DateTime.now().difference(startingDate).inDays;
 
     return SafeArea(
       child: Scaffold(

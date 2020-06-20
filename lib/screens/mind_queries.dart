@@ -124,7 +124,7 @@ class _MindQueriesState extends State<MindQueries> {
                       ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 10.0,
-                        vertical: mediaQuery.size.height * 0.033,
+                        vertical: 10,
                       ),
                       child: AutoSizeText(
                         question,

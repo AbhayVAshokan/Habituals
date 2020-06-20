@@ -123,7 +123,7 @@ class _BodyQueriesState extends State<BodyQueries> {
                       ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 10.0,
-                        vertical: mediaQuery.size.height * 0.033,
+                        vertical: 10,
                       ),
                       child: AutoSizeText(
                         question,

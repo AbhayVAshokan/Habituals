@@ -32,17 +32,22 @@ class WellBeingJourney66Days extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              RaisedButton(
-                color: color_accent,
-                child: const FittedBox(
-                  child: const Text(
-                    'Dimension',
-                    style: const TextStyle(
-                      fontSize: 18.0,
+              SizedBox(
+                height: 26.0,
+                width: 100.0,
+                child: RaisedButton(
+                  color: color_body,
+                  child: const FittedBox(
+                    child: const Text(
+                      'Dimension',
+                      style: const TextStyle(
+                        fontSize: 13.0,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
+                  onPressed: () {},
                 ),
-                onPressed: () {},
               ),
               Row(
                 children: [

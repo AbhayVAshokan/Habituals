@@ -123,7 +123,7 @@ class _RelationshipQueriesState extends State<RelationshipQueries> {
                       ),
                       padding: EdgeInsets.symmetric(
                         horizontal: 10.0,
-                        vertical: mediaQuery.size.height * 0.033,
+                        vertical: 10,
                       ),
                       child: AutoSizeText(
                         question,
